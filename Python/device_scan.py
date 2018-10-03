@@ -19,11 +19,16 @@ def build_packetHandler(time_format):
 			if time_format == 'iso':
 				log_time = datetime.now().isoformat()
 
+			# the rssi value is contained in the dBm_AntSignal field
+			# previously tried to get it from the notdecoded field but nothing was there using
+			# the panda wireless USB dongle with the ralink chip
+			rssi_val = pkt.dBm_AntSignal
+
 			# only add devices not already in the set
                 	if dot11_layer.addr2 and (dot11_layer.addr2 not in devices):
                         	devices.add(dot11_layer.addr2)
 				# print the number of unique devices followed by the MAC address
-                        	print len(devices), log_time, dot11_layer.addr2, dot11_layer.payload.name
+ 				print len(devices), log_time, dot11_layer.addr2, dot11_layer.payload.name, rssi_val
 	return packetHandler
 
 
