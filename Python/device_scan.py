@@ -13,7 +13,7 @@ def PacketHandler(pkt):
                 if dot11_layer.addr2 and (dot11_layer.addr2 not in devices):
                         devices.add(dot11_layer.addr2)
 			# print the number of unique devices followed by the MAC address
-                        print len(devices), dot11_layer.addr2
+                        print len(devices), dot11_layer.addr2, dot11_layer.payload.name
 
 sniff(iface = sys.argv[1], count = int(sys.argv[2]), prn = PacketHandler)
 
