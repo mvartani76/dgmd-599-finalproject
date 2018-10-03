@@ -4,12 +4,14 @@ import sys
 import time
 import datetime
 
-
+#import all scapy functions
 from scapy.all import *
+#import load_blacklist
+from load_blacklist import load_blacklist
 
 devices = set()
 
-def build_packetHandler(time_format):
+def build_packetHandler(time_format, blacklist):
 	def packetHandler(pkt):
         	if pkt.haslayer(Dot11):
                 	dot11_layer = pkt.getlayer(Dot11)
@@ -32,6 +34,8 @@ def build_packetHandler(time_format):
 	return packetHandler
 
 
-built_packetHandler = build_packetHandler(sys.argv[3])
+# load in the blacklist of MAC addresses
+blacklist = load_blacklist(sys.argv[4])
+built_packetHandler = build_packetHandler(sys.argv[3], blacklist)
 sniff(iface = sys.argv[1], count = int(sys.argv[2]), prn = built_packetHandler)
 
