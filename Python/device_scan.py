@@ -3,6 +3,7 @@
 import sys
 import time
 import datetime
+import netaddr
 
 #import all scapy functions
 from scapy.all import *
@@ -26,11 +27,18 @@ def build_packetHandler(time_format, blacklist):
 			# the panda wireless USB dongle with the ralink chip
 			rssi_val = pkt.dBm_AntSignal
 
+			# find the vendor info from the mac address by parsing database
+			try:
+				parsed_mac = netaddr.EUI(pkt.addr2)
+				vendor = parsed_mac.oui.registration().org
+			except netaddr.core.NotRegisteredError, e:
+				vendor = "UNKNOWN"
+
 			# only add devices not already in the set
                 	if dot11_layer.addr2 and (dot11_layer.addr2 not in devices):
                         	devices.add(dot11_layer.addr2)
 				# print the number of unique devices followed by the MAC address
- 				print len(devices), log_time, dot11_layer.addr2, dot11_layer.payload.name, rssi_val
+ 				print len(devices), log_time, dot11_layer.addr2, dot11_layer.payload.name, rssi_val, vendor
 	return packetHandler
 
 
