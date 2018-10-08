@@ -32,7 +32,6 @@
                     <li><a href="/customer/geofences/add">Add a new Geofence</a></li>
                 </ul>
             </li>
-
             <li>
                 <a><i class="fa fa-wifi"></i> Access Points <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu" style="display: none">
@@ -65,6 +64,12 @@
                 <ul class="nav child_menu" style="display: none">
                     <li><a href="/customer/devices">List Devices</a>
                     </li>
+                </ul>
+            </li>
+            <li>
+                <a><i class="fa fa-wifi"></i> Device Detection <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu" style="display: none">
+                    <li><a href="/customer/geofences">Show Access Point Activity</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-futbol-o"></i> Personas <span class="fa fa-chevron-down"></span></a>
