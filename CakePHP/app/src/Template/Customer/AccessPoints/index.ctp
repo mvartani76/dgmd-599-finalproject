@@ -24,7 +24,21 @@
                             </tr>
                         </thead>
                         <tbody>
-
+                            <?php foreach ($accessPoints as $accessPoint): ?>
+                                <tr>
+                                    <td data-title="Id"><?= $this->Number->format($accessPoint->id) ?></td>
+                                    <td data-title="MAC Address"><?= $accessPoint->mac_addr ?></td>
+                                    <td data-title="Total Devices Count"><?= $this->Number->format($accessPoint->total_devices_count) ?></td>
+                                    <td data-title="Total Unique Devices Count"><?= $this->Number->format($accessPoint->total_unique_devices_count) ?></td>
+                                    <td data-title="Location"></td>
+                                    <td data-title="Created"><?= $accessPoint->created?></td>
+                                    <td data-title="Modified"><?= $accessPoint->modified?></td>
+                                    <td data-title="Actions" class="actions">
+                                    <?= $this->Html->link('<i class="fa fa-search"></i>&nbsp;View Details', ['action' => 'view', $accessPoint->id], ['class' => 'btn btn-default btn-xs', 'escape' => false]); ?>
+                                    <?= $this->Html->link('<i class="fa fa-pencil"></i>&nbsp;Edit', ['action' => 'edit', $accessPoint->id], ['class' => 'btn btn-default btn-xs', 'escape' => false]); ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                     <?= $this->element('paginator') ?>
