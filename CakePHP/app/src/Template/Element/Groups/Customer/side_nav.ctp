@@ -35,8 +35,8 @@
             <li>
                 <a><i class="fa fa-wifi"></i> Access Points <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu" style="display: none">
-                    <li><a href="/customer/accessPoints">List Access Points</a></li>
-                    <li><a href="/customer/accessPoints/add">Add a new Access Point</a></li>
+                    <li><a href="/customer/access_points">List Access Points</a></li>
+                    <li><a href="/customer/access_points/add">Add a new Access Point</a></li>
                 </ul>
             </li>
             <li>
