@@ -1,4 +1,4 @@
-<?php $this->set('pageTitle', 'Access Point ID: ' . $beacon->id); ?>
+<?php $this->set('pageTitle', 'Access Point ID: ' . $accessPoint->id); ?>
 <?php $this->Html->script('/js/jquery.animate.number.min', ['block' => 'scriptBottom']); ?>
 <?php $this->Html->script('/js/admin/csv_template', ['block' => 'scriptBottom']); ?>
 <?php $this->Html->script('/js/bootstrap3-wysihtml5.all.min', ['block' => 'scriptBottom']); ?>
@@ -35,7 +35,7 @@
 </style>
 <script>
     var STATS_URL = window.location.origin + window.location.pathname;
-    var BEACON_ID = <?= $beacon->id ?>;
+    var ACCESS_POINT_ID = <?= $accessPoint->id ?>;
     //IN UTC
     var START_DATE  = '<?=$periodStartRaw?>';
     var END_DATE  = '<?=$periodEndRaw; ?>';
@@ -55,9 +55,9 @@
 
     var commaStep = $.animateNumber.numberStepFactories.separator(',');
 
-    $('#ImpressionsCount').animateNumber({numberStep: commaStep, number: <?= $beacon->impressions_count; ?>});
+    $('#ImpressionsCount').animateNumber({numberStep: commaStep, number: <?= $accessPoint->impressions_count; ?>});
     $('#CampaignsCount').animateNumber({numberStep: commaStep, number: <?= $cb ?>});
-    $('#DevicesCount').animateNumber({numberStep: commaStep, number: <?= $dc ?>});
+    $('#DevicesCount').animateNumber({numberStep: commaStep, number: <?= $accessPoint->total_devices_count ?>});
     $('#Impressions7Count').animateNumber({numberStep: commaStep, number: <?= $ic ?>});
     <?php $this->Html->scriptEnd(); ?>
 </script>
@@ -82,7 +82,7 @@ jQuery(function($) {
 });
 </script>
 <?= $this->element('Header/Common/filter_bar'); ?>
-<?= $this->element('Header/Common/stats_bar',['type'=>'beacons']); ?>
+<?= $this->element('Header/Common/stats_bar',['type'=>'accesspoints']); ?>
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
@@ -92,9 +92,8 @@ jQuery(function($) {
         <div class="x_content">
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#tab_content4" role="tab" id="profile-tab4" data-toggle="tab" aria-expanded="false">All Impressions</a></li>
-<!--                    <li role="presentation" class=""><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="false">Data Presentation</a></li>-->
-                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Beacon Notes&nbsp;&nbsp; <span title="Add Notes" class="add-new-note" data-note-model="Beacons" data-model-id="<?= $beacon->id ?>" style="cursor: pointer; float: right;"><i class="fa fa-plus-circle"></i></span></a></li>
+                    <li role="presentation" class="active"><a href="#tab_content4" role="tab" id="profile-tab4" data-toggle="tab" aria-expanded="false">All Activity</a></li>
+                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Acess Point Notes&nbsp;&nbsp; <span title="Add Notes" class="add-new-note" data-note-model="Beacons" data-model-id="<?= $accessPoint->id ?>" style="cursor: pointer; float: right;"><i class="fa fa-plus-circle"></i></span></a></li>
                     <li role="presentation"><a href="#tab-dwell-times" role="tab" data-toggle="tab" aria-expanded="false">Dwell Times</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
@@ -109,22 +108,22 @@ jQuery(function($) {
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="tab-dwell-times" aria-labelledby="profile-tab">
-                        <div class="paginate-ajax" data-target=".table-custom" data-load="/DwellTimes?beacon_id=<?= $beacon->id ?>"></div>
+                        <div class="paginate-ajax" data-target=".table-custom" data-load="/DwellTimes?accessPoint_id=<?= $accessPoint->id ?>"></div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
                         <div class="paginate-ajax-container">
-                            <?php $this->start('paginated_content.BeaconsNotes'); ?>
+                            <?php $this->start('paginated_content.AccessPointsNotes'); ?>
                             <?php if (is_object($notes) && !$notes->isEmpty()): ?>
                                 <?php
 
                                 $this->Paginator->setAjax();
                                 $this->Paginator->options(
                                     [
-                                        'url' => array_merge($this->request->pass, ['ajax' => true, 'mdl' => 'BeaconsNotes'], $this->request->query)
+                                        'url' => array_merge($this->request->pass, ['ajax' => true, 'mdl' => 'AccessPointsNotes'], $this->request->query)
                                     ]
                                 );
                                 ?>
-                                <?= $this->element('paginator', ['model' => 'BeaconsNotes', 'isAjax' => true]) ?>
+                                <?= $this->element('paginator', ['model' => 'AccessPointsNotes', 'isAjax' => true]) ?>
                                 <ul id="NotesResults" class="messages">
                                     <?php foreach($notes as $k => $note): ?>
                                         <?php $altc = ($k % 2 === 0) ? 'alt-bg':null; ?>
@@ -143,12 +142,12 @@ jQuery(function($) {
                                         </li>
                                     <?php endforeach; ?>
                                 </ul>
-                                <?= $this->element('paginator', ['model' => 'BeaconsNotes', 'isAjax' => true]) ?>
+                                <?= $this->element('paginator', ['model' => 'AccessPointsNotes', 'isAjax' => true]) ?>
                             <?php else: ?>
                                 <ul id="NotesResults" class="messages">
                                     <li class="no-data">
-                                        <p style="color: #aaa !important; text-align: center;">There are no notes to display for this particular beacon.<br/><br/>
-                                            <a href="#" class="btn-sm btn btn-primary add-new-note" data-note-model="Beacons" data-model-id="<?= $beacon->id; ?>">
+                                        <p style="color: #aaa !important; text-align: center;">There are no notes to display for this particular Access Point.<br/><br/>
+                                            <a href="#" class="btn-sm btn btn-primary add-new-note" data-note-model="AccessPoints" data-model-id="<?= $accessPoint->id; ?>">
                                                 <i class="fa fa-plus-circle"></i> &nbsp;Add a Note
                                             </a>
                                         </p>
@@ -156,7 +155,7 @@ jQuery(function($) {
                                 </ul>
                             <?php endif; ?>
                             <?php $this->end(); ?>
-                            <?php echo $this->fetch('paginated_content.BeaconsNotes'); ?>
+                            <?php echo $this->fetch('paginated_content.AccessPointsNotes'); ?>
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="profile-tab">
@@ -167,7 +166,7 @@ jQuery(function($) {
                                 $this->Paginator->setAjax();
                                 $this->Paginator->options(
                                     [
-                                        'url' => array_merge($this->request->pass, ['ajax' => true, 'mdl' => 'Impressions'], $this->request->query)
+                                        'url' => array_merge($this->request->pass, ['ajax' => true, 'mdl' => 'ScanResults'], $this->request->query)
                                     ]
                                 ); ?>
                                 <div class="callout callout-info">
@@ -179,24 +178,23 @@ jQuery(function($) {
                                     <table id="ImpressionsData" class="table-hover table-striped impressions-content">
                                         <thead>
                                         <tr>
-                                            <th><?= $this->Paginator->sort('id', 'Impression ID', ['model' => 'Impressions']) ?></th>
-                                            <th><?= $this->Paginator->sort('retailer_id', 'Retailer', ['model' => 'Impressions', 'escape' => false]) ?></th>
-                                            <th><?= $this->Paginator->sort('device_id', 'Device ID', ['model' => 'Impressions']) ?></th>
+                                            <th><?= $this->Paginator->sort('id', 'Scan Result ID', ['model' => 'ScanResults']) ?></th>
+                                            <th><?= $this->Paginator->sort('mac_addr', 'MAC Address', ['model' => 'ScanResults']) ?></th>
+                                            <th><?= $this->Paginator->sort('rssi', 'RSSI', ['model' => 'Impressions']) ?></th>
                                             <th><?= $this->Paginator->sort('location', 'Location ID/Name<br/><small>(brand or subsidiary)</small>', ['model' => 'Impressions', 'escape' => false]) ?></th>
                                             <th><?= $this->Paginator->sort('application_id', 'Application<br/>', ['model' => 'Impressions', 'escape' => false]) ?></th>
                                             <th>Extra</th>
-                                            <th><?= $this->Paginator->sort('timestamp', 'Timestamp<br/>', ['model' => 'Impressions', 'escape' => false]) ?></th>
+                                            <th><?= $this->Paginator->sort('timestamp', 'Timestamp<br/>', ['model' => 'ScanResults', 'escape' => false]) ?></th>
                                             <th class="actions" style="width: 233px;"><?= __('Actions') ?></th>
                                         </tr>
                                         </thead>
-                                        <?php foreach($impressions as $impression): ?>
+                                        <?php foreach($scanResults as $scanResult): ?>
                                             <?php
-                                            $data = $impression->toArray();
+                                            $data = $scanResult->toArray();
                                             $class = null;
                                             ?>
                                             <tr>
-                                                <td data-title="Impression ID"><?= $this->Number->format($impression->id) ?></td>
-                                                <td data-title="Retailer"><?= $impression->zone->location->has('retailer') ? $this->Html->link($impression->zone->location->retailer->name, ['controller' => 'Retailers', 'action' => 'view', $impression->zone->location->retailer->id]) : '' ?></td>
+                                                <td data-title="Scan Result ID"><?= $this->Number->format($scanResult->id) ?></td>
                                                 <td data-title="Device ID"><a title="View this impressions device" href="/customer/devices/view/<?= $impression->device_id ?>"><?= $impression->device_id ?></a></td>
                                                 <td data-title="Location"><a href="/customer/locations/view/<?= $impression->zone->location->id ?>"><?= h($impression->zone->location->id) ?>/<?= h($impression->zone->location->location) ?></a></td>
                                                 <td data-title="Application"><a title="View this impressions's application" href="/customer/applications/view/<?= $impression->application->id ?>"><?= $impression->application->name ?>/<?= $impression->application->short_name ?></a></td>
@@ -213,12 +211,12 @@ jQuery(function($) {
                             <?php else: ?>
                                 <ul id="NotesResults" class="messages">
                                     <li class="no-data">
-                                        <p style="color: #aaa !important; text-align: center;">There are no impressions to display for this beacon.</p>
+                                        <p style="color: #aaa !important; text-align: center;">There are no scan results to display for this access point.</p>
                                     </li>
                                 </ul>
                             <?php endif; ?>
                             <?php $this->end(); ?>
-                            <?php echo $this->fetch('paginated_content.Impressions'); ?>
+                            <?php echo $this->fetch('paginated_content.scanResults'); ?>
                         </div>
                     </div>
                 </div>
