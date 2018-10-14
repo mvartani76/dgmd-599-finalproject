@@ -61,7 +61,7 @@ class ScanResultsController extends AppController
             }
             $this->Flash->error(__('The scan result could not be saved. Please, try again.'));
         }
-        $accesspoints = $this->ScanResults->Accesspoints->find('list', ['limit' => 200]);
+        $accesspoints = $this->ScanResults->AccessPoints->find('list', ['limit' => 200]);
         $this->set(compact('scanResult', 'accesspoints'));
     }
 
@@ -86,7 +86,7 @@ class ScanResultsController extends AppController
             }
             $this->Flash->error(__('The scan result could not be saved. Please, try again.'));
         }
-        $accesspoints = $this->ScanResults->Accesspoints->find('list', ['limit' => 200]);
+        $accesspoints = $this->ScanResults->AccessPoints->find('list', ['limit' => 200]);
         $this->set(compact('scanResult', 'accesspoints'));
     }
 
