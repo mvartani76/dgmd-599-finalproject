@@ -18,6 +18,7 @@
         <legend><?= __('Add Scan Result') ?></legend>
         <?php
             echo $this->Form->control('accesspoint_id', ['options' => $accesspoints, 'empty' => true]);
+            echo $this->Form->control('scan_timestamp', ['empty' => true]);
             echo $this->Form->control('mac_addr');
             echo $this->Form->control('rssi');
         ?>

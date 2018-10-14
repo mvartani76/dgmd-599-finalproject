@@ -57,6 +57,10 @@ class ScanResultsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
+            ->dateTime('scan_timestamp')
+            ->allowEmpty('scan_timestamp');
+
+        $validator
             ->scalar('mac_addr')
             ->maxLength('mac_addr', 12)
             ->allowEmpty('mac_addr');

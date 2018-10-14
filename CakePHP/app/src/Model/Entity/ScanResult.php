@@ -8,6 +8,7 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property int $accesspoint_id
+ * @property \Cake\I18n\Time $scan_timestamp
  * @property string $mac_addr
  * @property int $rssi
  * @property \Cake\I18n\Time $created
@@ -29,6 +30,7 @@ class ScanResult extends Entity
      */
     protected $_accessible = [
         'accesspoint_id' => true,
+        'scan_timestamp' => true,
         'mac_addr' => true,
         'rssi' => true,
         'created' => true,

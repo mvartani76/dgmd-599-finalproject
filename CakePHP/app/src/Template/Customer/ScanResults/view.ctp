@@ -35,6 +35,10 @@
             <td><?= $this->Number->format($scanResult->rssi) ?></td>
         </tr>
         <tr>
+            <th scope="row"><?= __('Scan Timestamp') ?></th>
+            <td><?= h($scanResult->scan_timestamp) ?></td>
+        </tr>
+        <tr>
             <th scope="row"><?= __('Created') ?></th>
             <td><?= h($scanResult->created) ?></td>
         </tr>

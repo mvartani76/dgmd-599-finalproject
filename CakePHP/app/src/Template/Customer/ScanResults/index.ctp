@@ -19,6 +19,7 @@
             <tr>
                 <th scope="col"><?= $this->Paginator->sort('id') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('accesspoint_id') ?></th>
+                <th scope="col"><?= $this->Paginator->sort('scan_timestamp') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('mac_addr') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('rssi') ?></th>
                 <th scope="col"><?= $this->Paginator->sort('created') ?></th>
@@ -31,6 +32,7 @@
             <tr>
                 <td><?= $this->Number->format($scanResult->id) ?></td>
                 <td><?= $scanResult->has('accesspoint') ? $this->Html->link($scanResult->accesspoint->id, ['controller' => 'AccessPoints', 'action' => 'view', $scanResult->accesspoint->id]) : '' ?></td>
+                <td><?= h($scanResult->scan_timestamp) ?></td>
                 <td><?= h($scanResult->mac_addr) ?></td>
                 <td><?= $this->Number->format($scanResult->rssi) ?></td>
                 <td><?= h($scanResult->created) ?></td>
