@@ -3,7 +3,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
+use App\ORM\D2goTable as Table;
 use Cake\Validation\Validator;
 
 /**
@@ -40,7 +40,7 @@ class ScanResultsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('Accesspoints', [
+        $this->belongsTo('access_points', [
             'foreignKey' => 'accesspoint_id'
         ]);
     }
@@ -80,7 +80,7 @@ class ScanResultsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['accesspoint_id'], 'Accesspoints'));
+        $rules->add($rules->existsIn(['accesspoint_id'], 'access_points'));
 
         return $rules;
     }

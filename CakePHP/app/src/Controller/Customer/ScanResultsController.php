@@ -21,7 +21,7 @@ class ScanResultsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Accesspoints']
+            'contain' => ['access_points']
         ];
         $scanResults = $this->paginate($this->ScanResults);
 
@@ -38,7 +38,7 @@ class ScanResultsController extends AppController
     public function view($id = null)
     {
         $scanResult = $this->ScanResults->get($id, [
-            'contain' => ['Accesspoints']
+            'contain' => ['access_points']
         ]);
 
         $this->set('scanResult', $scanResult);
