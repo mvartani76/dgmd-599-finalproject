@@ -4,56 +4,53 @@
  * @var \App\Model\Entity\ScanResult[]|\Cake\Collection\CollectionInterface $scanResults
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('New Scan Result'), ['action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Accesspoints'), ['controller' => 'AccessPoints', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Accesspoint'), ['controller' => 'AccessPoints', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="scanResults index large-9 medium-8 columns content">
-    <h3><?= __('Scan Results') ?></h3>
-    <table cellpadding="0" cellspacing="0">
-        <thead>
-            <tr>
-                <th scope="col"><?= $this->Paginator->sort('id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('accesspoint_id') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('scan_timestamp') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('mac_addr') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('rssi') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('created') ?></th>
-                <th scope="col"><?= $this->Paginator->sort('modified') ?></th>
-                <th scope="col" class="actions"><?= __('Actions') ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($scanResults as $scanResult): ?>
-            <tr>
-                <td><?= $this->Number->format($scanResult->id) ?></td>
-                <td><?= $scanResult->has('accesspoint') ? $this->Html->link($scanResult->accesspoint->id, ['controller' => 'AccessPoints', 'action' => 'view', $scanResult->accesspoint->id]) : '' ?></td>
-                <td><?= h($scanResult->scan_timestamp) ?></td>
-                <td><?= h($scanResult->mac_addr) ?></td>
-                <td><?= $this->Number->format($scanResult->rssi) ?></td>
-                <td><?= h($scanResult->created) ?></td>
-                <td><?= h($scanResult->modified) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $scanResult->id]) ?>
-                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $scanResult->id]) ?>
-                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $scanResult->id], ['confirm' => __('Are you sure you want to delete # {0}?', $scanResult->id)]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-    <div class="paginator">
-        <ul class="pagination">
-            <?= $this->Paginator->first('<< ' . __('first')) ?>
-            <?= $this->Paginator->prev('< ' . __('previous')) ?>
-            <?= $this->Paginator->numbers() ?>
-            <?= $this->Paginator->next(__('next') . ' >') ?>
-            <?= $this->Paginator->last(__('last') . ' >>') ?>
-        </ul>
-        <p><?= $this->Paginator->counter(['format' => __('Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total')]) ?></p>
+
+<?php $this->set('pageTitle', 'Scan Results'); ?>
+
+<div class="x_panel">
+    <div class="x_title">
+        <h2>Scan Results</h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+         <section class="content">
+
+            <div class="row">
+                <div class="impressions index col-md-12 col-sm-12 col-xs-12 table-custom">
+                    <table class="table-striped">
+                        <thead>
+                            <tr>
+                                <th><?= $this->Paginator->sort('id') ?></th>
+                                <th><?= $this->Paginator->sort('accesspoint_id') ?></th>
+                                <th><?= $this->Paginator->sort('scan_timestamp') ?></th>
+                                <th><?= $this->Paginator->sort('mac_addr') ?></th>
+                                <th><?= $this->Paginator->sort('rssi') ?></th>
+                                <th><?= $this->Paginator->sort('created') ?></th>
+                                <th><?= $this->Paginator->sort('modified') ?></th>
+                                <th><class="actions"><?= __('Actions') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($scanResults as $scanResult): ?>
+                                <tr>
+                                    <td data-title="Id"><?= $this->Number->format($scanResult->id) ?></td>
+                                    <td><?= $scanResult->has('accessPoint') ? $this->Html->link($scanResult->accessPoint->id, ['controller' => 'AccessPoints', 'action' => 'view', $scanResult->accessPoint->id]) : '' ?></td>
+                                    <td data-title="Timestamp"><?= h($scanResult->scan_timestamp) ?></td>
+                                    <td data-title="MAC Address"><?= h($scanResult->mac_addr) ?></td>
+                                    <td data-title="RSSI"><?= $this->Number->format($scanResult->rssi) ?></td>
+                                    <td data-title="Created"><?= $scanResult->created?></td>
+                                    <td data-title="Modified"><?= $scanResult->modified?></td>
+                                    <td data-title="Actions" class="actions">
+                                    <?= $this->Html->link('<i class="fa fa-search"></i>&nbsp;View Details', ['action' => 'view', $scanResult->id], ['class' => 'btn btn-default btn-xs', 'escape' => false]); ?>
+                                    <?= $this->Html->link('<i class="fa fa-pencil"></i>&nbsp;Edit', ['action' => 'edit', $scanResult->id], ['class' => 'btn btn-default btn-xs', 'escape' => false]); ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <?= $this->element('paginator') ?>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
