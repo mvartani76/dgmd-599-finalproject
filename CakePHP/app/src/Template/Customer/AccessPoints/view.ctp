@@ -160,6 +160,7 @@
                                         <tr>
                                             <th><?= $this->Paginator->sort('id', 'Scan Result ID', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('mac_addr', 'MAC Address', ['model' => 'ScanResults']) ?></th>
+                                            <th><?= $this->Paginator->sort('vendor', 'Vendor', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('rssi', 'RSSI', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('timestamp', 'Timestamp<br/>', ['model' => 'ScanResults', 'escape' => false]) ?></th>
                                             <th class="actions" style="width: 233px;"><?= __('Actions') ?></th>
@@ -173,6 +174,7 @@
                                             <tr>
                                                 <td data-title="Scan Result ID"><?= $this->Number->format($scanResult->id) ?></td>
                                                 <td data-title="MAC Address"><?= h($scanResult->mac_addr) ?></td>
+                                                <td data-title="Vendor"><?= h($scanResult->vendor) ?></td>
                                                 <td data-title="RSSI"><?= $this->Number->format($scanResult->rssi) ?></td>
                                                 <td data-title="Timestamp"><?= h($scanResult->scan_timestamp) ?></td>
                                                 <td data-title="Actions" class="actions" style="width: 233px;">
