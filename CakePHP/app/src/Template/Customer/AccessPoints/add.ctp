@@ -1,14 +1,21 @@
+<?php
+/**
+ * @var \App\View\AppView $this
+ * @var \App\Model\Entity\AccessPoint $accessPoint
+ */
+?>
+
 <?php echo $this->Html->script('/js/country_region', ['block' => 'scriptBottom']); ?>
 <?php echo $this->Html->script('https://maps.googleapis.com/maps/api/js?key='.\Cake\Core\Configure::read('Settings.goo_api_maps_key'), ['block' => 'scriptBottom', 'defer' => true, 'async' => true]); ?>
 
 
-<?php $this->set('pageTitle', 'Add New Beacon'); ?>
-<?= $this->Form->create($beacon) ?>
+<?php $this->set('pageTitle', 'Add New Access Point'); ?>
+<?= $this->Form->create($accessPoint) ?>
 <div class="x_panel">
     <div class="x_title">
-        <h2>Beacons <small>add new beacon</small></h2>
-        <p><small>Adds a single beacon with a NEW location to the database - used for testing individual beacons</small></p>
-        <p><small>To add a new beacon to an existing location <a href="/customer/locations">click here</a> and view the location, then click "Add a Beacon to this location"</small></p>
+        <h2>Access Point <small>add new access point</small></h2>
+        <p><small>Adds a single access point with a NEW location to the database - used for testing individual access points</small></p>
+        <p><small>To add a new access point to an existing location <a href="/customer/locations">click here</a> and view the location, then click "Add an Access Point to this location"</small></p>
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
@@ -17,9 +24,9 @@
                 <div class="row">
 
                         <div class="form-group">
-                            <?= $this->Form->label('Beacons.minor_dec', 'Beacon Minor', ['class' => 'control-label col-md-2 col-sm-4 col-xs-12'] ); ?>
+                            <?= $this->Form->label('accessPoints.mac_addr', 'MAC Address', ['class' => 'control-label col-md-2 col-sm-4 col-xs-12'] ); ?>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <?= $this->Form->input('Beacons.minor_dec', ['label' => false, 'class' => 'form-control col-md-12 col-xs-12']);?>
+                                <?= $this->Form->input('accessPoints.mac_addr', ['label' => false, 'class' => 'form-control col-md-12 col-xs-12']);?>
                             </div>
                         </div>
                 </div>
@@ -144,7 +151,7 @@
 
                             <?= $this->Form->button('', ['style' => 'display: none;', 'type' => 'submit']) ?>
                             <?= $this->Form->button(__('<i class="fa fa-times-circle"></i> &nbsp; Cancel'), ['name' => '_CANCEL', 'class' => 'pull-right btn btn-default']) ?>
-                            <?= $this->Form->button(__('<i class="fa fa-plus-circle"></i> &nbsp;Create Beacon'), ['class' => 'pull-right btn btn-primary']) ?>
+                            <?= $this->Form->button(__('<i class="fa fa-plus-circle"></i> &nbsp;Create Access Point'), ['class' => 'pull-right btn btn-primary']) ?>
                         </div>
                     </div>
                     <?= $this->Form->end() ?>
