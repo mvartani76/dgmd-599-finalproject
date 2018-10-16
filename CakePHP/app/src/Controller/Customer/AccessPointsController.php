@@ -87,7 +87,7 @@ class AccessPointsController extends AppController
             $periodEnd    = date('Y-m-d 23:59:59', time());
         }
         $pageNumber = [
-            'ScanResults' => 1,
+            'scan_results' => 1,
             'AccessPointsNotes' => 1
         ];
 
@@ -103,7 +103,7 @@ class AccessPointsController extends AppController
             if ($this->request->query['mdl'] === 'AccessPointsNotes') {
                 $accessPointsNotesPage = true;
                 $scanResultsPage = false;
-            } elseif ($this->request->query['mdl'] === 'scanResults') {
+            } elseif ($this->request->query['mdl'] === 'scan_results') {
                 $scanResultsPage = true;
                 $accessPointsNotesPage = false;
             }
@@ -113,6 +113,44 @@ class AccessPointsController extends AppController
         }
         $periodStartRaw = date('Y-m-d h:i:s', strtotime($periodStart));
         $periodEndRaw   = date('Y-m-d h:i:s', strtotime($periodEnd));
+
+
+        if ($scanResultsPage) {
+            $scanResults  = $this->Paginator->paginate(
+                $this->AccessPoints->scan_results
+                    ->find()
+                    ->where(
+                        [
+                            'scan_results.accesspoint_id' => $id
+                        ]
+                    )
+                    ->contain(
+                        [
+                            'access_points'
+                        ]
+                    )
+                    ->order(
+                        [
+                            'scan_timestamp' => 'DESC'
+                        ]
+                    ),
+                [
+                    'limit' => 10,
+                    'page' => $pageNumber['scan_results'],
+                    'sortWhitelist' => [
+                        'id',
+                        'location',
+                        'impressions_count',
+                        'regional_name'
+                    ]
+                ]
+
+            );
+        } else {
+            $scanResults = [];
+        }
+
+
 
         $scanResults    = TableRegistry::get('scan_results')->find();
 
