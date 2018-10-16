@@ -2,7 +2,12 @@
 namespace App\Controller\Customer;
 
 use App\Controller\AppController;
-
+use App\Model\Entity\User;
+use Cake\Core\Configure;
+use Cake\ORM\TableRegistry;
+use Cake\Event\Event;
+use Cake\Network\Exception\ForbiddenException;
+use Cake\Datasource\ConnectionManager;
 /**
  * AccessPoints Controller
  *
@@ -41,6 +46,78 @@ class AccessPointsController extends AppController
             'contain' => ['Customers']
         ]);
 
+
+        if (!$accessPoint) {
+            $this->Flash->calloutFlash(
+                'The Access Point cannot be found or You do not have access to this beacon', [
+                'key' => 'authError',
+                'clear' => true,
+                'params' => [
+                    'heading' => 'You cannot view this Access Point',
+                    'class' => 'callout-danger',
+                    'fa' => 'excl'
+                ]
+            ]);
+            return $this->redirect(['action' => 'index']);
+        }
+
+        if (isset($this->request->query['ajax']) && $this->request->query['ajax'] == true) {
+            if ($this->request->is('ajax')) {
+                $this->viewBuilder()->layout('ajax_paging');
+            }
+        }
+        if (isset($this->request->query['mdl'])) {
+            if ($this->request->is('ajax')) {
+                $this->viewBuilder()->layout('ajax_paging');
+                $this->set('contentKey', $this->request->query['mdl']);
+            }
+        }
+
+    if (!empty($this->request->data['action']) && $this->request->data['action'] == 'updateStats') {
+
+            $startDate  = urldecode($this->request->data['starttime']);
+            $endDate    = urldecode($this->request->data['endtime']);
+
+            $periodStart = date('Y-m-d 00:00:00', strtotime($startDate));
+            $periodEnd   = date('Y-m-d 23:59:59', strtotime($endDate));
+
+        } else {
+
+            $periodStart  = date('Y-m-d 00:00:00', strtotime('-7 days'));
+            $periodEnd    = date('Y-m-d 23:59:59', time());
+        }
+        $pageNumber = [
+            'ScanResults' => 1,
+            'AccessPointsNotes' => 1
+        ];
+
+        if (!empty($this->request->query)) {
+            if (!empty($this->request->query['ajax']) && $this->request->query['ajax']) {
+
+                $page = (!empty($this->request->query['page'])) ? $this->request->query['page'] : 1;
+                $pageNumber[$this->request->query['mdl']] = $page;
+
+            }
+        }
+        if (!empty($this->request->query['mdl'])) {
+            if ($this->request->query['mdl'] === 'AccessPointsNotes') {
+                $accessPointsNotesPage = true;
+                $scanResultsPage = false;
+            } elseif ($this->request->query['mdl'] === 'scanResults') {
+                $scanResultsPage = true;
+                $accessPointsNotesPage = false;
+            }
+        } else {
+            $scanResultsPage = true;
+            $accessPointsNotesPage = true;
+        }
+        $periodStartRaw = date('Y-m-d h:i:s', strtotime($periodStart));
+        $periodEndRaw   = date('Y-m-d h:i:s', strtotime($periodEnd));
+
+        $scanResults    = TableRegistry::get('scan_results')->find();
+
+        $this->set('scanResults', $scanResults);
+        $this->set(compact('ic', 'notes', 'it', 'dc', 'periodStartRaw', 'periodEndRaw'));
         $this->set('accessPoint', $accessPoint);
     }
 
