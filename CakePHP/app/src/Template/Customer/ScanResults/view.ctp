@@ -24,7 +24,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Mac Addr') ?></th>
-            <td><?= h($scanResult->mac_addr) ?></td>
+            <td><?= h(join(':', str_split($scanResult->mac_addr,2))) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Vendor') ?></th>

@@ -27,7 +27,7 @@
                             <?php foreach ($accessPoints as $accessPoint): ?>
                                 <tr>
                                     <td data-title="Id"><?= $this->Number->format($accessPoint->id) ?></td>
-                                    <td data-title="MAC Address"><?= $accessPoint->mac_addr ?></td>
+                                    <td data-title="MAC Address"><?= h(join(':', str_split($accessPoint->mac_addr,2))) ?></td>
                                     <td data-title="Total Devices Count"><?= $this->Number->format($accessPoint->total_devices_count) ?></td>
                                     <td data-title="Total Unique Devices Count"><?= $this->Number->format($accessPoint->total_unique_devices_count) ?></td>
                                     <td data-title="Location"></td>

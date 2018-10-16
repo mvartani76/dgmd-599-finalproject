@@ -36,7 +36,7 @@
                                     <td data-title="Id"><?= $this->Number->format($scanResult->id) ?></td>
                                     <td><?= $scanResult->has('access_point') ? $this->Html->link($scanResult->access_point->id, ['controller' => 'access_points', 'action' => 'view', $scanResult->access_point->id]) : '' ?></td>
                                     <td data-title="Timestamp"><?= h($scanResult->scan_timestamp) ?></td>
-                                    <td data-title="MAC Address"><?= h($scanResult->mac_addr) ?></td>
+                                    <td data-title="MAC Address"><?= h(join(':', str_split($scanResult->mac_addr,2))) ?></td>
                                     <td data-title="RSSI"><?= $this->Number->format($scanResult->rssi) ?></td>
 				    <td data-title="Vendor"><?= h($scanResult->vendor) ?></td>
                                     <td data-title="Created"><?= $scanResult->created?></td>
