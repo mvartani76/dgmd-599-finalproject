@@ -68,6 +68,11 @@ class ScanResultsTable extends Table
         $validator
             ->allowEmpty('rssi');
 
+        $validator
+            ->scalar('vendor')
+            ->maxLength('vendor', 128)
+            ->allowEmpty('vendor');
+
         return $validator;
     }
 

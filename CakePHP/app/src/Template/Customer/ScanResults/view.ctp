@@ -11,20 +11,24 @@
         <li><?= $this->Form->postLink(__('Delete Scan Result'), ['action' => 'delete', $scanResult->id], ['confirm' => __('Are you sure you want to delete # {0}?', $scanResult->id)]) ?> </li>
         <li><?= $this->Html->link(__('List Scan Results'), ['action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Scan Result'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Accesspoints'), ['controller' => 'AccessPoints', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Accesspoint'), ['controller' => 'AccessPoints', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'AccessPoints', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'AccessPoints', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="scanResults view large-9 medium-8 columns content">
     <h3><?= h($scanResult->id) ?></h3>
     <table class="vertical-table">
         <tr>
-            <th scope="row"><?= __('Accesspoint') ?></th>
-            <td><?= $scanResult->has('accesspoint') ? $this->Html->link($scanResult->accesspoint->id, ['controller' => 'AccessPoints', 'action' => 'view', $scanResult->accesspoint->id]) : '' ?></td>
+            <th scope="row"><?= __('Access Point') ?></th>
+            <td><?= $scanResult->has('access_point') ? $this->Html->link($scanResult->access_point->id, ['controller' => 'AccessPoints', 'action' => 'view', $scanResult->access_point->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Mac Addr') ?></th>
             <td><?= h($scanResult->mac_addr) ?></td>
+        </tr>
+        <tr>
+            <th scope="row"><?= __('Vendor') ?></th>
+            <td><?= h($scanResult->vendor) ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Id') ?></th>

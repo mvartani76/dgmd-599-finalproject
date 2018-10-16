@@ -11,10 +11,11 @@ use Cake\ORM\Entity;
  * @property \Cake\I18n\Time $scan_timestamp
  * @property string $mac_addr
  * @property int $rssi
+ * @property string $vendor
  * @property \Cake\I18n\Time $created
  * @property \Cake\I18n\Time $modified
  *
- * @property \App\Model\Entity\AccessPoint $accesspoint
+ * @property \App\Model\Entity\AccessPoint $access_point
  */
 class ScanResult extends Entity
 {
@@ -33,8 +34,9 @@ class ScanResult extends Entity
         'scan_timestamp' => true,
         'mac_addr' => true,
         'rssi' => true,
+        'vendor' => true,
         'created' => true,
         'modified' => true,
-        'accesspoint' => true
+        'access_point' => true
     ];
 }
