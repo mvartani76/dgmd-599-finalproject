@@ -40,6 +40,10 @@ class AccessPointsTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->hasMany('scan_results', [
+            'foreignKey' => 'accesspoint_id'
+        ]);
+
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id'
         ]);
