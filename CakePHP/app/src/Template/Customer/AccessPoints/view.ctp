@@ -56,31 +56,12 @@
     var commaStep = $.animateNumber.numberStepFactories.separator(',');
 
     $('#ImpressionsCount').animateNumber({numberStep: commaStep, number: <?= $accessPoint->impressions_count; ?>});
-    $('#CampaignsCount').animateNumber({numberStep: commaStep, number: <?= $cb ?>});
     $('#DevicesCount').animateNumber({numberStep: commaStep, number: <?= $accessPoint->total_devices_count ?>});
     $('#Impressions7Count').animateNumber({numberStep: commaStep, number: <?= $ic ?>});
     <?php $this->Html->scriptEnd(); ?>
 </script>
 
-<div id="beaconCampaignsModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <p>Loading the beacons campaigns..</p>
-        </div>
-    </div>
-</div>
 
-<script>
-jQuery(function($) {
-    // Modal used to view campaigns attached to a beacon.
-    $('.top_tiles').on('click', '.show-beacon-campaigns', function(e) {
-        $('#beaconCampaignsModal .modal-content').html('<p>Loading the beacons campaigns..</p>');
-        $('#beaconCampaignsModal .modal-content').load('/customer/beacons/ajaxCampaigns/<?= $beacon->id ?>?');
-        $('#beaconCampaignsModal').modal('show');
-    });
-});
-</script>
 <?= $this->element('Header/Common/filter_bar'); ?>
 <?= $this->element('Header/Common/stats_bar',['type'=>'accesspoints']); ?>
 <div class="col-md-12 col-sm-12 col-xs-12">
@@ -160,13 +141,12 @@ jQuery(function($) {
                     </div>
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="profile-tab">
                         <div class="paginate-ajax-container">
-                            <?php $this->start('paginated_content.Impressions'); ?>
-                            <?php if (is_object($impressions) && !$impressions->isEmpty()): ?>
-                                <?php
+                            <?php $this->start('paginated_content.scanResults'); ?>
+                            <?php if (is_object($scanResults) && !$scanResults->isEmpty()):
                                 $this->Paginator->setAjax();
                                 $this->Paginator->options(
                                     [
-                                        'url' => array_merge($this->request->pass, ['ajax' => true, 'mdl' => 'ScanResults'], $this->request->query)
+                                        'url' => array_merge($this->request->pass, ['ajax' => true, 'mdl' => 'scan_results'], $this->request->query)
                                     ]
                                 ); ?>
                                 <div class="callout callout-info">
@@ -175,15 +155,12 @@ jQuery(function($) {
                                     ]) ?>
                                 </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 table-custom">
-                                    <table id="ImpressionsData" class="table-hover table-striped impressions-content">
+                                    <table id="ScanResultsData" class="table-hover table-striped impressions-content">
                                         <thead>
                                         <tr>
                                             <th><?= $this->Paginator->sort('id', 'Scan Result ID', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('mac_addr', 'MAC Address', ['model' => 'ScanResults']) ?></th>
-                                            <th><?= $this->Paginator->sort('rssi', 'RSSI', ['model' => 'Impressions']) ?></th>
-                                            <th><?= $this->Paginator->sort('location', 'Location ID/Name<br/><small>(brand or subsidiary)</small>', ['model' => 'Impressions', 'escape' => false]) ?></th>
-                                            <th><?= $this->Paginator->sort('application_id', 'Application<br/>', ['model' => 'Impressions', 'escape' => false]) ?></th>
-                                            <th>Extra</th>
+                                            <th><?= $this->Paginator->sort('rssi', 'RSSI', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('timestamp', 'Timestamp<br/>', ['model' => 'ScanResults', 'escape' => false]) ?></th>
                                             <th class="actions" style="width: 233px;"><?= __('Actions') ?></th>
                                         </tr>
@@ -195,18 +172,16 @@ jQuery(function($) {
                                             ?>
                                             <tr>
                                                 <td data-title="Scan Result ID"><?= $this->Number->format($scanResult->id) ?></td>
-                                                <td data-title="Device ID"><a title="View this impressions device" href="/customer/devices/view/<?= $impression->device_id ?>"><?= $impression->device_id ?></a></td>
-                                                <td data-title="Location"><a href="/customer/locations/view/<?= $impression->zone->location->id ?>"><?= h($impression->zone->location->id) ?>/<?= h($impression->zone->location->location) ?></a></td>
-                                                <td data-title="Application"><a title="View this impressions's application" href="/customer/applications/view/<?= $impression->application->id ?>"><?= $impression->application->name ?>/<?= $impression->application->short_name ?></a></td>
-                                                <td data-title="Extra"><button class="load-impression-on-map btn btn-success btn-xs" data-impression-id="<?= $impression->id ?>"><i class="fa fa-map-marker"></i> &nbsp;View on Map</button></td>
-                                                <td data-title="Timestamp"><?= $this->Time->format($impression->timestamp) ?></td>
+                                                <td data-title="MAC Address"><?= h($scanResult->mac_addr) ?></td>
+                                                <td data-title="RSSI"><?= $this->Number->format($scanResult->rssi) ?></td>
+                                                <td data-title="Timestamp"><?= h($scanResult->scan_timestamp) ?></td>
                                                 <td data-title="Actions" class="actions" style="width: 233px;">
-                                                    <?= $this->Html->link('<i class="fa fa-search"></i>&nbsp;View', ['controller' => 'Impressions', 'action' => 'view', $impression->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
+                                                    <?= $this->Html->link('<i class="fa fa-search"></i>&nbsp;View', ['controller' => 'ScanResults', 'action' => 'view', $scanResult->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </table>
-                                    <?= $this->element('paginator', ['model' => 'Impressions', 'isAjax' => true]) ?>
+                                    <?= $this->element('paginator', ['model' => 'ScanResults', 'isAjax' => true]) ?>
                                 </div>
                             <?php else: ?>
                                 <ul id="NotesResults" class="messages">
