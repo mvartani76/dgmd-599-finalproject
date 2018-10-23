@@ -119,9 +119,9 @@
                     </div>
 
                     <div class="form-group">
-                        <?= $this->Form->label('Zones.placement', 'Description', ['class' => 'control-label col-md-3 col-sm-3 col-xs-6'] ); ?>
+                        <?= $this->Form->label('Apzones.placement', 'Description', ['class' => 'control-label col-md-3 col-sm-3 col-xs-6'] ); ?>
                         <div class="col-md-6 col-sm-9 col-xs-12">
-                            <?= $this->Form->input('Zones.placement',      ['placeholder' => 'On my desk in the office...', 'class' => 'form-control col-md-6 col-xs-12', 'label' => false]); ?>
+                            <?= $this->Form->input('Apzones.placement',      ['placeholder' => 'On my desk in the office...', 'class' => 'form-control col-md-6 col-xs-12', 'label' => false]); ?>
                         </div>
 
                     </div>

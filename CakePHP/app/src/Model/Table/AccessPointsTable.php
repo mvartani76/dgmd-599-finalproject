@@ -43,6 +43,10 @@ class AccessPointsTable extends Table
         $this->hasMany('scan_results', [
             'foreignKey' => 'accesspoint_id'
         ]);
+        
+        $this->hasOne('apzones', [
+            'foreignKey' => 'accesspoint_id'
+        ]);
 
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id'

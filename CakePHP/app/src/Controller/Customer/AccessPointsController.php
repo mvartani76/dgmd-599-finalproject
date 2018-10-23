@@ -167,17 +167,88 @@ class AccessPointsController extends AppController
     public function add()
     {
         $accessPoint = $this->AccessPoints->newEntity();
-        if ($this->request->is('post')) {
-            $accessPoint = $this->AccessPoints->patchEntity($accessPoint, $this->request->getData());
-            if ($this->AccessPoints->save($accessPoint)) {
-                $this->Flash->success(__('The access point has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+        if ($this->request->is('post')) {
+            $this->request->data['AccessPoints']['customer_id'] = $this->AuthUser->user('customer_id');
+
+            $accessPoint = $this->AccessPoints->patchEntity($accessPoint, $this->request->data);
+            $location = $this->AccessPoints->Apzones->Locations->newEntity($this->request->data);
+            pr($accessPoint);
+
+            if ($nap = $this->AccessPoints->save($accessPoint)) { //save access point
+                if ($nl = $this->AccessPoints->Apzones->Locations->save($location)) { //save location
+                    $apzone = $this->AccessPoints->Apzones->newEntity(
+                        [
+                            'fixture_no' => "N/A",
+                            'placement' => $this->request->data['Apzones']['placement'] ?? "Unknown placement - this apzone was automatically inserted when inserting an auto detected accessPoint and apzone.",
+                            'location_id' => $nl->id,
+                            'accesspoint_id' => $nap->id
+                        ]);
+
+                    if ($this->AccessPoints->Apzones->save($apzone)) {
+                        $this->Flash->calloutFlash(
+                            'Access Point created successfully.', [
+                            'key' => 'authError',
+                            'clear' => true,
+                            'params' => [
+                                'heading' => 'Success',
+                                'class' => 'callout-success',
+                                'fa' => 'check'
+                            ]
+                        ]);
+                        return $this->redirect(['action' => 'index']);
+                    } else {
+                        $this->Flash->calloutFlash(
+                            'Apzone could not be saved', [
+                            'key' => 'authError',
+                            'clear' => true,
+                            'params' => [
+                                'heading' => 'Error',
+                                'class' => 'callout-danger',
+                                'fa' => 'excl'
+                            ]
+                        ]);
+                        return $this->redirect(['action' => 'add']);
+                    }
+                } else {
+                    $this->Flash->calloutFlash(
+                        'Location could not be saved', [
+                        'key' => 'authError',
+                        'clear' => true,
+                        'params' => [
+                            'heading' => 'Error',
+                            'class' => 'callout-danger',
+                            'fa' => 'excl'
+                        ]
+                    ]);
+                    return $this->redirect(['action' => 'add']);
+                }
+            } else {
+                $this->Flash->calloutFlash(
+                    'AccessPoint could not be saved', [
+                    'key' => 'authError',
+                    'clear' => true,
+                    'params' => [
+                        'heading' => 'Error',
+                        'class' => 'callout-danger',
+                        'fa' => 'excl'
+                    ]
+                ]);
+                return $this->redirect(['action' => 'add']);
             }
-            $this->Flash->error(__('The access point could not be saved. Please, try again.'));
+
         }
         $customers = $this->AccessPoints->Customers->find('list', ['limit' => 200]);
-        $this->set(compact('accessPoint', 'customers'));
+        
+
+        $countries      = TableRegistry::get('Countries')->getSortedList();
+        $this->loadModel('Placetypes');
+        $placetypes = $this->Placetypes->find('list');
+
+        $this->set('location', $this->AccessPoints->Apzones->Locations->newEntity());
+        $this->set('countries', $countries);
+        $this->set(compact('accessPoint','placetypes'));
+        $this->set('_serialize', ['accessPoint']);
     }
 
     /**

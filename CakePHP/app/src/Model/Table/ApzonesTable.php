@@ -1,9 +1,11 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Apzone;
+use Cake\Core\Configure;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
+use App\ORM\D2goTable as Table;
 use Cake\Validation\Validator;
 
 /**
@@ -40,14 +42,22 @@ class ApzonesTable extends Table
         $this->setPrimaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('CounterCache', [
+            'Locations' => ['apzones_count']
+        ]);
 
         $this->belongsTo('Locations', [
             'foreignKey' => 'location_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('AccessPoints', [
+        $this->belongsTo('access_points', [
             'foreignKey' => 'accesspoint_id',
             'joinType' => 'INNER'
+        ]);
+
+        $this->hasMany('scan_results', [
+            'className' => 'ScanResults',
+            'foreignKey' => 'apzone_id'
         ]);
     }
 
