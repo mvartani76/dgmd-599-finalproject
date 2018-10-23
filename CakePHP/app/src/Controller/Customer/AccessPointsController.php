@@ -173,7 +173,7 @@ class AccessPointsController extends AppController
 
             $accessPoint = $this->AccessPoints->patchEntity($accessPoint, $this->request->data);
             $location = $this->AccessPoints->Apzones->Locations->newEntity($this->request->data);
-            pr($accessPoint);
+
 
             if ($nap = $this->AccessPoints->save($accessPoint)) { //save access point
                 if ($nl = $this->AccessPoints->Apzones->Locations->save($location)) { //save location

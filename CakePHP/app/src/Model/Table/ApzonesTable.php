@@ -73,38 +73,14 @@ class ApzonesTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('fixture_no')
-            ->maxLength('fixture_no', 40)
-            ->allowEmpty('fixture_no');
+            ->requirePresence('accesspoint_id')
+            ->notEmpty('accesspoint_id')
+            ->numeric('accesspoint_id');
 
         $validator
-            ->scalar('placement')
-            ->allowEmpty('placement');
-
-        $validator
-            ->scalar('floor')
-            ->maxLength('floor', 10)
-            ->allowEmpty('floor');
-
-        $validator
-            ->requirePresence('scanresults_count', 'create')
-            ->notEmpty('scanresults_count');
-
-        $validator
-            ->boolean('ignore_further_incidents')
-            ->allowEmpty('ignore_further_incidents');
-
-        $validator
-            ->boolean('is_reviewed')
-            ->allowEmpty('is_reviewed');
-
-        $validator
-            ->dateTime('review_date')
-            ->allowEmpty('review_date');
-
-        $validator
-            ->dateTime('last_scanresult')
-            ->allowEmpty('last_scanresult');
+            ->requirePresence('location_id')
+            ->notEmpty('location_id')
+            ->numeric('location_id');
 
         return $validator;
     }
@@ -119,7 +95,7 @@ class ApzonesTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['location_id'], 'Locations'));
-        $rules->add($rules->existsIn(['accesspoint_id'], 'AccessPoints'));
+        $rules->add($rules->existsIn(['accesspoint_id'], 'access_points'));
 
         return $rules;
     }
