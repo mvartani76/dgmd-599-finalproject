@@ -169,11 +169,13 @@ class AccessPointsController extends AppController
         $accessPoint = $this->AccessPoints->newEntity();
 
         if ($this->request->is('post')) {
-            $this->request->data['AccessPoints']['customer_id'] = $this->AuthUser->user('customer_id');
+            $this->request->data['access_points']['customer_id'] = $this->AuthUser->user('customer_id');
+
+            $this->request->data['Locations']['retailer_id'] = 20;
+            $this->request->data['Locations']['customer_id'] = $this->AuthUser->user('customer_id');
 
             $accessPoint = $this->AccessPoints->patchEntity($accessPoint, $this->request->data);
             $location = $this->AccessPoints->Apzones->Locations->newEntity($this->request->data);
-
 
             if ($nap = $this->AccessPoints->save($accessPoint)) { //save access point
                 if ($nl = $this->AccessPoints->Apzones->Locations->save($location)) { //save location
