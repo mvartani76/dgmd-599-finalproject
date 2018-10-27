@@ -169,7 +169,7 @@ class AccessPointsController extends AppController
         $accessPoint = $this->AccessPoints->newEntity();
 
         if ($this->request->is('post')) {
-            $this->request->data['access_points']['customer_id'] = $this->AuthUser->user('customer_id');
+            $this->request->data['customer_id'] = $this->AuthUser->user('customer_id');
 
             $this->request->data['Locations']['retailer_id'] = 20;
             $this->request->data['Locations']['customer_id'] = $this->AuthUser->user('customer_id');
