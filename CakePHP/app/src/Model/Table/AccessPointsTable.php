@@ -67,7 +67,8 @@ class AccessPointsTable extends Table
         $validator
             ->scalar('mac_addr')
             ->maxLength('mac_addr', 12)
-            ->allowEmpty('mac_addr');
+            ->requirePresence('mac_addr', 'create')
+            ->notEmpty('mac_addr');
 
         $validator
             ->allowEmpty('total_devices_count');
