@@ -24,9 +24,9 @@
                 <div class="row">
 
                         <div class="form-group">
-                            <?= $this->Form->label('accessPoints.mac_addr', 'MAC Address', ['class' => 'control-label col-md-2 col-sm-4 col-xs-12'] ); ?>
+                            <?= $this->Form->label('mac_addr', 'MAC Address', ['class' => 'control-label col-md-2 col-sm-4 col-xs-12'] ); ?>
                             <div class="col-md-4 col-sm-6 col-xs-12">
-                                <?= $this->Form->input('accessPoints.mac_addr', ['label' => false, 'class' => 'form-control col-md-12 col-xs-12']);?>
+                                <?= $this->Form->input('mac_addr', ['label' => false, 'class' => 'form-control col-md-12 col-xs-12']);?>
                             </div>
                         </div>
                 </div>
