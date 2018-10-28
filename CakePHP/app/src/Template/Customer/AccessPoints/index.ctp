@@ -30,7 +30,11 @@
                                     <td data-title="MAC Address"><?= h(join(':', str_split($accessPoint->mac_addr,2))) ?></td>
                                     <td data-title="Total Devices Count"><?= $this->Number->format($accessPoint->total_devices_count) ?></td>
                                     <td data-title="Total Unique Devices Count"><?= $this->Number->format($accessPoint->total_unique_devices_count) ?></td>
-                                    <td data-title="Location"></td>
+                                    <td data-title="Location">
+                                    <?php if (!empty($accessPoint->apzone->location)): ?>
+                                    <a title="<?=$accessPoint->apzone->location->address1; ?>" href="/customer/locations/view/<?= $accessPoint->apzone->location->id; ?>"><?=$accessPoint->apzone->location->location; ?> [<?= $accessPoint->apzone->location->city; ?>]</a>
+                                    <?php endif; ?>
+                                </td>
                                     <td data-title="Created"><?= $accessPoint->created?></td>
                                     <td data-title="Modified"><?= $accessPoint->modified?></td>
                                     <td data-title="Actions" class="actions">

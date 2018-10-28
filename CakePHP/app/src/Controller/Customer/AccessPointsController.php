@@ -26,11 +26,11 @@ class AccessPointsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Customers']
+            'contain' => ['Customers', 'Apzones.Locations']
         ];
         $accessPoints = $this->paginate($this->AccessPoints);
 
-        $this->set(compact('accessPoints'));
+        $this->set(compact('accessPoints', 'Apzones.Locations'));
     }
 
     /**
