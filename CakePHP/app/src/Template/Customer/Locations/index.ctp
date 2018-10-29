@@ -16,7 +16,7 @@
                             <th><?= $this->Paginator->sort('location', 'Location Name<br/><small>(brand or subsidiary)</small>', ['escape' => false]) ?></th>
                             <th><?= $this->Paginator->sort('regional_name', 'Regional Name<br/><small>(Airport, Mall, etc)</small>', ['escape' => false]) ?></th>
                             <th><?= $this->Paginator->sort('impressions_count', 'Impressions for this Location<br/><small>For all zones</small>', ['escape' => false]) ?></th>
-
+                            <th><?= $this->Paginator->sort('devices_count', 'Scanned Devices for this Location<br/><small>For all apzones</small>', ['escape' => false]) ?></th>
                             <th>Extra</th>
                             <th class="actions" style="/*width: 233px;*/"><?= __('Actions') ?></th>
                         </tr>
@@ -56,8 +56,11 @@
                                     </a>
                                     <a title="View this locations's zones" href="/customer/locations/view/<?= $location->id ?>#notes-tab4"> (<?= sngw('zone', $location->zones_count) ?>)</a><br/>
                                 </td>
-
-
+                                <td data-title="ScanResults"><a title="View this entry's scan results" href="/customer/scan_results/viewby/location/<?= $location->id ?>">
+                                        <?= $this->Number->format(array_sum(\Cake\Utility\Hash::extract($location->apzones, '{n}.total_devices_count'))) ?>
+                                    </a>
+                                    <a title="View this locations's AP zones" href="/customer/locations/view/<?= $location->id ?>#notes-tab4"> (<?= sngw('apzone', $location->apzones_count) ?>)</a><br/>
+                                </td>
                                 <td data-title="Extra" style="text-align: right;">
                                     <?php if ($flagExists): ?>
                                         <a class="btn btn-danger btn-xs" href="/customer/flagged_beacons/by_location/<?= $location->id ?>">

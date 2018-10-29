@@ -140,7 +140,7 @@ class AccessPointsController extends AppController
                     'sortWhitelist' => [
                         'id',
                         'location',
-                        'impressions_count',
+                        'total_devices_count',
                         'regional_name'
                     ]
                 ]

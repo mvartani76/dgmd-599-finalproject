@@ -137,6 +137,7 @@ class LocationsController extends AppController
                 'Countries',
                 'Zones.Beacons',
                 'Zones.FlaggedBeacons',
+                'Apzones.access_points'
             ],
             'conditions' => [
                 'Locations.customer_id IN' => $this->request->session()->read('multiple_customers'),
@@ -436,6 +437,28 @@ class LocationsController extends AppController
                 ]
             )
             ->first();
+        $ac = $AccessPoints
+            ->find('all', [
+            ])
+            ->select(
+                [
+                    'total_accessPoints' => 'COUNT(access_points.id)'
+                ]
+            )
+            ->join(
+                [
+                    [
+                        'table' => 'apzones',
+                        'alias' => 'Apzones',
+                        'type'  => 'inner',
+                        'conditions' => [
+                            'Apzones.accesspoints_id = access_points.id',
+                            'Apzones.location_id' => $id
+                        ]
+                    ]
+                ]
+            )
+            ->first();
         $qt = $Impressions
             ->find()
             ->select(
@@ -472,7 +495,7 @@ class LocationsController extends AppController
         $this->set(compact('beacon','notes', 'zones', 'LocationZonesCount', 'periodStartRaw', 'periodEndRaw', 'LocationDevicesCount', 'WeeksImpressionCount'));
 
         $this->set('location', $location);
-        $this->set('_serialize', ['LocationZonesCount', 'LocationDevicesCount', 'WeeksImpressionCount']);
+        $this->set('_serialize', ['LocationZonesCount', 'LocationAPZonesCount', 'LocationDevicesCount', 'WeeksImpressionCount']);
     }
 
 
@@ -573,6 +596,7 @@ class LocationsController extends AppController
             'limit' => Configure::read('Settings.number_records_per_page'),
             'contain' => [
                 'Zones' => [ 'Beacons', 'FlaggedBeacons' ],
+                'Apzones' => ['access_points'],
                 'Retailers'
             ],
             'conditions' => [

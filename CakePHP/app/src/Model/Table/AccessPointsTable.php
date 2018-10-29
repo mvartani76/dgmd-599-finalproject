@@ -44,7 +44,7 @@ class AccessPointsTable extends Table
             'foreignKey' => 'accesspoint_id'
         ]);
         
-        $this->hasOne('apzones', [
+        $this->hasOne('Apzones', [
             'foreignKey' => 'accesspoint_id'
         ]);
 
