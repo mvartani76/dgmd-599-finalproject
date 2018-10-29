@@ -327,6 +327,7 @@ class LocationsController extends AppController
 
         $Impressions = TableRegistry::get('Impressions');
         $Beacons     = TableRegistry::get('Beacons');
+        $AccessPoints = TableRegistry::get('access_points');
         if ($locationsNotesPage) {
             $this->paginate = [
                 'sortWhitelist' => [
@@ -452,7 +453,7 @@ class LocationsController extends AppController
                         'alias' => 'Apzones',
                         'type'  => 'inner',
                         'conditions' => [
-                            'Apzones.accesspoints_id = access_points.id',
+                            'Apzones.accesspoint_id = access_points.id',
                             'Apzones.location_id' => $id
                         ]
                     ]
