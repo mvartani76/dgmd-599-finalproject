@@ -493,7 +493,10 @@ class LocationsController extends AppController
         $beacon = $this->Locations->Zones->Beacons->newEntity();
         $beacon->major = $this->AuthUser->user('customer.beacon_major');
 
-        $this->set(compact('beacon','notes', 'zones', 'LocationZonesCount', 'periodStartRaw', 'periodEndRaw', 'LocationDevicesCount', 'WeeksImpressionCount'));
+        $accessPoint = $this->Locations->Apzones->access_points->newEntity();
+        //$accessPoint->mac_addr = $this->AuthUser->user('customer.beacon_major');
+
+        $this->set(compact('beacon', 'accessPoint', 'notes', 'zones', 'apzones', 'LocationZonesCount', 'LocationAPZonesCount', 'periodStartRaw', 'periodEndRaw', 'LocationDevicesCount', 'WeeksImpressionCount'));
 
         $this->set('location', $location);
         $this->set('_serialize', ['LocationZonesCount', 'LocationAPZonesCount', 'LocationDevicesCount', 'WeeksImpressionCount']);
@@ -857,7 +860,6 @@ class LocationsController extends AppController
                 $reassign = true;
             }
 
-
             $this->loadModel('Beacons');
 
             if (empty($this->request->data['Beacons']['major'])) {
@@ -948,6 +950,107 @@ class LocationsController extends AppController
             return $this->response;
         }
     }
+
+    /**
+     * Adds an access point to a location
+     */
+    public function addAccessPoint() {
+        $this->autoRender = false;
+        if ($this->request->is('post')) {
+
+            if ($this->request->data['reassign_accesspoint'] == 1) {
+                $reassign = true;
+            }
+
+            $this->loadModel('access_points');
+
+            if (empty($this->request->data['access_points']['mac_addr'])) {
+                echo json_encode(['success' => 0, 'message' => 'Error: MAC Address cannot be zero, customer has no MAC Address set.']);
+                die();
+            }
+
+            $this->request->data['access_points']['customer_id'] = $this->AuthUser->user('customer_id');
+
+            $exists = $this->AccessPoints->find()
+                ->where(
+                    [
+                        'mac_addr' => $this->request->data['access_points']['mac_addr'],
+
+                    ])
+                ->contain(['Apzones.Locations'])
+                ->first();
+
+            if (empty($reassign) && !empty($exists)) {
+                if (!empty($exists->apzone->location)) {
+                    $this->response->body(json_encode(['success' => 0, 'message' => 'Access point already exists at the following locations', 'reassign' => 'location', 'location' => $exists->apzone->location->location . ' / ' . $exists->apzone->placement ?? 'No AP Zone']));
+                } else {
+                    $this->response->body(json_encode(['success' => 0, 'reassign' => 'new']));
+                }
+                return $this->response;
+            }
+
+            if (empty($reassign) && empty($exists)) {
+                $accessPoint = $this->AccessPoints->newEntity($this->request->data);
+
+                if ($nap = $this->AccessPoints->save($accessPoint)) { //save beacon
+                    $apzone = $this->AccessPoints->Zones->newEntity([
+                        'fixture_no' => "N/A",
+                        'placement' => $this->request->data['Apzones']['placement'] ?? "Unknown placement - this zone was automatically inserted when inserting an auto detected beacon and zone.",
+                        'location_id' => $this->request->data['location_id'],
+                        'accesspoint_id' => $nap->id
+                    ]);
+
+
+                    if ($this->AccessPoints->Apzones->save($apzone)) {
+                        $this->response->body(json_encode(['success' => 1, 'message' => "Access Point {$nap->id} was added successfully to this Location."]));
+
+                    } else {
+                        $this->response->body(json_encode(['success' => 0, 'message' => 'Error: Failed to add ap zone']));
+                    }
+                } else {
+                    $this->response->body(json_encode(['success' => 0, 'message' => 'Error: Failed to add Access Point']));
+                }
+                return $this->response;
+
+            } else {
+                //reassign the access point here
+                //find current apzone if it exists ($exists)
+                if (!empty($exists->apzone)) {
+
+                    $exists->apzone->location_id = $this->request->data['location_id'];
+                    $exists->apzone->placement = $this->request->data['Apzones']['placement'];
+
+                    if ($this->AccessPoints->Apzones->save($exists->apzone)) {
+                        $this->response->body(json_encode(['success' => 1, 'message' => "Access Point {$exists->apzone->accesspoint_id} was added successfully to this Location."]));
+                    } else {
+                        $this->response->body(json_encode(['success' => 0, 'message' => 'Error: Failed to edit ap zone']));
+                    }
+
+                    return $this->response;
+
+                } else {
+                    //otherwise just create a new ap zone
+                    $apzone = $this->AccessPoints->Apzones->newEntity(
+                        [
+                            'location_id' => $this->request->data['location_id'],
+                            'accesspoint_id' => $exists->id
+
+                        ]
+                    );
+
+                    if ($this->AccessPoints->Apzones->save($apzone)) {
+                        $this->response->body(json_encode(['success' => 1, 'message' => 'AP Zone added Successfully']));
+                        return $this->response;
+                    }
+                }
+            }
+        } else {
+            $this->response->body(json_encode(['success' => 0, 'message' => 'Error: Wrong Method']));
+            return $this->response;
+        }
+    }
+
+
 
     /**
      * Ajax Request to Reverse address to Points
