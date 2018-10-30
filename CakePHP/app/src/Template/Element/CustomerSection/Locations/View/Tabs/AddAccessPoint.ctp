@@ -10,9 +10,9 @@
     <div class="row" style="margin-top:30px!important">
 
         <div class="form-group addAccessPoint">
-            <?= $this->Form->label('access_points.mac_addr', 'MAC Address', ['class' => 'control-label col-md-3 col-sm-3 col-xs-6'] ); ?>
+            <?= $this->Form->label('mac_addr', 'MAC Address', ['class' => 'control-label col-md-3 col-sm-3 col-xs-6'] ); ?>
             <div class="col-md-9 col-sm-9 col-xs-12">
-                <?= $this->Form->input('access_points.mac_addr', ['label' => false, 'class' => 'form-control col-md-6 col-xs-12']);?>
+                <?= $this->Form->input('mac_addr', ['label' => false, 'class' => 'form-control col-md-6 col-xs-12']);?>
             </div>
             <?= $this->Form->label('Apzones.placement', 'Placement Description', ['class' => 'control-label col-md-3 col-sm-3 col-xs-6'] ); ?>
             <div class="col-md-9 col-sm-9 col-xs-12">

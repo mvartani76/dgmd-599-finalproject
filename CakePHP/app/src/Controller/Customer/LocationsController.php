@@ -962,9 +962,9 @@ class LocationsController extends AppController
                 $reassign = true;
             }
 
-            $this->loadModel('access_points');
+            $this->loadModel('AccessPoints');
 
-            if (empty($this->request->data['access_points']['mac_addr'])) {
+            if (empty($this->request->data['mac_addr'])) {
                 echo json_encode(['success' => 0, 'message' => 'Error: MAC Address cannot be zero, customer has no MAC Address set.']);
                 die();
             }
@@ -972,11 +972,7 @@ class LocationsController extends AppController
             $this->request->data['access_points']['customer_id'] = $this->AuthUser->user('customer_id');
 
             $exists = $this->AccessPoints->find()
-                ->where(
-                    [
-                        'mac_addr' => $this->request->data['access_points']['mac_addr'],
-
-                    ])
+                ->where(['mac_addr' => $this->request->data['mac_addr']])
                 ->contain(['Apzones.Locations'])
                 ->first();
 
@@ -993,7 +989,7 @@ class LocationsController extends AppController
                 $accessPoint = $this->AccessPoints->newEntity($this->request->data);
 
                 if ($nap = $this->AccessPoints->save($accessPoint)) { //save beacon
-                    $apzone = $this->AccessPoints->Zones->newEntity([
+                    $apzone = $this->AccessPoints->Apzones->newEntity([
                         'fixture_no' => "N/A",
                         'placement' => $this->request->data['Apzones']['placement'] ?? "Unknown placement - this zone was automatically inserted when inserting an auto detected beacon and zone.",
                         'location_id' => $this->request->data['location_id'],
