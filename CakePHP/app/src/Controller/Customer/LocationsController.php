@@ -270,6 +270,7 @@ class LocationsController extends AppController
         $pageNumber = [
             'Impressions' => 1,
             'Zones' => 1,
+            'Apzones' => 1,
             'LocationsNotes' => 1
         ];
 
@@ -286,19 +287,28 @@ class LocationsController extends AppController
                 $locationsNotesPage = true;
                 $impressionsPage    = false;
                 $zonesPage          = false;
+                $apzonesPage        = false;
             } elseif ($this->request->query['mdl'] === 'Impressions') {
                 $impressionsPage    = true;
                 $locationsNotesPage = false;
                 $zonesPage          = false;
+                $apzonesPage        = false;
             } elseif ($this->request->query['mdl'] === 'Zones') {
                 $impressionsPage    = false;
                 $locationsNotesPage = false;
                 $zonesPage          = true;
+                $apzonesPage        = false;
+            } elseif ($this->request->query['mdl'] === 'Apzones') {
+                $impressionsPage    = false;
+                $locationsNotesPage = false;
+                $zonesPage          = false;
+                $apzonesPage        = true;
             }
         } else {
             $impressionsPage    = true;
             $locationsNotesPage = true;
             $zonesPage = true;
+            $apzonesPage = true;
         }
 
         $periodStartRaw = date('Y-m-d h:i:s', strtotime($periodStart));
@@ -386,6 +396,40 @@ class LocationsController extends AppController
             );
         } else {
             $zones = [];
+        }
+        $this->loadModel('Apzones');
+        if ($apzonesPage) {
+            $apzones  = $this->Paginator->paginate(
+                $this->Apzones
+                    ->find()
+                    ->where(
+                        [
+                            'Apzones.location_id' => $id
+                        ]
+                    )
+                    ->contain(
+                        [
+                            'access_points',
+                            'Locations' => [
+                                'Retailers'
+                            ]
+                        ]
+                    )
+                    ->order(
+                        [
+
+                        ]
+                    ),
+                [
+                    'limit' => 10,
+                    'page' => $pageNumber['Apzones'],
+                    'sortWhitelist' => [
+                        'total_devices_count'
+                    ]
+                ]
+            );
+        } else {
+            $apzones = [];
         }
         $dc = $Impressions
             ->find()
