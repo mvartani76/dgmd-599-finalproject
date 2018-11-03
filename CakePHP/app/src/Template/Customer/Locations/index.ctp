@@ -52,14 +52,20 @@
                                 </td>
                                 <td data-title="Regional Name"><?= h($location->regional_name) ?></td>
                                 <td data-title="Impressions"><a title="View this entry's impressions" href="/customer/impressions/viewby/location/<?= $location->id ?>">
+                                        <!-- Only display the impressions for the zones if zones exist -->
+                                        <?php if ($location->zones_count>0): ?>
                                         <?= $this->Number->format(array_sum(\Cake\Utility\Hash::extract($location->zones, '{n}.impressions_count'))) ?>
                                     </a>
                                     <a title="View this locations's zones" href="/customer/locations/view/<?= $location->id ?>#notes-tab4"> (<?= sngw('zone', $location->zones_count) ?>)</a><br/>
+                                    <?php endif; ?>
                                 </td>
                                 <td data-title="ScanResults"><a title="View this entry's scan results" href="/customer/scan_results/viewby/location/<?= $location->id ?>">
+                                    <!-- Only display the scan results for the zpaones if apzones exist -->
+                                    <?php if ($location->apzones_count>0): ?>
                                         <?= $this->Number->format(array_sum(\Cake\Utility\Hash::extract($location->apzones, '{n}.total_devices_count'))) ?>
                                     </a>
                                     <a title="View this locations's AP zones" href="/customer/locations/view/<?= $location->id ?>#notes-tab4"> (<?= sngw('apzone', $location->apzones_count) ?>)</a><br/>
+                                    <?php endif; ?>
                                 </td>
                                 <td data-title="Extra" style="text-align: right;">
                                     <?php if ($flagExists): ?>
