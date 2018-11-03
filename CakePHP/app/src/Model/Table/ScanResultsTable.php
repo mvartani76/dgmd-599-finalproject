@@ -42,6 +42,11 @@ class ScanResultsTable extends Table
 
         $this->belongsTo('access_points', [
             'foreignKey' => 'accesspoint_id'
+            'joinType' => 'LEFT',
+        ]);
+        $this->belongsTo('Apzones', [
+            'foreignKey' => 'apzone_id',
+            'joinType' => 'LEFT',
         ]);
     }
 
