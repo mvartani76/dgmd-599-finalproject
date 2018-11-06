@@ -114,7 +114,7 @@ time.sleep(2)
 # Publish to the same topic in a loop forever
 loopCount = 0
 blacklist = load_blacklist("mikev_house.txt")
-built_packetHandler = build_packetHandler("iso", blacklist)
+built_packetHandler = build_packetHandler("unix", blacklist)
 while True:
     if args.mode == 'both' or args.mode == 'publish':
         message = {}
