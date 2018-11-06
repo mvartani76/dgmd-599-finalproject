@@ -4,6 +4,7 @@ import sys
 import time
 import datetime
 import netaddr
+import uuid
 
 #import all scapy functions
 from scapy.all import *
@@ -14,12 +15,17 @@ devices = set()
 
 # Create a global class to store scanned/collected variables to push to pubsub code
 class wifiScan:
+	ap_mac_addr = ""
 	unique_count = 0
 	log_time = str(int(time.time()))
 	mac_addr = ""
 	payload_name = ""
 	rssi = -256
 	vendor = "UNKNOWN"
+
+# Function reads the host access point mac address and returns as formatted string
+def display_ap_mac_addr():
+	return ':'.join(re.findall('..', '%012x' % uuid.getnode()))
 
 def build_packetHandler(time_format, blacklist):
 	def packetHandler(pkt):
@@ -47,11 +53,12 @@ def build_packetHandler(time_format, blacklist):
                 	if dot11_layer.addr2 and (dot11_layer.addr2 not in devices):
                         	devices.add(dot11_layer.addr2)
 				# print the number of unique devices followed by the MAC address
- 				print len(devices), log_time, dot11_layer.addr2, dot11_layer.payload.name, rssi_val, vendor
+ 				print len(devices), log_time, display_ap_mac_addr(), dot11_layer.addr2, dot11_layer.payload.name, rssi_val, vendor
 
 				# load values into class object so they can be put into json object in pubsub code
 				wifiScan.unique_count = len(devices)
 				wifiScan.log_time = log_time
+				wifiScan.ap_mac_addr = display_ap_mac_addr()
 				wifiScan.mac_addr = dot11_layer.addr2
 				wifiScan.payload_name = dot11_layer.payload.name
 				wifiScan.rssi = rssi_val

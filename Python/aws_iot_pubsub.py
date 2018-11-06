@@ -123,6 +123,7 @@ while True:
         #message['sequence'] = loopCount
 	message['unique_count'] = wifiScan.unique_count
 	message['log_time'] = wifiScan.log_time
+	message['ap_mac_addr'] = wifiScan.ap_mac_addr
 	message['mac_addr'] = wifiScan.mac_addr
 	message['rssi'] = wifiScan.rssi
 	message['vendor'] = wifiScan.vendor
