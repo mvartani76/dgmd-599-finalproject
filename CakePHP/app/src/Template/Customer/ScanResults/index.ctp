@@ -14,7 +14,6 @@
     </div>
     <div class="x_content">
          <section class="content">
-
             <div class="row">
                 <div class="scanResults index col-md-12 col-sm-12 col-xs-12 table-custom">
                     <table class="table-striped">
@@ -39,7 +38,13 @@
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    <?= $this->element('paginator') ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <!-- Create a link to effectively paginate the data. This will pass back the LastEvaluatedKey to the controller
+                        to rescan the dynamodB table with these values. --->
+                    <?php echo $this->Html->link('Next', ['controller' => 'ScanResults', 'action' => 'index', '?' => ['page' => ($page+1), 'key' => serialize($lastevalkey)]], ['class' => 'pull-right btn btn-primary']); ?>
                 </div>
             </div>
         </section>

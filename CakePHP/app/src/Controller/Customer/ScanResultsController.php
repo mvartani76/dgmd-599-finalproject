@@ -24,14 +24,7 @@ class ScanResultsController extends AppController
      */
     public function index()
     {
-       /* $this->paginate = [
-            'contain' => ['access_points']
-        ];
-        $scanResults = $this->paginate($this->ScanResults);
-
-        $this->set(compact('scanResults'));
-*/
-
+        // Pass in the AWS credentials from the .env file
         $sdk = new AwsSdk([
             'region'   => env('AWS_DYNAMODB_REGION', 'us-west-2'),
             'version'  => env('AWS_DYNAMODB_VERSION', 'latest'),
@@ -41,21 +34,29 @@ class ScanResultsController extends AppController
             ],
         ]);
 
+        // Create a DynamoDb instance
         $dynamodb = $sdk->createDynamoDb();
         $marshaler = new Marshaler();
 
         $tableName = 'wdds_testdata';
 
-        $eav = $marshaler->marshalJson('
-            {
-                ":yyyy": 1985
-            }
-        ');
+        $page = $this->request->getQuery('page', 0);
+        $key = $this->request->getQuery('key');
+        $key = $key ? unserialize($key) : $key;
 
-        $params = [
-            'TableName' => $tableName,
-            'Limit' => 15
-        ];
+        if (isset($key)) {
+
+            $params = [
+                'TableName' => $tableName,
+                'Limit' => 15,
+                'ExclusiveStartKey' => $key
+            ];
+        } else {
+            $params = [
+                'TableName' => $tableName,
+                'Limit' => 15
+            ];
+        }
 
         $scanResults = [];
 
@@ -71,7 +72,9 @@ class ScanResultsController extends AppController
             die();
         }
 
-        $this->set(compact('scanResults'));
+        $lastevalkey = $result['LastEvaluatedKey'];
+
+        $this->set(compact('scanResults','lastevalkey', 'page'));
     }
 
     /**
