@@ -46,7 +46,7 @@ parser.add_argument("-w", "--websocket", action="store_true", dest="useWebsocket
 parser.add_argument("-id", "--clientId", action="store", dest="clientId", default="basicPubSub",
                     help="Targeted client id")
 parser.add_argument("-t", "--topic", action="store", dest="topic", default="sdk/test/Python", help="Targeted topic")
-parser.add_argument("-m", "--mode", action="store", dest="mode", default="both",
+parser.add_argument("-m", "--mode", action="store", dest="mode", default="publish",
                     help="Operation modes: %s"%str(AllowedActions))
 parser.add_argument("-M", "--message", action="store", dest="message", default="Hello World!",
                     help="Message to publish")
@@ -81,7 +81,7 @@ if not args.useWebsocket and not args.port:  # When no port override for non-Web
 
 # Configure logging
 logger = logging.getLogger("AWSIoTPythonSDK.core")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.ERROR)
 streamHandler = logging.StreamHandler()
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 streamHandler.setFormatter(formatter)
@@ -113,24 +113,27 @@ time.sleep(2)
 
 # Publish to the same topic in a loop forever
 loopCount = 0
+oldlogtime = 0
 blacklist = load_blacklist("mikev_house.txt")
 built_packetHandler = build_packetHandler("unix", blacklist)
 while True:
-    if args.mode == 'both' or args.mode == 'publish':
-        message = {}
-	output = sniff(iface = "wlan0mon", count = 1, prn = built_packetHandler)
-        #message['message'] = args.message
-        #message['sequence'] = loopCount
-	message['unique_count'] = wifiScan.unique_count
-	message['log_time'] = wifiScan.log_time
-	message['ap_mac_addr'] = wifiScan.ap_mac_addr
-	message['mac_addr'] = wifiScan.mac_addr
-	message['rssi'] = wifiScan.rssi
-	message['vendor'] = wifiScan.vendor
-	#message['output'] = output
-        messageJson = json.dumps(message)
-        myAWSIoTMQTTClient.publish(topic, messageJson, 1)
-        if args.mode == 'publish':
-            print('Published topic %s: %s\n' % (topic, messageJson))
-        loopCount += 1
-    time.sleep(1)
+	if args.mode == 'both' or args.mode == 'publish':
+		message = {}
+		output = sniff(iface = "wlan0mon", count = 1, prn = built_packetHandler)
+		#message['message'] = args.message
+		#message['sequence'] = loopCount
+		message['unique_count'] = wifiScan.unique_count
+		message['log_time'] = wifiScan.log_time
+		message['ap_mac_addr'] = wifiScan.ap_mac_addr
+		message['mac_addr'] = wifiScan.mac_addr
+		message['rssi'] = wifiScan.rssi
+		message['vendor'] = wifiScan.vendor
+		#message['output'] = output
+		messageJson = json.dumps(message)
+		if oldlogtime != wifiScan.log_time:
+			myAWSIoTMQTTClient.publish(topic, messageJson, 1)
+			oldlogtime = wifiScan.log_time
+			if args.mode == 'publish':
+				print('Published topic %s: %s\n' % (topic, messageJson))
+		loopCount += 1
+	time.sleep(1)
