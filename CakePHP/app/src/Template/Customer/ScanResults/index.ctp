@@ -33,7 +33,7 @@
                                     <td data-title="MAC Address"><?= h($scanResult['payload']['mac_addr']) ?></td>
                                     <td data-title="Vendor"><?= h($scanResult['payload']['vendor']) ?></td>
                                     <td data-title="RSSI"><?= $this->Number->format($scanResult['payload']['rssi']) ?></td>
-                                    <td data-title="Timestamp"><?= h($scanResult['log_time']) ?></td>
+                                    <td data-title="Timestamp"><?= h(gmdate("F j, Y, g:i a", $scanResult['log_time']/1000)) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
