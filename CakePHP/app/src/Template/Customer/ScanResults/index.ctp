@@ -29,7 +29,7 @@
                         <tbody>
                             <?php foreach ($scanResults as $scanResult): ?>
                                 <tr>
-                                    <td data-title="Access Point MAC Address"><?= h($scanResult['payload']['mac_addr']) ?></td>
+                                    <td data-title="Access Point MAC Address"><?= h($scanResult['payload']['ap_mac_addr']) ?></td>
                                     <td data-title="MAC Address"><?= h($scanResult['payload']['mac_addr']) ?></td>
                                     <td data-title="Vendor"><?= h($scanResult['payload']['vendor']) ?></td>
                                     <td data-title="RSSI"><?= $this->Number->format($scanResult['payload']['rssi']) ?></td>
