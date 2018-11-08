@@ -44,6 +44,7 @@
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <!-- Create a link to effectively paginate the data. This will pass back the LastEvaluatedKey to the controller
                         to rescan the dynamodB table with these values. --->
+                    <?php echo $this->Html->link('Previous', ['controller' => 'ScanResults', 'action' => 'index', '?' => ['page' => ($page-1), 'key' => serialize($prevlastvalkey)]], ['class' => 'pull-left btn btn-primary']); ?>
                     <?php echo $this->Html->link('Next', ['controller' => 'ScanResults', 'action' => 'index', '?' => ['page' => ($page+1), 'key' => serialize($lastevalkey)]], ['class' => 'pull-right btn btn-primary']); ?>
                 </div>
             </div>

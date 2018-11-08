@@ -72,9 +72,15 @@ class ScanResultsController extends AppController
             die();
         }
 
+        // Set the previous last evaluated key to be able to navigate back to the previous page
+        if (isset($lastevalkey)) {
+            $prevlastvalkey = $lastevalkey;
+        } else {
+            $prevlastvalkey = $result['LastEvaluatedKey'];
+        }
         $lastevalkey = $result['LastEvaluatedKey'];
 
-        $this->set(compact('scanResults','lastevalkey', 'page'));
+        $this->set(compact('scanResults','lastevalkey', 'prevlastvalkey', 'page'));
     }
 
     /**
