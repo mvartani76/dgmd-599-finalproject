@@ -88,13 +88,32 @@ class AccessPointsController extends AppController
         // Creating the JSON string that marshjson would have done
         $eav = array(":mmaacc"=>array("S"=>$apstr));
 
-        $params = [
-            'TableName' => $tableName,
-            'ProjectionExpression' => 'ap_mac_addr, payload.mac_addr, payload.vendor, payload.rssi, log_time',
-            'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
-            'ExpressionAttributeValues' => $eav,
-            'Limit' => 15
-        ];
+        $page = $this->request->getQuery('page', 0);
+        $key = $this->request->getQuery('key');
+        $key = $key ? unserialize($key) : $key;
+
+        if (isset($key)) {
+            $params = [
+                'TableName' => $tableName,
+                'ProjectionExpression' => 'ap_mac_addr, payload.mac_addr, payload.vendor, payload.rssi, log_time',
+                'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+                'ExpressionAttributeValues' => $eav,
+                'Limit' => 15,
+                'ExclusiveStartKey' => $key
+            ];
+        } else {
+            $params = [
+                'TableName' => $tableName,
+                'ProjectionExpression' => 'ap_mac_addr, payload.mac_addr, payload.vendor, payload.rssi, log_time',
+                'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+                'ExpressionAttributeValues' => $eav,
+                'Limit' => 15
+            ];
+        }
+
+
+        
+
 
         $scanResults = [];
 
@@ -110,7 +129,16 @@ class AccessPointsController extends AppController
             die();
         }
         $scanResults = (object) $scanResults;
-        $this->set(compact('scanResults'));
+
+        // Set the previous last evaluated key to be able to navigate back to the previous page
+        if (isset($lastevalkey)) {
+            $prevlastvalkey = $lastevalkey;
+        } else {
+            $prevlastvalkey = $result['LastEvaluatedKey'];
+        }
+        $lastevalkey = $result['LastEvaluatedKey'];
+
+        $this->set(compact('scanResults','lastevalkey', 'prevlastvalkey', 'page'));
         $this->set(compact('ic', 'notes', 'it', 'dc', 'periodStartRaw', 'periodEndRaw'));
         $this->set('accessPoint', $accessPoint);
     }
