@@ -142,13 +142,10 @@
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="profile-tab">
                         <div class="paginate-ajax-container">
                             <?php $this->start('paginated_content.scanResults'); ?>
-                            <?php if (is_object($scanResults) && !$scanResults->isEmpty()):
-                                $this->Paginator->setAjax();
-                                $this->Paginator->options(
-                                    [
-                                        'url' => array_merge($this->request->pass, ['ajax' => true, 'mdl' => 'scan_results'], $this->request->query)
-                                    ]
-                                ); ?>
+
+                            <!-- ScanResults is an array and not an object partially because it is coming from DynamodB -->
+                            <!-- Cannot use is_object() or is_empty() methods. Just use array count > 0. -->
+                            <?php if (count($scanResults, COUNT_RECURSIVE) > 0): ?>
                                 <div class="callout callout-info">
                                     <?= $this->Paginator->counter([
                                         'format' => 'Page {{page}} of {{pages}} - {{count}} total records'
@@ -158,33 +155,27 @@
                                     <table id="ScanResultsData" class="table-hover table-striped impressions-content">
                                         <thead>
                                         <tr>
-                                            <th><?= $this->Paginator->sort('id', 'Scan Result ID', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('mac_addr', 'MAC Address', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('vendor', 'Vendor', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('rssi', 'RSSI', ['model' => 'ScanResults']) ?></th>
                                             <th><?= $this->Paginator->sort('timestamp', 'Timestamp<br/>', ['model' => 'ScanResults', 'escape' => false]) ?></th>
-                                            <th class="actions" style="width: 233px;"><?= __('Actions') ?></th>
                                         </tr>
                                         </thead>
                                         <?php foreach($scanResults as $scanResult): ?>
                                             <?php
-                                            $data = $scanResult->toArray();
+                                            $data = $scanResult;
                                             $class = null;
                                             ?>
                                             <tr>
-                                                <td data-title="Scan Result ID"><?= $this->Number->format($scanResult->id) ?></td>
-                                                <td data-title="MAC Address"><?= h(join(':', str_split($scanResult->mac_addr,2))) ?></td>
-                                                <td data-title="Vendor"><?= h($scanResult->vendor) ?></td>
-                                                <td data-title="RSSI"><?= $this->Number->format($scanResult->rssi) ?></td>
-                                                <td data-title="Timestamp"><?= h($scanResult->scan_timestamp) ?></td>
-                                                <td data-title="Actions" class="actions" style="width: 233px;">
-                                                    <?= $this->Html->link('<i class="fa fa-search"></i>&nbsp;View', ['controller' => 'ScanResults', 'action' => 'view', $scanResult->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
-                                                </td>
+                                                <td data-title="MAC Address"><?= h($scanResult['payload']['mac_addr']) ?></td>
+                                                <td data-title="Vendor"><?= h($scanResult['payload']['vendor']) ?></td>
+                                                <td data-title="RSSI"><?= $this->Number->format($scanResult['payload']['rssi']) ?></td>
+                                                <td data-title="Timestamp"><?= h(gmdate("F j, Y, g:i a", $scanResult['log_time']/1000)) ?></td>
                                             </tr>
                                         <?php endforeach; ?>
                                     </table>
                                     <?= $this->element('paginator', ['model' => 'ScanResults', 'isAjax' => true]) ?>
-                                </div>
+                                </div> */
                             <?php else: ?>
                                 <ul id="NotesResults" class="messages">
                                     <li class="no-data">

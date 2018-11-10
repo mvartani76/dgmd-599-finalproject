@@ -8,6 +8,9 @@ use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 use Cake\Network\Exception\ForbiddenException;
 use Cake\Datasource\ConnectionManager;
+use Aws\Sdk as AwsSdk;
+use Aws\DynamoDb\Exception\DynamoDbException;
+use Aws\DynamoDb\Marshaler;
 /**
  * AccessPoints Controller
  *
@@ -49,7 +52,7 @@ class AccessPointsController extends AppController
 
         if (!$accessPoint) {
             $this->Flash->calloutFlash(
-                'The Access Point cannot be found or You do not have access to this beacon', [
+                'The Access Point cannot be found or You do not have access to this Access Point', [
                 'key' => 'authError',
                 'clear' => true,
                 'params' => [
@@ -61,100 +64,53 @@ class AccessPointsController extends AppController
             return $this->redirect(['action' => 'index']);
         }
 
-        if (isset($this->request->query['ajax']) && $this->request->query['ajax'] == true) {
-            if ($this->request->is('ajax')) {
-                $this->viewBuilder()->layout('ajax_paging');
-            }
-        }
-        if (isset($this->request->query['mdl'])) {
-            if ($this->request->is('ajax')) {
-                $this->viewBuilder()->layout('ajax_paging');
-                $this->set('contentKey', $this->request->query['mdl']);
-            }
-        }
+        // Pass in the AWS credentials from the .env file
+        $sdk = new AwsSdk([
+            'region'   => env('AWS_DYNAMODB_REGION', 'us-west-2'),
+            'version'  => env('AWS_DYNAMODB_VERSION', 'latest'),
+            'credentials' => [
+                'key' => env('AWS_DYNAMODB_CREDENTIALS_KEY', null),
+                'secret'  => env('AWS_DYNAMODB_CREDENTIALS_SECRET', null),
+            ],
+        ]);
 
-    if (!empty($this->request->data['action']) && $this->request->data['action'] == 'updateStats') {
+        // Create a DynamoDb instance
+        $dynamodb = $sdk->createDynamoDb();
+        $marshaler = new Marshaler();
 
-            $startDate  = urldecode($this->request->data['starttime']);
-            $endDate    = urldecode($this->request->data['endtime']);
+        $tableName = 'wdds_testdata';
 
-            $periodStart = date('Y-m-d 00:00:00', strtotime($startDate));
-            $periodEnd   = date('Y-m-d 23:59:59', strtotime($endDate));
+        // Need to format the access point mac address with colons as this is
+        // how it is stored in dynamo dB
+        $apstr = join(':', str_split($accessPoint->mac_addr,2));
 
-        } else {
+        // Set the filter expression for mac address to be the selected access point mac address
+        // Creating the JSON string that marshjson would have done
+        $eav = array(":mmaacc"=>array("S"=>$apstr));
 
-            $periodStart  = date('Y-m-d 00:00:00', strtotime('-7 days'));
-            $periodEnd    = date('Y-m-d 23:59:59', time());
-        }
-        $pageNumber = [
-            'scan_results' => 1,
-            'AccessPointsNotes' => 1
+        $params = [
+            'TableName' => $tableName,
+            'ProjectionExpression' => 'ap_mac_addr, payload.mac_addr, payload.vendor, payload.rssi, log_time',
+            'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+            'limit' => 15,
+            'ExpressionAttributeValues' => $eav
         ];
 
-        if (!empty($this->request->query)) {
-            if (!empty($this->request->query['ajax']) && $this->request->query['ajax']) {
+        $scanResults = [];
 
-                $page = (!empty($this->request->query['page'])) ? $this->request->query['page'] : 1;
-                $pageNumber[$this->request->query['mdl']] = $page;
-
+        try {
+            $result = $dynamodb->query($params);
+            foreach ($result['Items'] as $mac_addr) {
+                $scanResults[] = $marshaler->unmarshalItem($mac_addr);
             }
+
+        } catch (DynamoDbException $e) {
+            echo "Unable to query:\n";
+            echo $e->getMessage() . "\n";
+            die();
         }
-        if (!empty($this->request->query['mdl'])) {
-            if ($this->request->query['mdl'] === 'AccessPointsNotes') {
-                $accessPointsNotesPage = true;
-                $scanResultsPage = false;
-            } elseif ($this->request->query['mdl'] === 'scan_results') {
-                $scanResultsPage = true;
-                $accessPointsNotesPage = false;
-            }
-        } else {
-            $scanResultsPage = true;
-            $accessPointsNotesPage = true;
-        }
-        $periodStartRaw = date('Y-m-d h:i:s', strtotime($periodStart));
-        $periodEndRaw   = date('Y-m-d h:i:s', strtotime($periodEnd));
-
-
-        if ($scanResultsPage) {
-            $scanResults  = $this->Paginator->paginate(
-                $this->AccessPoints->scan_results
-                    ->find()
-                    ->where(
-                        [
-                            'scan_results.accesspoint_id' => $id
-                        ]
-                    )
-                    ->contain(
-                        [
-                            'access_points'
-                        ]
-                    )
-                    ->order(
-                        [
-                            'scan_timestamp' => 'DESC'
-                        ]
-                    ),
-                [
-                    'limit' => 10,
-                    'page' => $pageNumber['scan_results'],
-                    'sortWhitelist' => [
-                        'id',
-                        'location',
-                        'total_devices_count',
-                        'regional_name'
-                    ]
-                ]
-
-            );
-        } else {
-            $scanResults = [];
-        }
-
-
-
-        $scanResults    = TableRegistry::get('scan_results')->find();
-
-        $this->set('scanResults', $scanResults);
+        $scanResults = (object) $scanResults;
+        $this->set(compact('scanResults'));
         $this->set(compact('ic', 'notes', 'it', 'dc', 'periodStartRaw', 'periodEndRaw'));
         $this->set('accessPoint', $accessPoint);
     }
