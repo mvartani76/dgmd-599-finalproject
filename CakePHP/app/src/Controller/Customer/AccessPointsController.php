@@ -92,8 +92,8 @@ class AccessPointsController extends AppController
             'TableName' => $tableName,
             'ProjectionExpression' => 'ap_mac_addr, payload.mac_addr, payload.vendor, payload.rssi, log_time',
             'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
-            'limit' => 15,
-            'ExpressionAttributeValues' => $eav
+            'ExpressionAttributeValues' => $eav,
+            'Limit' => 15
         ];
 
         $scanResults = [];
