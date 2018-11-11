@@ -74,6 +74,24 @@ class AccessPointsController extends AppController
             ],
         ]);
 
+        if (!empty($this->request->data['action']) && $this->request->data['action'] == 'updateStats') {
+
+            $startDate  = urldecode($this->request->data['starttime']);
+            $endDate    = urldecode($this->request->data['endtime']);
+
+            $periodStart = date('Y-m-d 00:00:00', strtotime($startDate));
+            $periodEnd   = date('Y-m-d 23:59:59', strtotime($endDate));
+
+        } else {
+
+            $periodStart  = date('Y-m-d 00:00:00', strtotime('-7 days'));
+            $periodEnd    = date('Y-m-d 23:59:59', time());
+        }
+
+
+        $periodStartRaw = date('Y-m-d h:i:s', strtotime($periodStart));
+        $periodEndRaw   = date('Y-m-d h:i:s', strtotime($periodEnd));
+
         // Create a DynamoDb instance
         $dynamodb = $sdk->createDynamoDb();
         $marshaler = new Marshaler();
@@ -91,6 +109,16 @@ class AccessPointsController extends AppController
         $page = $this->request->getQuery('page', 0);
         $key = $this->request->getQuery('key');
         $key = $key ? unserialize($key) : $key;
+
+
+        $count_params = [
+            'TableName' => $tableName,
+            'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+            'ExpressionAttributeValues' => $eav,
+            'Select' => "COUNT"
+            ];
+
+
 
         if (isset($key)) {
             $params = [
@@ -111,11 +139,19 @@ class AccessPointsController extends AppController
             ];
         }
 
-
-        
-
-
         $scanResults = [];
+
+        // Count the number items matching the filter conditions but not limiting to 15
+        // Not sure which is the more efficient method?
+        try {
+            $countresult = $dynamodb->query($count_params);
+        } catch (DynamoDbException $e) {
+            echo "Unable to query:\n";
+            echo $e->getMessage() . "\n";
+            die();
+        }
+
+        $totalScanCount = $countresult['Count'];
 
         try {
             $result = $dynamodb->query($params);
@@ -128,6 +164,7 @@ class AccessPointsController extends AppController
             echo $e->getMessage() . "\n";
             die();
         }
+
         $scanResults = (object) $scanResults;
 
         // Set the previous last evaluated key to be able to navigate back to the previous page
@@ -139,7 +176,7 @@ class AccessPointsController extends AppController
         $lastevalkey = $result['LastEvaluatedKey'];
 
         $this->set(compact('scanResults','lastevalkey', 'prevlastvalkey', 'page'));
-        $this->set(compact('ic', 'notes', 'it', 'dc', 'periodStartRaw', 'periodEndRaw'));
+        $this->set(compact('totalScanCount', 'notes', 'it', 'dc', 'periodStartRaw', 'periodEndRaw'));
         $this->set('accessPoint', $accessPoint);
     }
 

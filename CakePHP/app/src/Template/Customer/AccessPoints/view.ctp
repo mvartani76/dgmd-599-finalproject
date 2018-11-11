@@ -55,15 +55,13 @@
 
     var commaStep = $.animateNumber.numberStepFactories.separator(',');
 
-    $('#ImpressionsCount').animateNumber({numberStep: commaStep, number: <?= $accessPoint->impressions_count; ?>});
-    $('#DevicesCount').animateNumber({numberStep: commaStep, number: <?= $accessPoint->total_devices_count ?>});
-    $('#Impressions7Count').animateNumber({numberStep: commaStep, number: <?= $ic ?>});
+    $('#TotalScanCount').animateNumber({numberStep: commaStep, number: <?= $totalScanCount ?>});
     <?php $this->Html->scriptEnd(); ?>
 </script>
 
 
 <?= $this->element('Header/Common/filter_bar'); ?>
-<?= $this->element('Header/Common/stats_bar',['type'=>'accesspoints']); ?>
+<?= $this->element('Header/Common/stats_bar',['type' => 'accesspoints']); ?>
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
         <div class="x_title">
@@ -141,16 +139,9 @@
                     </div>
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="profile-tab">
                         <div class="paginate-ajax-container">
-                            <?php $this->start('paginated_content.scanResults'); ?>
-
                             <!-- ScanResults is an array and not an object partially because it is coming from DynamodB -->
                             <!-- Cannot use is_object() or is_empty() methods. Just use array count > 0. -->
                             <?php if (count($scanResults, COUNT_RECURSIVE) > 0): ?>
-                                <div class="callout callout-info">
-                                    <?= $this->Paginator->counter([
-                                        'format' => 'Page {{page}} of {{pages}} - {{count}} total records'
-                                    ]) ?>
-                                </div>
                                 <div class="col-md-12 col-sm-12 col-xs-12 table-custom">
                                     <table id="ScanResultsData" class="table-hover table-striped impressions-content">
                                         <thead>
@@ -177,8 +168,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
-                                        <!-- Create a link to effectively paginate the data. This will pass back the LastEvaluatedKey to the controller
-                                            to rescan the dynamodB table with these values. --->
+                                        <!-- Create a link to effectively paginate the data. This will pass back the LastEvaluatedKey to the controller to rescan the dynamodB table with these values. --->
                                         <?php echo $this->Html->link('Previous', ['controller' => 'AccessPoints', 'action' => 'view', $accessPoint->id, '?' => ['page' => ($page-1), 'key' => serialize($prevlastvalkey)]], ['class' => 'pull-left btn btn-primary']); ?>
                                         <?php echo $this->Html->link('Next', ['controller' => 'AccessPoints', 'action' => 'view', $accessPoint->id, '?' => ['page' => ($page+1), 'key' => serialize($lastevalkey)]], ['class' => 'pull-right btn btn-primary']); ?>
                                     </div>
@@ -191,7 +181,7 @@
                                 </ul>
                             <?php endif; ?>
                             <?php $this->end(); ?>
-                            <?php echo $this->fetch('paginated_content.scanResults'); ?>
+                            
                         </div>
                     </div>
                 </div>

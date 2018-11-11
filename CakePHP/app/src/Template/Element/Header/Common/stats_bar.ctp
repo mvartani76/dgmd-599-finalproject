@@ -311,3 +311,48 @@
         </div>
     </div>
 <?php endif; ?>
+<?php if ($type == 'accesspoints'): ?>
+    <div class="top_tiles">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-cube"></i>
+                </div>
+                <div class="count">
+                    <a href="#" id="TotalScanCount">
+                        0
+                    </a>
+                </div>
+
+                <h3>Total Scan Results</h3>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-cubes"></i></div>
+                <div class="count">
+                    <a href="#" id="AllCampaignsCount">
+                        0
+                    </a>
+                </div>
+
+                <h3>Unique Devices</h3>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-location-arrow"></i>
+                </div>
+                <div class="count">
+                    <a href="#" id="ImpressionsCount">
+                        0
+                    </a>
+                </div>
+
+                <h3>Activity for Time Period</h3>
+                <p class="time-filter-period">Last 7 days</p>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
