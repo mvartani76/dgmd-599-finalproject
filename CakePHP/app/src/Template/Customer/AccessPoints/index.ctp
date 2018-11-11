@@ -32,13 +32,13 @@
                                     <td data-title="Total Unique Devices Count"><?= $this->Number->format($accessPoint->total_unique_devices_count) ?></td>
                                     <td data-title="Location">
                                     <?php if (!empty($accessPoint->apzone->location)): ?>
-                                    <a title="<?=$accessPoint->apzone->location->address1; ?>" href="/customer/locations/view/<?= $accessPoint->apzone->location->id; ?>"><?=$accessPoint->apzone->location->location; ?> [<?= $accessPoint->apzone->location->city; ?>]</a>
+                                        <a title="<?=$accessPoint->apzone->location->address1; ?>" href="/customer/locations/view/<?= $accessPoint->apzone->location->id; ?>"><?=$accessPoint->apzone->location->location; ?> [<?= $accessPoint->apzone->location->city; ?>]</a>
                                     <?php endif; ?>
-                                </td>
+                                    </td>
                                     <td data-title="Created"><?= $accessPoint->created?></td>
                                     <td data-title="Modified"><?= $accessPoint->modified?></td>
                                     <td data-title="Actions" class="actions">
-                                    <?= $this->Html->link('<i class="fa fa-search"></i>&nbsp;View Details', ['action' => 'view', $accessPoint->id], ['class' => 'btn btn-default btn-xs', 'escape' => false]); ?>
+                                    <?= $this->Html->link('<i class="fa fa-search"></i>&nbsp;View Details', ['action' => 'view', $accessPoint->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
                                     <?= $this->Html->link('<i class="fa fa-pencil"></i>&nbsp;Edit', ['action' => 'edit', $accessPoint->id], ['class' => 'btn btn-default btn-xs', 'escape' => false]); ?>
                                     </td>
                                 </tr>
