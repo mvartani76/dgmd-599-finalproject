@@ -65,11 +65,15 @@ class AccessPointsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->scalar('mac_addr')
-            ->maxLength('mac_addr', 12)
             ->requirePresence('mac_addr', 'create')
-            ->notEmpty('mac_addr');
-
+            ->notEmpty('mac_addr')
+            ->add('mac_addr', 'validLength', [
+                    'rule' => [$this, 'isValidMacAddrLength'],
+                    'message' => 'Make sure MAC Address is 12 characters'])
+            ->add('mac_addr', 'validChars', [
+                    'rule' => [$this, 'isValidMacAddrChars'],
+                    'message' => 'Make sure MAC Address contains only characters 0-9 and a-f']);
+            
         $validator
             ->allowEmpty('total_devices_count');
 
@@ -91,5 +95,34 @@ class AccessPointsTable extends Table
         $rules->add($rules->existsIn(['customer_id'], 'Customers'));
 
         return $rules;
+    }
+
+    /**
+     * Function to use in validator that checks to see if the 
+     * entered MAC Address input is 12 characters.
+     */
+    public function isValidMacAddrLength($value, $context)
+    {
+        if (strlen($value) != 12) {
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    /**
+     * Function to use in validator that checks to make sure that
+     * only hexadecimal characters are entered. Hex characters are
+     * abcdef and 0123456789.
+     */
+    public function isValidMacAddrChars($value, $context)
+    {
+        if (!preg_match("/[^abcdef\d]/",$value)) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

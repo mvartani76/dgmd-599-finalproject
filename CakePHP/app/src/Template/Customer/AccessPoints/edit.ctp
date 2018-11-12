@@ -19,7 +19,11 @@
                     <div class="form-group">
                         <?= $this->Form->label('mac_addr', 'MAC Address', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                            <?= $this->Form->input('mac_addr', ['label' => false, 'class' => 'form-control col-md-3 col-xs-12']);?>
+                            <?= $this->Form->input('mac_addr', ['label' => false, 'error' => false, 'class' => 'form-control']);?>
+                            <!-- Insert Error Message below input form field -->
+                            <?php if ($this->Form->isFieldError('mac_addr')): ?>
+                                <?= $this->Form->error('mac_addr') ?>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
