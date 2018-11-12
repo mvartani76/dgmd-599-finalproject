@@ -35,13 +35,52 @@
         </div>
         <?= $this->Form->end() ?>
     </div>
-    <?= $this->Form->end();?>
 </div>
 
 <script>
     $(document).ready(function() {
        $('#addAccessPointForm').submit(function(e) {
            e.preventDefault();
+
+           // Read in the mac_addr form value
+           var mac_addr = document.forms["addAccessPointForm"]["mac_addr"];
+           var matches = mac_addr.value.match(/[^abcdef\d]/);
+
+           // First check to see if there is a MAC Address value entered in the form
+           if (mac_addr.value == "")
+           {
+                $('.message-callout').switchClass('callout-success', 'callout-error');
+                $('.callout-title').text('Enter MAC Address');
+                $('.callout-text').text('There was an error inserting this Access Point. You need to provide a MAC Address value.');
+                $('.message-callout').show();
+                mac_addr.focus();
+                return false;
+           }
+
+           // Then make sure the MAC Address is 12 characters. Form limits more than 12 so can check using less than.
+           if (mac_addr.value.length < 12)
+           {
+                $('.message-callout').switchClass('callout-success', 'callout-error');
+                $('.callout-title').text('Enter MAC Address');
+                $('.callout-text').text('There was an error inserting this Access Point. The MAC Address needs to be 12 characters.');
+                $('.message-callout').show();
+                mac_addr.focus();
+                return false;
+           }
+
+           // Finally check to see if there are any invalid characters in the input
+           if (matches)
+           {
+                $('.message-callout').switchClass('callout-success', 'callout-error');
+                $('.callout-title').text('Enter MAC Address');
+                $('.callout-text').text('There was an error inserting this Access Point. The MAC Address can only be hexadecimal values.');
+                $('.message-callout').show();
+                mac_addr.focus();
+                return false;
+           }
+
+           // If it passes all form validation, then we can submit
+
            var jqxhr = $.post('/customer/Locations/addAccessPoint', $('#addAccessPointForm').serialize(), function(data) {
                console.log(data);
                var r = $.parseJSON(data);
@@ -71,7 +110,6 @@
                    $('.message-callout').switchClass('callout-success', 'callout-error')
                    $('.callout-title').text(r.message);
                    $('.callout-text').text('There was an error inserting this Access Point, this could be for several reasons, please send a screenshot of this message to support');
-
                }
            });
 
