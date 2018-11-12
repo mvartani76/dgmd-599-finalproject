@@ -128,6 +128,7 @@
                     <li role="presentation" class=""><a href="#tab_content3" role="tab" id="notes-tab3" data-toggle="tab" aria-expanded="false" data-url="/customer/locations/ajaxImpressions/<?= $location->id;?>">All Beacon Impressions</a></li>
                     <li role="presentation" class=""><a href="#tab_content6" role="tab" id="notes-tab6" data-toggle="tab" aria-expanded="false" data-url="/customer/locations/ajaxImpressions/<?= $location->id;?>/geofences">All Geofence Impressions</a></li>
                     <li role="presentation" class=""><a href="#tab_content4" role="tab" id="notes-tab4" data-toggle="tab" aria-expanded="false">Zones</a></li>
+                    <li role="presentation" class=""><a href="#tab_content9" role="tab" id="notes-tab4" data-toggle="tab" aria-expanded="false">Apzones</a></li>
                     <li role="presentation" class=""><a href="#tab_content5" role="tab" id="notes-tab5" data-toggle="tab" aria-expanded="false">Location Information</a></li>
                     <li role="presentation" class=""><a href="#tab_content7" role="tab" id="notes-tab7" data-toggle="tab" aria-expanded="false">Add / Assign a beacon to this location</a></li>
                     <li role="presentation" class=""><a href="#tab_content8" role="tab" id="notes-tab8" data-toggle="tab" aria-expanded="false">Add / Assign an access point to this location</a></li>
@@ -135,6 +136,7 @@
                 <div id="myTabContent" class="tab-content">
                     <?= $this->element('CustomerSection/Locations/View/Tabs/Notes'); ?>
                     <?= $this->element('CustomerSection/Locations/View/Tabs/Zones'); ?>
+                    <?= $this->element('CustomerSection/Locations/View/Tabs/Apzones'); ?>
                     <!-- impressions tab loaded by AJAX -->
                     <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
                         <ul id="NotesResults" class="messages">
