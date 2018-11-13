@@ -21,6 +21,13 @@ use Aws\DynamoDb\Marshaler;
 class AccessPointsController extends AppController
 {
 
+
+    public function beforeFilter(Event $event) {
+        $this->Security->config('unlockedActions', ['view']);
+        parent::beforeFilter($event);
+    }
+
+
     /**
      * Index method
      *
@@ -74,6 +81,18 @@ class AccessPointsController extends AppController
             ],
         ]);
 
+        if (isset($this->request->query['ajax']) && $this->request->query['ajax'] == true) {
+            if ($this->request->is('ajax')) {
+                $this->viewBuilder()->layout('ajax_paging');
+            }
+        }
+        if (isset($this->request->query['mdl'])) {
+            if ($this->request->is('ajax')) {
+                $this->viewBuilder()->layout('ajax_paging');
+                $this->set('contentKey', $this->request->query['mdl']);
+            }
+        }
+
         if (!empty($this->request->data['action']) && $this->request->data['action'] == 'updateStats') {
 
             $startDate  = urldecode($this->request->data['starttime']);
@@ -88,6 +107,9 @@ class AccessPointsController extends AppController
             $periodStart  = strtotime('-7 days')*1000;
             $periodEnd    = time()*1000;
         }
+
+        $periodStartRaw = date('Y-m-d h:i:s', $periodStart/1000);
+        $periodEndRaw   = date('Y-m-d h:i:s', $periodEnd/1000);
 
 
         // Create a DynamoDb instance
@@ -199,9 +221,13 @@ class AccessPointsController extends AppController
         }
         $lastevalkey = $result['LastEvaluatedKey'];
 
+        $this->set('accessPoint', $accessPoint);
+
         $this->set(compact('scanResults','lastevalkey', 'prevlastvalkey', 'page'));
         $this->set(compact('totalScanCount', 'totalScanCount_time', 'notes', 'dc', 'periodStartRaw', 'periodEndRaw'));
-        $this->set('accessPoint', $accessPoint);
+
+        // Need to serialize the variables to have them visible for the JSON response
+        $this->set('_serialize', ['totalScanCount', 'totalScanCount_time']);
     }
 
     /**

@@ -345,7 +345,7 @@
                 <div class="icon"><i class="fa fa-location-arrow"></i>
                 </div>
                 <div class="count">
-                    <a href="#" id="TotalScanCount_time">
+                    <a href="#" data-map="/customer/scanresults/viewby/accesspoint/<?= $accessPoint->id ?>?stdt={START}&nddt={END}" id="TotalScanCount_time">
                         0
                     </a>
                 </div>
