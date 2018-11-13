@@ -56,6 +56,7 @@
     var commaStep = $.animateNumber.numberStepFactories.separator(',');
 
     $('#TotalScanCount').animateNumber({numberStep: commaStep, number: <?= $totalScanCount ?>});
+    $('#TotalScanCount_time').animateNumber({numberStep: commaStep, number: <?= $totalScanCount_time ?>});
     <?php $this->Html->scriptEnd(); ?>
 </script>
 

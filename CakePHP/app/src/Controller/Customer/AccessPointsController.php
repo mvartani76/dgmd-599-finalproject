@@ -79,18 +79,16 @@ class AccessPointsController extends AppController
             $startDate  = urldecode($this->request->data['starttime']);
             $endDate    = urldecode($this->request->data['endtime']);
 
-            $periodStart = date('Y-m-d 00:00:00', strtotime($startDate));
-            $periodEnd   = date('Y-m-d 23:59:59', strtotime($endDate));
+            // Keeping in unix time (in msec) as that is what is stored in dynamoDB
+            $periodStart = strtotime($startDate)*1000;
+            $periodEnd   = strtotime($endDate)*1000;
 
         } else {
 
-            $periodStart  = date('Y-m-d 00:00:00', strtotime('-7 days'));
-            $periodEnd    = date('Y-m-d 23:59:59', time());
+            $periodStart  = strtotime('-7 days')*1000;
+            $periodEnd    = time()*1000;
         }
 
-
-        $periodStartRaw = date('Y-m-d h:i:s', strtotime($periodStart));
-        $periodEndRaw   = date('Y-m-d h:i:s', strtotime($periodEnd));
 
         // Create a DynamoDb instance
         $dynamodb = $sdk->createDynamoDb();
@@ -106,11 +104,16 @@ class AccessPointsController extends AppController
         // Creating the JSON string that marshjson would have done
         $eav = array(":mmaacc"=>array("S"=>$apstr));
 
+        // Set the ExpressionAttributeValues for the time based query.
+        // Note that the numbers for starttime/endtime need to be surrounded by double quotation marks.
+        $eav_time = array(":mmaacc"=>array("S"=>$apstr),":starttime"=>array("N"=>"$periodStart"),":endtime"=>array("N"=>"$periodEnd"));
+
         $page = $this->request->getQuery('page', 0);
         $key = $this->request->getQuery('key');
         $key = $key ? unserialize($key) : $key;
 
 
+        // Set the params for the dB query to count all scanresults
         $count_params = [
             'TableName' => $tableName,
             'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
@@ -118,8 +121,17 @@ class AccessPointsController extends AppController
             'Select' => "COUNT"
             ];
 
+        // Set the params for the dB query to count scanresults over the selected time period
+        $count_params_time = [
+            'TableName' => $tableName,
+            'KeyConditionExpression' => 'ap_mac_addr = :mmaacc AND log_time BETWEEN :starttime AND :endtime',
+            'ExpressionAttributeValues' => $eav_time,
+            'Select' => "COUNT"
+            ];
 
-
+        // Set the params for the dB scan to show results for access point
+        // Conditionally set the params using ExclusiveStartKey if available
+        // Limit the results to 15
         if (isset($key)) {
             $params = [
                 'TableName' => $tableName,
@@ -153,6 +165,18 @@ class AccessPointsController extends AppController
 
         $totalScanCount = $countresult['Count'];
 
+        // Count the number items matching the filter conditions over the time period
+        // but not limiting to 15. Not sure which is the more efficient method?
+        try {
+            $countresult_time = $dynamodb->query($count_params_time);
+        } catch (DynamoDbException $e) {
+            echo "Unable to query:\n";
+            echo $e->getMessage() . "\n";
+            die();
+        }
+
+        $totalScanCount_time = $countresult_time['Count'];
+
         try {
             $result = $dynamodb->query($params);
             foreach ($result['Items'] as $mac_addr) {
@@ -176,7 +200,7 @@ class AccessPointsController extends AppController
         $lastevalkey = $result['LastEvaluatedKey'];
 
         $this->set(compact('scanResults','lastevalkey', 'prevlastvalkey', 'page'));
-        $this->set(compact('totalScanCount', 'notes', 'it', 'dc', 'periodStartRaw', 'periodEndRaw'));
+        $this->set(compact('totalScanCount', 'totalScanCount_time', 'notes', 'dc', 'periodStartRaw', 'periodEndRaw'));
         $this->set('accessPoint', $accessPoint);
     }
 
@@ -257,9 +281,10 @@ class AccessPointsController extends AppController
                         'fa' => 'excl'
                     ]
                 ]);
+
+
                 return $this->redirect(['action' => 'add']);
             }
-
         }
         $customers = $this->AccessPoints->Customers->find('list', ['limit' => 200]);
         

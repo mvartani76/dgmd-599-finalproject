@@ -345,7 +345,7 @@
                 <div class="icon"><i class="fa fa-location-arrow"></i>
                 </div>
                 <div class="count">
-                    <a href="#" id="ImpressionsCount">
+                    <a href="#" id="TotalScanCount_time">
                         0
                     </a>
                 </div>
