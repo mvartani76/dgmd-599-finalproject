@@ -4,6 +4,11 @@
  * @var \App\Model\Entity\ScanResult[]|\Cake\Collection\CollectionInterface $scanResults
  */
 ?>
+<style>
+    td.scantime {
+        flex-direction: row-reverse;
+    }
+</style>
 
 <?php $this->set('pageTitle', 'Scan Results'); ?>
 
@@ -33,7 +38,7 @@
                                     <td data-title="MAC Address"><?= h($scanResult['payload']['mac_addr']) ?></td>
                                     <td data-title="Vendor"><?= h($scanResult['payload']['vendor']) ?></td>
                                     <td data-title="RSSI"><?= $this->Number->format($scanResult['payload']['rssi']) ?></td>
-                                    <td data-title="Timestamp"><?= h(gmdate("F j, Y, g:i a", $scanResult['log_time']/1000)) ?></td>
+                                    <td class = "scantime" data-title="Timestamp"><?= h(gmdate("F j, Y, g:i a", $scanResult['log_time']/1000)) ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
