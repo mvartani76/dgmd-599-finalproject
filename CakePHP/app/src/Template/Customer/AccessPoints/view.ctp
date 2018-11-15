@@ -60,16 +60,28 @@
     var commaStep = $.animateNumber.numberStepFactories.separator(',');
 
     $('#TotalScanCount').animateNumber({numberStep: commaStep, number: <?= $totalScanCount ?>});
+    $('#TotalUniqueDevices').animateNumber({numberStep: commaStep, number: <?= $totalUniqueDevices ?>});
     $('#TotalScanCount_time').animateNumber({numberStep: commaStep, number: <?= $totalScanCount_time ?>});
+    $('#TotalUniqueDevices_time').animateNumber({numberStep: commaStep, number: <?= $totalUniqueDevices_time ?>});
     <?php $this->Html->scriptEnd(); ?>
 </script>
 
 <!-- Display Access Point ID at the top of the page so the user knows which access point
      the data is associated with. -->
-<div class="x_title">
-    <h2>Access Point ID ID #<?= $accessPoint->id ?> (<?= h(join(':', str_split($accessPoint->mac_addr,2))) ?>)</h2>
-    <div class="clearfix"></div>
+
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <div class="x_panel">
+        <div class="row x_title" style="border-bottom: none; padding-bottom: 0; margin-bottom: 0;">
+            <div class="col-md-6">
+                <h2>Access Point ID ID #<?= $accessPoint->id ?> (<?= h(join(':', str_split($accessPoint->mac_addr,2))) ?>)</h2>
+            </div>
+            <?= $this->element('Header/daterangepicker') ?>
+        </div>
+    </div>
 </div>
+
+
+
 <?= $this->element('Header/Common/stats_bar',['type' => 'accesspoints']); ?>
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
