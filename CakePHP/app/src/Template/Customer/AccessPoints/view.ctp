@@ -174,8 +174,16 @@
                                 <div class="row">
                                     <div class="col-md-12 col-sm-12 col-xs-12">
                                         <!-- Create a link to effectively paginate the data. This will pass back the LastEvaluatedKey to the controller to rescan the dynamodB table with these values. --->
-                                        <?php echo $this->Html->link('Previous', ['controller' => 'AccessPoints', 'action' => 'view', $accessPoint->id, '?' => ['page' => ($page-1), 'key' => serialize($prevlastvalkey)]], ['class' => 'pull-left btn btn-primary']); ?>
-                                        <?php echo $this->Html->link('Next', ['controller' => 'AccessPoints', 'action' => 'view', $accessPoint->id, '?' => ['page' => ($page+1), 'key' => serialize($lastevalkey)]], ['class' => 'pull-right btn btn-primary']); ?>
+
+                                        <!-- Do not display the Previous link if on the first page (page 0) -->
+                                        <?php if ($page > 0): ?>
+                                            <?php echo $this->Html->link('Previous', ['controller' => 'AccessPoints', 'action' => 'view', $accessPoint->id, '?' => ['page' => ($page-1), 'key' => serialize($prevlastvalkey)]], ['class' => 'pull-left btn btn-primary']); ?>
+                                        <?php endif; ?>
+
+                                        <!-- Only display the Next link if there are more results. -->
+                                        <?php if ($lastevalkey != null): ?>
+                                            <?php echo $this->Html->link('Next', ['controller' => 'AccessPoints', 'action' => 'view', $accessPoint->id, '?' => ['page' => ($page+1), 'key' => serialize($lastevalkey)]], ['class' => 'pull-right btn btn-primary']); ?>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             <?php else: ?>
