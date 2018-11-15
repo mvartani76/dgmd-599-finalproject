@@ -151,6 +151,24 @@ class AccessPointsController extends AppController
             'Select' => "COUNT"
             ];
 
+        // Set the params for the dB query to show total scanresults
+        // Used for displaying unique devices over a given time
+        $unique_params = [
+            'TableName' => $tableName,
+            'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+            'ExpressionAttributeValues' => $eav,
+            'Select' => "ALL_ATTRIBUTES"
+            ];
+
+        // Set the params for the dB query to show scanresults over the selected time period
+        // Used for displaying unique devices over a given time
+        $unique_params_time = [
+            'TableName' => $tableName,
+            'KeyConditionExpression' => 'ap_mac_addr = :mmaacc AND log_time BETWEEN :starttime AND :endtime',
+            'ExpressionAttributeValues' => $eav_time,
+            'Select' => "ALL_ATTRIBUTES"
+            ];
+
         // Set the params for the dB scan to show results for access point
         // Conditionally set the params using ExclusiveStartKey if available
         // Limit the results to 15
@@ -199,6 +217,45 @@ class AccessPointsController extends AppController
 
         $totalScanCount_time = $countresult_time['Count'];
 
+        // Query the total amount of scan results available for the given access point
+        try {
+            $result = $dynamodb->query($unique_params);
+            foreach ($result['Items'] as $mac_addr) {
+                $totalScanResults[] = $marshaler->unmarshalItem($mac_addr);
+            }
+
+        } catch (DynamoDbException $e) {
+            echo "Unable to query:\n";
+            echo $e->getMessage() . "\n";
+            die();
+        }
+
+        // Count the total unique device mac addresses
+        // This assumes that mac addr is a column of the payload array and payload is a column of the totalScanResults array
+        $totalUniqueDevices = count(array_unique(array_column(array_column($totalScanResults,'payload'),'mac_addr')));
+
+        // Query the total amount of scan results available for the given access point over a specified time
+        try {
+            $result = $dynamodb->query($unique_params_time);
+            foreach ($result['Items'] as $mac_addr) {
+                $totalScanResults_time[] = $marshaler->unmarshalItem($mac_addr);
+            }
+
+        } catch (DynamoDbException $e) {
+            echo "Unable to query:\n";
+            echo $e->getMessage() . "\n";
+            die();
+        }
+
+        // Count the total unique device mac addresses over time
+        // This assumes that mac addr is a column of the payload array and payload is a column of the totalScanResults array
+        if ($result['Count'] > 0) {
+            $totalUniqueDevices_time = count(array_unique(array_column(array_column($totalScanResults_time,'payload'),'mac_addr')));
+        } else {
+            $totalUniqueDevices_time = 0;
+        }
+
+        // Query the scan results for the given access point but limit to 15 items
         try {
             $result = $dynamodb->query($params);
             foreach ($result['Items'] as $mac_addr) {
@@ -224,10 +281,11 @@ class AccessPointsController extends AppController
         $this->set('accessPoint', $accessPoint);
 
         $this->set(compact('scanResults','lastevalkey', 'prevlastvalkey', 'page'));
-        $this->set(compact('totalScanCount', 'totalScanCount_time', 'notes', 'dc', 'periodStartRaw', 'periodEndRaw'));
+        $this->set(compact('totalScanCount', 'totalScanCount_time', 'totalUniqueDevices', 'totalUniqueDevices_time'));
+        $this->set(compact('notes', 'periodStartRaw', 'periodEndRaw'));
 
         // Need to serialize the variables to have them visible for the JSON response
-        $this->set('_serialize', ['totalScanCount', 'totalScanCount_time']);
+        $this->set('_serialize', ['totalScanCount', 'totalScanCount_time', 'totalUniqueDevices', 'totalUniqueDevices_time']);
     }
 
     /**

@@ -60,8 +60,10 @@ $(function() {
                     $('#BeaconsCount').animateNumber({numberStep: commaStep,        number: data.RetailerBeaconCount   });
                 }
                 if(typeof ACCESS_POINT_ID !== "undefined"){
-                    $('#TotalScanCount').animateNumber({numberStep: commaStep, number: data.TotalScanCount});
+                    $('#TotalScanCount').animateNumber({numberStep: commaStep, number: data.totalScanCount});
+                    $('#TotalUniqueDevices').animateNumber({numberStep: commaStep, number: data.totalUniqueDevices});
                     $('#TotalScanCount_time').animateNumber({numberStep: commaStep, number: data.totalScanCount_time});
+                    $('#TotalUniqueDevices_time').animateNumber({numberStep: commaStep, number: data.totalUniqueDevices_time});
                 }                
             });
         setValuesDateRange($('.dateRange.start-range-date').data('DateTimePicker').date(), $('.dateRange.end-range-date').data('DateTimePicker').date());
