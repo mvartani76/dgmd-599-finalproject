@@ -64,8 +64,12 @@
     <?php $this->Html->scriptEnd(); ?>
 </script>
 
-
-<?= $this->element('Header/Common/filter_bar'); ?>
+<!-- Display Access Point ID at the top of the page so the user knows which access point
+     the data is associated with. -->
+<div class="x_title">
+    <h2>Access Point ID ID #<?= $accessPoint->id ?> (<?= h(join(':', str_split($accessPoint->mac_addr,2))) ?>)</h2>
+    <div class="clearfix"></div>
+</div>
 <?= $this->element('Header/Common/stats_bar',['type' => 'accesspoints']); ?>
 <div class="col-md-12 col-sm-12 col-xs-12">
     <div class="x_panel">
