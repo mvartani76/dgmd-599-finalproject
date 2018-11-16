@@ -315,42 +315,58 @@
     <div class="top_tiles">
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
-                <div class="icon"><i class="fa fa-cube"></i>
+                <div class="icon"><i class="fa fa-cube" style="font-size:48px;"></i>
                 </div>
                 <div class="count">
                     <a href="#" id="TotalScanCount">
                         0
                     </a>
                 </div>
-
-                <h3>Total Scan Results</h3>
+                <div class="ap-tile-stats">
+                    <h3>Total Scan Results</h3>
+                </div>
                 <p>&nbsp;</p>
             </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
-                <div class="icon"><i class="fa fa-cubes"></i></div>
+                <div class="icon"><i class="fa fa-cubes" style="font-size:48px;"></i></div>
                 <div class="count">
-                    <a href="#" id="AllCampaignsCount">
+                    <a href="#" id="TotalUniqueDevices">
                         0
                     </a>
                 </div>
-
-                <h3>Unique Devices</h3>
+                <div class="ap-tile-stats">
+                    <h3>Total Unique Devices</h3>
+                </div>
                 <p>&nbsp;</p>
             </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
-                <div class="icon"><i class="fa fa-location-arrow"></i>
-                </div>
+                <div class="icon"><i class="fa fa-location-arrow" style="font-size:48px;"></i></div>
                 <div class="count">
                     <a href="#" data-map="/customer/scanresults/viewby/accesspoint/<?= $accessPoint->id ?>?stdt={START}&nddt={END}" id="TotalScanCount_time">
                         0
                     </a>
                 </div>
-
-                <h3>Activity for Time Period</h3>
+                <div class="ap-tile-stats">
+                    <h3>Scan Results for Time Period</h3>
+                </div>
+                <p class="time-filter-period">Last 7 days</p>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+                <div class="icon"><i class="fa fa-cubes" style="font-size:48px;"></i></div>
+                <div class="count">
+                    <a href="#" data-map="/customer/scanresults/viewby/accesspoint/<?= $accessPoint->id ?>?stdt={START}&nddt={END}" id="TotalUniqueDevices_time">
+                        0
+                    </a>
+                </div>
+                <div class="ap-tile-stats">
+                    <h3>Unique Devices for Time Period</h3>
+                </div>
                 <p class="time-filter-period">Last 7 days</p>
             </div>
         </div>
