@@ -472,7 +472,7 @@ $(function() {
             parallelUploads: 1,
             previewsContainer: '.media-previews',
             maxFiles: 100,
-            acceptedFiles: 'image/*,video/*',
+            acceptedFiles: 'image/*,video/*,.ai,.svg',
 
             processingmultiple: function(files) {
 
