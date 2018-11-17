@@ -25,7 +25,7 @@
                     <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
                         <ul id="myTabs" class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active"><a href="#floorplansLibrary" id="library-tab" role="tab" data-toggle="tab" aria-controls="library" aria-expanded="true"><i class="fa fa-image"></i>&nbsp; Floor Plan Library</a></li>
-                            <li role="presentation" class=""><a href="#uploadFloorPlans" role="tab" id="media-tab" data-toggle="tab" aria-controls="floorplans" aria-expanded="false"><i class="fa fa-upload"></i>&nbsp; Upload Floor Plans <span id="upload-total-progress"></span></a></li>
+                            <li role="presentation" class=""><a href="#uploadFloorplans" role="tab" id="media-tab" data-toggle="tab" aria-controls="floorplans" aria-expanded="false"><i class="fa fa-upload"></i>&nbsp; Upload Floor Plans <span id="upload-total-progress"></span></a></li>
                             <li role="presentation" class="disabled"><a href="#" role="tab" id="" data-toggle="" aria-controls="" aria-expanded="false"><i class="fa fa-edit"></i> &nbsp;Edit Floor Plans</a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
@@ -47,7 +47,7 @@
                                         <div class="input-group input-group-sm">
                                             <input type="text" id="floorPlansSearchTerm" class="form-control" placeholder="Search for...">
                                           <span class="input-group-btn">
-                                            <button class="btn btn-primary" id="doFloorPlanSearch" type="button"><i class="fa fa-search"></i></button>
+                                            <button class="btn btn-primary" id="doFloorplanssearch" type="button"><i class="fa fa-search"></i></button>
                                           </span>
                                         </div>
                                     </div>
