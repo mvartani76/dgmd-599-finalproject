@@ -48,7 +48,7 @@
                 ?>
 
             <div class="<?= $bsClasses ?>">
-                <div class="floorplans-library-image-wrapper" rel="tool-tip" data-placement="top" title="<?= $libitem->width ?> x <?= $libitem->height ?> &ndash; <?= $this->Number->toReadableSize($libitem->filesize) ?>" >
+                <div class="media-library-image-wrapper" rel="tool-tip" data-placement="top" title="<?= $libitem->width ?> x <?= $libitem->height ?> &ndash; <?= $this->Number->toReadableSize($libitem->filesize) ?>" >
                     <?php
 
                     $extra = '';
@@ -71,8 +71,8 @@
 
                     ?>
 
-                    <label class="floorplans-library-image">
-                        <div class="floorplans-library-image-holder">
+                    <label class="media-library-image">
+                        <div class="media-library-image-holder">
                             <img  class=" img-responsive" src="<?= $url; ?>" />
 
                             <?= $extra ?>
@@ -100,7 +100,8 @@
                             <?php endif; ?>
 
                             <div class="sub-meta-data">
-                                <a class="<?= $class ?>" data-restrict-edit="<?= (!empty($libitem->parent_id) === true) ? 'true' : 'false' ?>" data-media-id="<?= $libitem->id ?>" data-title="<?= $libitem->title ?>" data-description="<?= $libitem->description ?>" href="<?= $mediaLink ?>">
+                                <!-- Pass in data-hostname so I can match where the request is coming from. -->
+                                <a class="<?= $class ?>" data-restrict-edit="<?= (!empty($libitem->parent_id) === true) ? 'true' : 'false' ?>" data-media-id="<?= $libitem->id ?>" data-title="<?= $libitem->title ?>" data-description="<?= $libitem->description ?>" data-hostname ="<?= \Cake\Core\Configure::read('Settings.floorplans_container') ?>" href="<?= $mediaLink ?>">
                                     View <?= $meta ?>
                                 </a>
                                 <span class="pull-right" style="padding-right: 10px;">
