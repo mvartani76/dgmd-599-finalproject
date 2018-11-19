@@ -32,7 +32,6 @@ $(function() {
             }
         } else {
             var editLink = '';
-        }  var editLink = '';
         }
 
         if (title || description) {
