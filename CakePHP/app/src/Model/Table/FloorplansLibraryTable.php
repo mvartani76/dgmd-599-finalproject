@@ -383,7 +383,6 @@ class FloorplansLibraryTable extends Table
         ]);
 
 
-
         $validator->add('filename', 'isVideoImage', [
             'rule' => 'isVideoOrImage',
             'provider' => 'VideoImage',
