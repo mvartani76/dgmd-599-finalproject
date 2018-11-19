@@ -40,7 +40,6 @@
                     <?= $this->Form->end() ?>
                 </div>
             </div>
+        </section>
     </div>
-    </section>
-</div>
 </div>
