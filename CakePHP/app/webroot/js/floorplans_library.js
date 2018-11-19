@@ -23,7 +23,7 @@ $(function() {
             url: '/marketing/content/load_video_preview',
             type: 'POST',
             data: {
-                media_id: $(this).data('media-id')
+                floorplans_id: $(this).data('media-id')
             },
             success: function(response) {
 
@@ -78,7 +78,7 @@ $(function() {
 
     $(document.body).on('submit', '#CropImageForm', function(e) {
         var data = $(this).serialize();
-
+        
         $.ajax(
             {
                 data: data,
@@ -100,10 +100,10 @@ $(function() {
                                         </span>\
                                         <div class="sub-meta-data">\
                                             <a class="lightbox-image" data-restrict-edit="true" data-media-id="{MEDIAID}" data-title="Cropped Image" data-description="" href="{IMAGEPATH}">View Image</a>\
-                                            <a title="Edit Image" href="/marketing/content/editMediaLibrary?ids[0]={MEDIAID}">\
+                                            <a title="Edit Image" href="/marketing/floorplans/editFloorplansLibrary?ids[0]={MEDIAID}">\
                                                 <i class="fa fa-edit"></i>\
                                             </a>\
-                                            <a title="Delete Image" href="/marketing/content/deleteMediaLibrary?ids[0]={MEDIAID}">\
+                                            <a title="Delete Image" href="/marketing/floorplans/deleteFloorplansLibrary?ids[0]={MEDIAID}">\
                                                 <i class="fa fa-times-circle"></i>\
                                             </a>\
                                         </div>\
@@ -143,7 +143,7 @@ $(function() {
 
     $('.CreateCroppedImage').click(function(event) {
 
-        var mediaId = $(this).data('media-id');
+        var floorplansId = $(this).data('media-id');
 
         var puOpts = {
             title           : 'Loading Cropping Tool',
@@ -159,7 +159,7 @@ $(function() {
 
         $.ajax({
             url: '/marketing/content/cropping_tool',
-            data: 'media_id=' + mediaId + '&action=request',
+            data: 'floorplans_id=' + floorplansId + '&action=request',
             type: 'POST',
             success: function(response) {
 
