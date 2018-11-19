@@ -9,40 +9,40 @@ use FFMpeg\FFProbe;
 class VideoImage {
 
     protected $imageTypes = [
-        'bmp'	=>    'image/bmp',
-        'gif'	=>    'image/gif',
-        'jpe'	=>    'image/jpeg',
-        'jpeg'	=>    'image/jpeg',
-        'jpg'	=>    'image/jpeg',
-        'jfif'	=>    'image/pipeg',
+        'bmp'   =>    'image/bmp',
+        'gif'   =>    'image/gif',
+        'jpe'   =>    'image/jpeg',
+        'jpeg'  =>    'image/jpeg',
+        'jpg'   =>    'image/jpeg',
+        'jfif'  =>    'image/pipeg',
         'png'   =>    'image/png',
-        'svg'	=>    'image/svg+xml',
-        'tif'	=>    'image/tiff',
-        'tiff'	=>    'image/tiff',
-        'ico'	=>    'image/x-icon',
-        'pnm'	=>    'image/x-portable-anymap',
-        'pbm'	=>    'image/x-portable-bitmap',
-        'pgm'	=>    'image/x-portable-graymap',
-        'rgb'	=>    'image/x-rgb'
+        'svg'   =>    'image/svg+xml',
+        'tif'   =>    'image/tiff',
+        'tiff'  =>    'image/tiff',
+        'ico'   =>    'image/x-icon',
+        'pnm'   =>    'image/x-portable-anymap',
+        'pbm'   =>    'image/x-portable-bitmap',
+        'pgm'   =>    'image/x-portable-graymap',
+        'rgb'   =>    'image/x-rgb'
     ];
 
     protected $videoTypes = [
-        'mp2'	 => 'video/mpeg',
-        'mpa'	 => 'video/mpeg',
-        'mpe'	 => 'video/mpeg',
-        'mp4'	 => 'video/mp4',
-        'mpeg'	 => 'video/mpeg',
-        'mpg'	 => 'video/mpeg',
-        'mpv2'	 => 'video/mpeg',
-        'mov'	 => 'video/quicktime',
-        'qt'	 => 'video/quicktime',
-        'lsf'	 => 'video/x-la-asf',
-        'lsx'	 => 'video/x-la-asf',
-        'asf'	 => 'video/x-ms-asf',
-        'asr'	 => 'video/x-ms-asf',
-        'asx'	 => 'video/x-ms-asf',
-        'avi'	 => 'video/x-msvideo',
-        'movie'	 => 'video/x-sgi-movie'
+        'mp2'    => 'video/mpeg',
+        'mpa'    => 'video/mpeg',
+        'mpe'    => 'video/mpeg',
+        'mp4'    => 'video/mp4',
+        'mpeg'   => 'video/mpeg',
+        'mpg'    => 'video/mpeg',
+        'mpv2'   => 'video/mpeg',
+        'mov'    => 'video/quicktime',
+        'qt'     => 'video/quicktime',
+        'lsf'    => 'video/x-la-asf',
+        'lsx'    => 'video/x-la-asf',
+        'asf'    => 'video/x-ms-asf',
+        'asr'    => 'video/x-ms-asf',
+        'asx'    => 'video/x-ms-asf',
+        'avi'    => 'video/x-msvideo',
+        'movie'  => 'video/x-sgi-movie'
     ];
 
     protected $vectorTypes = [
@@ -78,7 +78,7 @@ class VideoImage {
             $this->data = $chk;
         }*/
 
-        return ($this->validateExtensionMime($chk) && ($this->isVideo($chk) || $this->isImage($chk)));
+        return ($this->validateExtensionMime($chk) && ($this->isVideo($chk) || $this->isImage($chk) || $this->isVector($chk)));
     }
 
 
@@ -124,6 +124,12 @@ class VideoImage {
             } else {
                 return false;
             }
+        } elseif (!empty($this->vectorTypes[$ext])) {
+            if ($this->vectorTypes[$ext] === $mt) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -145,6 +151,17 @@ class VideoImage {
         $d = $this->getMime($chk['tmp_name']);
 
         if (array_search($d, $this->imageTypes)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function isVector($chk) {
+
+        $d = $this->getMime($chk['tmp_name']);
+
+        if (array_search($d, $this->vectorTypes)) {
             return true;
         } else {
             return false;
@@ -252,7 +269,4 @@ class VideoImage {
         $dim = $this->getDimensions($chk);
         return ($dim['height'] > $height);
     }
-
-
-
 }
