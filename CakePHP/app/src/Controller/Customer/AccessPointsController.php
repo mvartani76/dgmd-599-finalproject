@@ -62,7 +62,7 @@ class AccessPointsController extends AppController
         $totalDevices = array();
 
         // Compute the total number of scanned devices for each accessPoint and store into
-        // total_devices_count
+        // total_devices_count --> only using this for index display as the value could be stale
         foreach ($accessPoints as $accessPoint):
             // Need to format the access point mac address with colons as this is
             // how it is stored in dynamo dB
@@ -80,6 +80,15 @@ class AccessPointsController extends AppController
                 'Select' => "COUNT"
                 ];
 
+            // Set the params for the dB query to show total scanresults
+            // Used for displaying unique devices over a given time
+            $unique_params = [
+                'TableName' => $tableName,
+                'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+                'ExpressionAttributeValues' => $eav,
+                'Select' => "ALL_ATTRIBUTES"
+                ];
+
             // Count the number items matching the filter conditions but not limiting to 15
             // Not sure which is the more efficient method?
             try {
@@ -90,7 +99,27 @@ class AccessPointsController extends AppController
                 die();
             }
 
+            // Reset the $totalScanResults array
+            $totalScanResults = array();
+            // Query the total amount of scan results available for the given access point
+            try {
+                $result = $dynamodb->query($unique_params);
+                foreach ($result['Items'] as $mac_addr) {
+                    $totalScanResults[] = $marshaler->unmarshalItem($mac_addr);
+                }
+            } catch (DynamoDbException $e) {
+                echo "Unable to query:\n";
+                echo $e->getMessage() . "\n";
+                die();
+            }
+
+            // Count the total unique device mac addresses
+            // This assumes that mac addr is a column of the payload array and payload is a column of the totalScanResults array
+            $totalUniqueDevices = count(array_unique(array_column(array_column($totalScanResults,'payload'),'mac_addr')));
+
+            // Set the values in the accessPoint object so to not have to update the index.ctp file
             $accessPoint->total_devices_count = $countresult['Count'];
+            $accessPoint->total_unique_devices_count = $totalUniqueDevices;
 
         endforeach;
     }
