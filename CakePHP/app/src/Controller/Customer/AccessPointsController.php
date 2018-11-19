@@ -41,6 +41,58 @@ class AccessPointsController extends AppController
         $accessPoints = $this->paginate($this->AccessPoints);
 
         $this->set(compact('accessPoints', 'Apzones.Locations'));
+
+        // Pass in the AWS credentials from the .env file
+        $sdk = new AwsSdk([
+            'region'   => env('AWS_DYNAMODB_REGION', 'us-west-2'),
+            'version'  => env('AWS_DYNAMODB_VERSION', 'latest'),
+            'credentials' => [
+                'key' => env('AWS_DYNAMODB_CREDENTIALS_KEY', null),
+                'secret'  => env('AWS_DYNAMODB_CREDENTIALS_SECRET', null),
+            ],
+        ]);
+
+
+        // Create a DynamoDb instance
+        $dynamodb = $sdk->createDynamoDb();
+        $marshaler = new Marshaler();
+
+        $tableName = 'wdds_testdata';
+
+        $totalDevices = array();
+
+        // Compute the total number of scanned devices for each accessPoint and store into
+        // total_devices_count
+        foreach ($accessPoints as $accessPoint):
+            // Need to format the access point mac address with colons as this is
+            // how it is stored in dynamo dB
+            $apstr = join(':', str_split($accessPoint->mac_addr,2));
+
+            // Set the filter expression for mac address to be the selected access point mac address
+            // Creating the JSON string that marshjson would have done
+            $eav = array(":mmaacc"=>array("S"=>$apstr));
+
+            // Set the params for the dB query to count all scanresults
+            $count_params = [
+                'TableName' => $tableName,
+                'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+                'ExpressionAttributeValues' => $eav,
+                'Select' => "COUNT"
+                ];
+
+            // Count the number items matching the filter conditions but not limiting to 15
+            // Not sure which is the more efficient method?
+            try {
+                $countresult = $dynamodb->query($count_params);
+            } catch (DynamoDbException $e) {
+                echo "Unable to query:\n";
+                echo $e->getMessage() . "\n";
+                die();
+            }
+
+            $accessPoint->total_devices_count = $countresult['Count'];
+
+        endforeach;
     }
 
     /**
