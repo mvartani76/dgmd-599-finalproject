@@ -41,7 +41,7 @@ class ScanResultsTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('access_points', [
-            'foreignKey' => 'accesspoint_id'
+            'foreignKey' => 'accesspoint_id',
             'joinType' => 'LEFT',
         ]);
         $this->belongsTo('Apzones', [
