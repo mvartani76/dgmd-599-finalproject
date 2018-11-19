@@ -372,7 +372,7 @@ class FloorplansController extends AppController
 
         $this->FloorplansLibrary->removeBehavior('Josegonzalez/Upload.Upload');
 
-        $this->FloorplansLibrary->bindForEdits($mediaId, $i);
+        $this->FloorplansLibrary->bindForEdits($floorplansId, $i);
 
 
         $tmpEntityData = ['filename' => $data, 'customer_id' => $this->Auth->user('customer_id')];
