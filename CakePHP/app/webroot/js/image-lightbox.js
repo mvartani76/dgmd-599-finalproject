@@ -21,12 +21,18 @@ $(function() {
 
         if (!$(this).data('restrict-edit')) {
             if ($(this).data('media-id')) {
-                var editLink = '<a href="/marketing/content/editMediaLibrary?ids[0]=' + $(this).data('media-id') + '" class="btn btn-default"><i class="fa fa-edit"></i>&nbsp; Edit Image</a>';
+                // Update editLink based on which page the request came from
+                if ($(this).prop('hostname') == $(this).data('hostname')) {
+                    var editLink = '<a href="/marketing/floorplans/editFloorplansLibrary?ids[0]=' + $(this).data('media-id') + '" class="btn btn-default"><i class="fa fa-edit"></i>&nbsp; Edit Image</a>';
+                } else {
+                    var editLink = '<a href="/marketing/content/editMediaLibrary?ids[0]=' + $(this).data('media-id') + '" class="btn btn-default"><i class="fa fa-edit"></i>&nbsp; Edit Image</a>';
+                }
             } else {
                 var editLink = '';
             }
         } else {
             var editLink = '';
+        }  var editLink = '';
         }
 
         if (title || description) {
