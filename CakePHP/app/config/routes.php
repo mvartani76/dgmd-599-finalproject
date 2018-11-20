@@ -118,6 +118,8 @@ Router::prefix('customer', function ($routes) {
     $routes->connect('/Apps/edit/*', ['prefix' => 'development', 'controller' => 'apps', 'action' => 'edit']);
     $routes->connect('/Apps/screens/*', ['prefix' => 'development', 'controller' => 'apps', 'action' => 'screens']);
 
+    $routes->connect('/WddsDashboard', ['prefix' => 'WddsDashboard', 'controller' => 'WddsDashboard', 'action' => 'index']);
+
     $routes->fallbacks('DashedRoute');
 
 });
