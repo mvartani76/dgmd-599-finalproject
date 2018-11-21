@@ -141,18 +141,22 @@ class WddsDashboardController extends NonCustomerDashboardController
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDay = array_values($totalScanCountByDay);
 
+        // Count the total amount of scans for each day of the week
+        $totalScanCountByVendor = array_count_values(array_column(array_column($scanResults,'payload'),'vendor'));
+
         // Count the total unique device mac addresses
         // This assumes that mac addr is a column of the payload array and payload is a column of the scanResults array
         $totalUniqueDevices = count(array_unique(array_column(array_column($scanResults,'payload'),'mac_addr')));
 
-
+        // Get the Unique Vendors array --> Needed for plotting scans by Vendor
         $uniqueVendors = array_unique(array_column(array_column($scanResults,'payload'),'vendor'));
+        
         // Count the total unique device vendors
         // This assumes that vendor is a column of the payload array and payload is a column of the scanResults array
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
         $this->set(compact('accessPointsCount'));
-        $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'accessPointsCount', 'totalScanCountByDay', 'days'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'accessPointsCount', 'totalScanCountByDay', 'days', 'totalScanCountByVendor'));
     }
 
     public function deleteDashboard($user_id,$customer_id) {

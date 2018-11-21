@@ -107,28 +107,27 @@ $this->set('pageTitle', 'Dashboard');
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
-                <span class="count_top"><i class="fa fa-flag"></i> Flagged Beacons</span>
-                <div class="count red"><a class="red" href="/admin/flagged_beacons" style=""><?= $this->Number->format($flags); ?></a></div>
-                <span class="count_bottom red"></span>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
-            <div class="left"></div>
-            <div class="right center">
-                <span class="count_top"><i class="fa fa-user"></i> Total Beacon Impressions</span>
-                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totImp) ?></a></div>
+                <span class="count_top"><i class="fa fa-user"></i> Total Scan Results</span>
+                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totalScanCount) ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
-                <span class="count_top"><i class="fa fa-location-arrow"></i> Users Awaiting Verification</span>
-                <div class="count"><a class="red" href="/admin/users/unverified"><?= $this->Number->format($unverified) ?></a></div>
+                <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Devices</span>
+                <div class="count"><a href="/admin/users/unverified"><?= $this->Number->format($totalUniqueDevices) ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
-
+        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+            <div class="left"></div>
+            <div class="right center">
+                <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Vendors</span>
+                <div class="count"><a href="/admin/users/unverified"><?= $this->Number->format($totalUniqueVendors) ?></a></div>
+                <span class="count_bottom"></span>
+            </div>
+        </div>
 
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count">
             <div class="left hidden-sm hidden-xs"></div>
@@ -174,8 +173,8 @@ $this->set('pageTitle', 'Dashboard');
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-xs-12">
-                        <div id="hc-1"></div>
-                        <?= $this->element('Charts/daily_visit_breakdown'); ?>
+                        <div id="totalscanresultsbyvendor"></div>
+                        <?= $this->element('Charts/total_scanresults_by_vendor'); ?>
                     </div>
 
                     <div class="col-md-8 col-xs-12">
@@ -192,7 +191,7 @@ $this->set('pageTitle', 'Dashboard');
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <div id="highcharts-container-2"></div>
-                        <?= $this->element('Charts/total_impressions_by_day'); ?>
+                        <?= $this->element('Charts/total_scanresults_by_day'); ?>
                     </div>
                 </div>
 
