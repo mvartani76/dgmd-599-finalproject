@@ -12,6 +12,9 @@ use Cake\ORM\TableRegistry;
 use Cake\View\Exception\MissingTemplateException;
 use App\Controller\DashboardController as NonCustomerDashboardController;
 use Tools\Model\Table\Table;
+use Aws\Sdk as AwsSdk;
+use Aws\DynamoDb\Exception\DynamoDbException;
+use Aws\DynamoDb\Marshaler;
 
 
 /**
@@ -53,7 +56,103 @@ class WddsDashboardController extends NonCustomerDashboardController
             ->where([         ])
             ->count();
 
+        $timeNow     = date('H:i:s', strtotime('now'));
+
+        $todayStart  = date('Y-m-d 00:00:00', strtotime('today'));
+        $todayEnd    = date('Y-m-d 23:59:59', strtotime('today'));
+        $yesterdayStart  = date('Y-m-d 00:00:00', strtotime('-1 day'));
+        $yesterdayEnd    = date('Y-m-d ' . $timeNow, strtotime('-1 day'));
+
+
+        $days = [
+            0 => 'Monday',
+            1 => 'Tuesday',
+            2 => 'Wednesday',
+            3 => 'Thursday',
+            4 => 'Friday',
+            5 => 'Saturday',
+            6 => 'Sunday'
+        ];
+
+
+
+        // Load in AWS Dynamo DB data
+        // Pass in the AWS credentials from the .env file
+        $sdk = new AwsSdk([
+            'region'   => env('AWS_DYNAMODB_REGION', 'us-west-2'),
+            'version'  => env('AWS_DYNAMODB_VERSION', 'latest'),
+            'credentials' => [
+                'key' => env('AWS_DYNAMODB_CREDENTIALS_KEY', null),
+                'secret'  => env('AWS_DYNAMODB_CREDENTIALS_SECRET', null),
+            ],
+        ]);
+
+        // Create a DynamoDb instance
+        $dynamodb = $sdk->createDynamoDb();
+        $marshaler = new Marshaler();
+
+        $tableName = 'wdds_testdata';
+
+        /*
+         * Daily Scan Results
+         */
+
+        $params = [
+                'TableName' => $tableName
+            ];
+
+        $scanResults = [];
+
+        try {
+            $result = $dynamodb->scan($params);
+            foreach ($result['Items'] as $mac_addr) {
+                $scanResult = $marshaler->unmarshalItem($mac_addr);
+                $scanResult['payload']['day'] = date('l',$scanResult['payload']['log_time']);
+                $scanResults[] = $scanResult;
+            }
+
+        } catch (DynamoDbException $e) {
+            echo "Unable to query:\n";
+            echo $e->getMessage() . "\n";
+            die();
+        }
+        
+        // Create a base array that has zero counts for each day
+        $totalScanCountByDay = [
+            'Monday' => 0,
+            'Tuesday' => 0,
+            'Wednesday' => 0,
+            'Thursday' => 0,
+            'Friday' => 0,
+            'Saturday' => 0,
+            'Sunday' => 0
+        ];
+
+        // Count the total amount of scans for each day of the week
+        $tmp = array_count_values(array_column(array_column($scanResults,'payload'),'day'));
+
+        // Populate structured array with scan counts by day
+        foreach ($days as $day) {
+            if (array_key_exists($day, $tmp)) {
+                $totalScanCountByDay[$day] = $tmp[$day];
+            }
+        }
+
+        // Remove the key values from the array to be compatible with HighCharts
+        $totalScanCountByDay = array_values($totalScanCountByDay);
+
+        // Count the total unique device mac addresses
+        // This assumes that mac addr is a column of the payload array and payload is a column of the scanResults array
+        $totalUniqueDevices = count(array_unique(array_column(array_column($scanResults,'payload'),'mac_addr')));
+
+
+        $uniqueVendors = array_unique(array_column(array_column($scanResults,'payload'),'vendor'));
+        // Count the total unique device vendors
+        // This assumes that vendor is a column of the payload array and payload is a column of the scanResults array
+        $totalUniqueVendors = count($uniqueVendors);
+        $totalScanCount = count($scanResults);
         $this->set(compact('accessPointsCount'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'accessPointsCount', 'totalScanCountByDay', 'days'));
     }
 
     public function deleteDashboard($user_id,$customer_id) {

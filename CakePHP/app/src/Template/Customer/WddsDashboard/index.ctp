@@ -38,8 +38,8 @@ $this->set('pageTitle', 'Dashboard');
         </div>
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
             <div class="right center" style="margin-left:calc(50% - 105px);">
-                <span class="count_top"><i class="fa fa-user"></i> Todays Impressions</span>
-                <div class="count"><?= $this->Number->format($d['imp']); ?></div>
+                <span class="count_top"><i class="fa fa-user"></i> Todays Scan Results</span>
+                <div class="count"><?= $this->Number->format($totalScanCount); ?></div>
                 <span class="count_bottom"><i class="<?= $d['dir']; ?>"><i class="fa fa-sort-<?= $d['arr']; ?>"></i><?= round($d['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
             </div>
         </div>
@@ -59,22 +59,22 @@ $this->set('pageTitle', 'Dashboard');
         </div>
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
             <div class="right center" style="margin-left:calc(50% - 105px);">
-                <span class="count_top"><i class="fa fa-flag"></i> Flagged Beacons</span>
-                <div class="count red"><a class="red" href="/admin/flagged_beacons" style=""><?= $this->Number->format($flags); ?></a></div>
-                <span class="count_bottom red"></span>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
-            <div class="right center" style="margin-left:calc(50% - 105px);">
-                <span class="count_top"><i class="fa fa-user"></i> Total Beacon Impressions</span>
-                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totImp) ?></a></div>
+                <span class="count_top"><i class="fa fa-user"></i> Total Scan Results</span>
+                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totalScanCount) ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
             <div class="right center" style="margin-left:calc(50% - 105px);">
-                <span class="count_top"><i class="fa fa-location-arrow"></i> Users Awaiting Verification</span>
-                <div class="count"><a href="/admin/users/unverified">><?= $this->Number->format($unverified) ?></a></div>
+                <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Devices</span>
+                <div class="count"><a href="/admin/users/unverified">><?= $this->Number->format($totalUniqueDevices) ?></a></div>
+                <span class="count_bottom"></span>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
+            <div class="right center" style="margin-left:calc(50% - 105px);">
+                <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Vendors</span>
+                <div class="count"><a href="/admin/users/unverified"><?= $this->Number->format($totalUniqueVendors) ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
