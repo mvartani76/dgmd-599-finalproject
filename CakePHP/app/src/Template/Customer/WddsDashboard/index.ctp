@@ -33,7 +33,7 @@ $this->set('pageTitle', 'Dashboard');
 
         <div class="row x_title" style="border-bottom: 1px solid #D9DEE4;">
             <div class="col-lg-7 col-lg-offset-5 col-md-7 col-md-offset-5 col-sm-7 col-sm-offset-5 col-xs-8 col-xs-offset-4">
-                <h3>Dashboard</h3>
+                <h3>Wifi Device Detection System Dashboard</h3>
             </div>
         </div>
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
@@ -45,8 +45,8 @@ $this->set('pageTitle', 'Dashboard');
         </div>
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
             <div class="right center" style="margin-left:calc(50% - 105px);">
-                <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Devices</span>
-                <div class="count"><a href="/admin/devices"><?= $this->Number->format($dc); ?></a></div>
+                <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
+                <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
@@ -99,8 +99,8 @@ $this->set('pageTitle', 'Dashboard');
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
-                <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Devices</span>
-                <div class="count"><a href="/admin/devices"><?= $this->Number->format($dc); ?></a></div>
+                <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
+                <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
@@ -195,21 +195,6 @@ $this->set('pageTitle', 'Dashboard');
                         <?= $this->element('Charts/total_impressions_by_day'); ?>
                     </div>
                 </div>
-
-
-
-
-                <div class="row">
-                    <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
-                        <div style="width: 100%; height: 600px;" id="heatmapArea"></div>
-                    </div>
-                </div>
-
-
-
-
-
-
 
                 <div class="clearfix"></div>
             </div>

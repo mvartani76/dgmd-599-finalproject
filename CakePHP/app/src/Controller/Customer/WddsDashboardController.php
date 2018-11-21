@@ -40,6 +40,20 @@ class WddsDashboardController extends NonCustomerDashboardController
 
         $this->set('dashboardSettings', $dashboardSettings);
         $this->set('dashboard', $dashboard);
+
+
+        $this->viewBuilder()->layout('default');
+
+        $accessPoints = TableRegistry::get('AccessPoints');
+        
+        $accessPointsCount = $accessPoints
+            ->find('all', [
+
+            ])
+            ->where([         ])
+            ->count();
+
+        $this->set(compact('accessPointsCount'));
     }
 
     public function deleteDashboard($user_id,$customer_id) {
