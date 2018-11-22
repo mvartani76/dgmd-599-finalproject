@@ -27,6 +27,27 @@ use Aws\DynamoDb\Marshaler;
 class WddsDashboardController extends NonCustomerDashboardController
 {
 
+    private function calculate_change(&$output, $new, $old) {
+        // Calculate the % change from this last week to the previous
+        if ($old > 0)
+        {
+             $chg = abs((($new - $old)/$old) * 100);
+        } else {
+            $chg = 0;
+        }
+
+        if ($new < $old) {
+            $output['dir'] = 'red';
+            $output['arr'] = 'desc';
+        } else {
+            $output['dir'] = 'green';
+            $output['arr'] = 'asc';
+        }
+
+        $output['chg'] = $chg;
+    }
+
+
     public function index() {
         $this->loadModel('Dashboards');
 
@@ -189,23 +210,8 @@ class WddsDashboardController extends NonCustomerDashboardController
         $ytsc = $totalScanCountByDayLastWeek[date('l',strtotime('-1 days'))];
         $tsc = $totalScanCountByDayLastWeek[date('l',time())];
 
-        // Calculate the % change from yesterday to today
-        if ($ytsc > 0)
-        {
-             $chg = abs((($tsc - $ytsc)/$ytsc) * 100);
-        } else {
-            $chg = 0;
-        }
-
-        if ($tsc < $ytsc) {
-            $d['dir'] = 'red';
-            $d['arr'] = 'desc';
-        } else {
-            $d['dir'] = 'green';
-            $d['arr'] = 'asc';
-        }
-
-        $d['chg'] = $chg;
+        // Calculate daily change values
+        $this->calculate_change($d, $tsc, $ytsc);
 
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDay = array_values($totalScanCountByDay);
@@ -220,23 +226,8 @@ class WddsDashboardController extends NonCustomerDashboardController
         // for two weeks minus the last week
         $totalScanCount2ndWeek = $totalScanCountLastTwoWeeks - $totalScanCountLastWeek;
 
-        // Calculate the % change from this last week to the previous
-        if ($totalScanCount2ndWeek > 0)
-        {
-             $chg = abs((($totalScanCountLastWeek - $totalScanCount2ndWeek)/$totalScanCount2ndWeek) * 100);
-        } else {
-            $chg = 0;
-        }
-
-        if ($totalScanCountLastWeek < $totalScanCount2ndWeek) {
-            $dw['dir'] = 'red';
-            $dw['arr'] = 'desc';
-        } else {
-            $dw['dir'] = 'green';
-            $dw['arr'] = 'asc';
-        }
-
-        $dw['chg'] = $chg;
+        // Calculate weekly change values
+        $this->calculate_change($dw, $totalScanCountLastWeek, $totalScanCount2ndWeek);
 
         // Count the total amount of scans for each day of the week
         $totalScanCountByVendor = array_count_values(array_column(array_column($scanResults,'payload'),'vendor'));
@@ -252,9 +243,7 @@ class WddsDashboardController extends NonCustomerDashboardController
         // This assumes that vendor is a column of the payload array and payload is a column of the scanResults array
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
-        $this->set(compact('accessPointsCount'));
 
-	
         $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'tsc', 'd', 'dw'));
     }
 
