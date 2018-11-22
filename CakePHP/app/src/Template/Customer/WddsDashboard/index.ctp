@@ -83,8 +83,8 @@ $this->set('pageTitle', 'WddsDashboard');
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
-                <span class="count_top"><i class="fa fa-user"></i> Todays Beacon Impressions</span>
-                <div class="count"><?= $this->Number->format($d['imp']); ?></div>
+                <span class="count_top"><i class="fa fa-user"></i> Todays Scan Results</span>
+                <div class="count"><?= $this->Number->format($tsc); ?></div>
                 <span class="count_bottom"><i class="<?= $d['dir']; ?>"><i class="fa fa-sort-<?= $d['arr']; ?>"></i><?= round($d['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
             </div>
         </div>
