@@ -74,7 +74,15 @@ class WddsDashboardController extends NonCustomerDashboardController
             6 => 'Sunday'
         ];
 
-
+        $daysLastWeek = [
+            0 => date('l',strtotime('-6 days')),
+            1 => date('l',strtotime('-5 days')),
+            2 => date('l',strtotime('-4 days')),
+            3 => date('l',strtotime('-3 days')),
+            4 => date('l',strtotime('-2 days')),
+            5 => date('l',strtotime('-1 days')),
+            6 => date('l',time()),
+        ];
 
         // Load in AWS Dynamo DB data
         // Pass in the AWS credentials from the .env file
@@ -102,6 +110,9 @@ class WddsDashboardController extends NonCustomerDashboardController
             ];
 
         $scanResults = [];
+        $lastWeekScanResults = [];
+
+        $lastWeekTime = strtotime('-6 days');
 
         try {
             $result = $dynamodb->scan($params);
@@ -109,6 +120,12 @@ class WddsDashboardController extends NonCustomerDashboardController
                 $scanResult = $marshaler->unmarshalItem($mac_addr);
                 $scanResult['payload']['day'] = date('l',$scanResult['payload']['log_time']);
                 $scanResults[] = $scanResult;
+
+                if ($scanResult['payload']['log_time'] > $lastWeekTime)
+                {
+                    $lastWeekScanResults[] = $scanResult;
+                }
+
             }
 
         } catch (DynamoDbException $e) {
@@ -128,6 +145,18 @@ class WddsDashboardController extends NonCustomerDashboardController
             'Sunday' => 0
         ];
 
+        // Create a base array that has zero counts for each day
+        // This one is for the last 7 days though
+        $totalScanCountByDayLastWeek = [
+            date('l',strtotime('-6 days')) => 0,
+            date('l',strtotime('-5 days')) => 0,
+            date('l',strtotime('-4 days')) => 0,
+            date('l',strtotime('-3 days')) => 0,
+            date('l',strtotime('-2 days')) => 0,
+            date('l',strtotime('-1 days')) => 0,
+            date('l',time()) => 0,
+        ];
+
         // Count the total amount of scans for each day of the week
         $tmp = array_count_values(array_column(array_column($scanResults,'payload'),'day'));
 
@@ -138,8 +167,21 @@ class WddsDashboardController extends NonCustomerDashboardController
             }
         }
 
+        // Count the total amount of scans for each day of the week (only last week)
+        $tmp = array_count_values(array_column(array_column($lastWeekScanResults,'payload'),'day'));
+
+        // Populate structured array with scan counts by day
+        foreach ($daysLastWeek as $day) {
+            if (array_key_exists($day, $tmp)) {
+                $totalScanCountByDayLastWeek[$day] = $tmp[$day];
+            }
+        }
+
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDay = array_values($totalScanCountByDay);
+
+        // Remove the key values from the array to be compatible with HighCharts
+        $totalScanCountByDayLastWeek = array_values($totalScanCountByDayLastWeek);
 
         // Count the total amount of scans for each day of the week
         $totalScanCountByVendor = array_count_values(array_column(array_column($scanResults,'payload'),'vendor'));
@@ -156,7 +198,8 @@ class WddsDashboardController extends NonCustomerDashboardController
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
         $this->set(compact('accessPointsCount'));
-        $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'accessPointsCount', 'totalScanCountByDay', 'days', 'totalScanCountByVendor'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor'));
+	
     }
 
     public function deleteDashboard($user_id,$customer_id) {

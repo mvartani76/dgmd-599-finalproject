@@ -186,8 +186,8 @@ $this->set('pageTitle', 'Dashboard');
 
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                        <div id="highcharts-container"></div>
-                        <?= $this->element('Charts/impressions_by_day'); ?>
+                        <div id="totalscanresultsbydaylastweek"></div>
+                        <?= $this->element('Charts/total_scanresults_by_day_last_week'); ?>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <div id="highcharts-container-2"></div>
