@@ -128,6 +128,14 @@ $this->set('pageTitle', 'WddsDashboard');
                 <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
             </div>
         </div>
+        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count">
+            <div class="left hidden-sm hidden-xs"></div>
+            <div class="right center">
+                <span class="count_top"><i class="fa fa-user"></i> Todays Unique Devices</span>
+                <div class="count"><?= $this->Number->format($tudc); ?></div>
+                <span class="count_bottom"><i class="<?= $du['dir']; ?>"><i class="fa fa-sort-<?= $du['arr']; ?>"></i><?= round($du['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
+            </div>
+        </div>        
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
@@ -136,16 +144,6 @@ $this->set('pageTitle', 'WddsDashboard');
                 <span class="count_bottom"></span>
             </div>
         </div>
-
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count">
-            <div class="left hidden-sm hidden-xs"></div>
-            <div class="right center">
-                <span class="count_top"><i class="fa fa-user"></i> Todays Geofence Impressions</span>
-                <div class="count"><?= $this->Number->format($d2['imp']); ?></div>
-                <span class="count_bottom"><i class="<?= $d2['dir']; ?>"><i class="fa fa-sort-<?= $d2['arr']; ?>"></i><?= round($d2['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
-            </div>
-        </div>
-
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count">
             <div class="left hidden-sm hidden-xs"></div>
             <div class="right center">

@@ -230,8 +230,14 @@ class WddsDashboardController extends NonCustomerDashboardController
         $ytsc = $totalScanCountByDayLastWeek[date('l',strtotime('-1 days'))];
         $tsc = $totalScanCountByDayLastWeek[date('l',time())];
 
+        $ytudc = $totalUniqueDevicesCountByDayLastWeek[date('l',strtotime('-1 days'))];
+        $tudc = $totalUniqueDevicesCountByDayLastWeek[date('l',time())];
+
         // Calculate daily change values
         $this->calculate_change($d, $tsc, $ytsc);
+
+        // Calculate daily change values
+        $this->calculate_change($du, $tudc, $ytudc);
 
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDay = array_values($totalScanCountByDay);
@@ -267,7 +273,7 @@ class WddsDashboardController extends NonCustomerDashboardController
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
 
-        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'd', 'dw'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'tudc', 'd', 'dw','du'));
     }
 
     public function deleteDashboard($user_id,$customer_id) {
