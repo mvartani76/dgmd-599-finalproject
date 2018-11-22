@@ -144,24 +144,6 @@ $this->set('pageTitle', 'WddsDashboard');
                 <span class="count_bottom"></span>
             </div>
         </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count">
-            <div class="left hidden-sm hidden-xs"></div>
-            <div class="right center">
-                <span class="count_top"><i class="fa fa-calendar"></i> Weekly Geofence Impressions</span>
-                <div class="count"><?= $this->Number->format($dw2['imp']); ?></div>
-                <span class="count_bottom"><i class="<?= $dw2['dir']; ?>"><i class="fa fa-sort-<?= $dw2['arr']; ?>"></i><?= round($dw2['chg'],1); ?>% </i> from last week</span>
-            </div>
-        </div>
-
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count">
-            <div class="left hidden-sm hidden-xs"></div>
-            <div class="right center">
-                <span class="count_top"><i class="fa fa-user"></i> Total Geofence Impressions</span>
-                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totImp2) ?></a></div>
-                <span class="count_bottom"></span>
-            </div>
-        </div>
-
     </div>
 
 </div>
