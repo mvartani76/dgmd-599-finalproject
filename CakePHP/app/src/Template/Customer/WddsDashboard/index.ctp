@@ -8,7 +8,7 @@ echo $this->Html->script('cluster/jqtooltip', array('inline' => false));
 echo $this->Html->css('maps/jqtooltip', ['inline' => false]);
 
 
-$this->set('pageTitle', 'Dashboard');
+$this->set('pageTitle', 'WddsDashboard');
 
 ?>
 
@@ -91,14 +91,6 @@ $this->set('pageTitle', 'Dashboard');
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
-                <span class="count_top"><i class="fa fa-calendar"></i> Weekly Beacon Impressions</span>
-                <div class="count"><?= $this->Number->format($dw['imp']); ?></div>
-                <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
-            <div class="left"></div>
-            <div class="right center">
                 <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
                 <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
                 <span class="count_bottom"></span>
@@ -110,6 +102,14 @@ $this->set('pageTitle', 'Dashboard');
                 <span class="count_top"><i class="fa fa-user"></i> Total Scan Results</span>
                 <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totalScanCount) ?></a></div>
                 <span class="count_bottom"></span>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+            <div class="left"></div>
+            <div class="right center">
+                <span class="count_top"><i class="fa fa-calendar"></i> Weekly Scan Results</span>
+                <div class="count"><?= $this->Number->format($totalScanCountLastWeek); ?></div>
+                <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
             </div>
         </div>
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">

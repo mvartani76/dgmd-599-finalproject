@@ -111,8 +111,10 @@ class WddsDashboardController extends NonCustomerDashboardController
 
         $scanResults = [];
         $lastWeekScanResults = [];
+        $lastTwoWeekScanResults = [];
 
         $lastWeekTime = strtotime('-6 days');
+        $lastTwoWeeks = strtotime('-13 days');
 
         try {
             $result = $dynamodb->scan($params);
@@ -121,9 +123,16 @@ class WddsDashboardController extends NonCustomerDashboardController
                 $scanResult['payload']['day'] = date('l',$scanResult['payload']['log_time']);
                 $scanResults[] = $scanResult;
 
-                if ($scanResult['payload']['log_time'] > $lastWeekTime)
+                // separate results from last two weeks
+                if ($scanResult['payload']['log_time'] > $lastTwoWeeks)
                 {
-                    $lastWeekScanResults[] = $scanResult;
+                    $lastTwoWeekScanResults[] = $scanResult;
+
+                    // Separate results from last week
+                    if ($scanResult['payload']['log_time'] > $lastWeekTime)
+                    {                  
+                        $lastWeekScanResults[] = $scanResult;
+                    }
                 }
 
             }
@@ -183,6 +192,31 @@ class WddsDashboardController extends NonCustomerDashboardController
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDayLastWeek = array_values($totalScanCountByDayLastWeek);
 
+        $totalScanCountLastWeek = count($lastWeekScanResults);
+        $totalScanCountLastTwoWeeks = count($lastTwoWeekScanResults);
+        
+        // The total count for the week after last is equal to the total
+        // for two weeks minus the last week
+        $totalScanCount2ndWeek = $totalScanCountLastTwoWeeks - $totalScanCountLastWeek;
+
+        // Calculate the % change from this last week to the previous
+        if ($totalScanCount2ndWeek > 0)
+        {
+             $chg = abs((($totalScanCountLastWeek - $totalScanCount2ndWeek)/$totalScanCount2ndWeek) * 100);
+        } else {
+            $chg = 0;
+        }
+
+        if ($totalScanCountLastWeek < $totalScanCount2ndWeek) {
+            $dw['dir'] = 'red';
+            $dw['arr'] = 'desc';
+        } else {
+            $dw['dir'] = 'green';
+            $dw['arr'] = 'asc';
+        }
+
+        $dw['chg'] = $chg;
+
         // Count the total amount of scans for each day of the week
         $totalScanCountByVendor = array_count_values(array_column(array_column($scanResults,'payload'),'vendor'));
 
@@ -200,6 +234,7 @@ class WddsDashboardController extends NonCustomerDashboardController
         $this->set(compact('accessPointsCount'));
         $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor'));
 	
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'dw'));
     }
 
     public function deleteDashboard($user_id,$customer_id) {
