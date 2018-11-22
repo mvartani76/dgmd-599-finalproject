@@ -211,7 +211,8 @@ class WddsDashboardController extends NonCustomerDashboardController
         // Count the total amount of scans for each day of the week (only last week)
         $tmp_lwsr = array_count_values(array_column(array_column($lastWeekScanResults,'payload'),'day'));
         
-        $tmp_ak = array_keys(array_unique(array_column(array_column($lastWeekScanResults,'payload'),'mac_addr')));
+        $lastWeekUniqueDevices = array_unique(array_column(array_column($lastWeekScanResults,'payload'),'mac_addr'));
+        $tmp_ak = array_keys($lastWeekUniqueDevices);
         
         $unique_payload = array_intersect_key(array_column($lastWeekScanResults,'payload'), array_flip($tmp_ak));
         $tmp_ulwsr = array_count_values(array_column($unique_payload,'day'));
@@ -238,8 +239,11 @@ class WddsDashboardController extends NonCustomerDashboardController
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDayLastWeek = array_values($totalScanCountByDayLastWeek);
         $totalUniqueDevicesCountByDayLastWeek = array_values($totalUniqueDevicesCountByDayLastWeek);
+        
         $totalScanCountLastWeek = count($lastWeekScanResults);
         $totalScanCountLastTwoWeeks = count($lastTwoWeekScanResults);
+        
+        $totalUniqueDevicesCountLastWeek = count($lastWeekUniqueDevices);
         
         // The total count for the week after last is equal to the total
         // for two weeks minus the last week
@@ -263,7 +267,7 @@ class WddsDashboardController extends NonCustomerDashboardController
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
 
-        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'tsc', 'd', 'dw'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'd', 'dw'));
     }
 
     public function deleteDashboard($user_id,$customer_id) {

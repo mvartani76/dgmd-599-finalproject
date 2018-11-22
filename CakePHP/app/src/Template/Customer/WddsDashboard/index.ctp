@@ -123,6 +123,14 @@ $this->set('pageTitle', 'WddsDashboard');
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
+                <span class="count_top"><i class="fa fa-calendar"></i> Weekly Unique Devices</span>
+                <div class="count"><?= $this->Number->format($totalUniqueDevicesCountLastWeek); ?></div>
+                <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+            <div class="left"></div>
+            <div class="right center">
                 <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Vendors</span>
                 <div class="count"><a href="/admin/users/unverified"><?= $this->Number->format($totalUniqueVendors) ?></a></div>
                 <span class="count_bottom"></span>
