@@ -187,6 +187,17 @@ class WddsDashboardController extends NonCustomerDashboardController
             date('l',time()) => 0,
         ];
 
+        $totalUniqueDevicesCountByDayLastWeek = [
+            date('l',strtotime('-6 days')) => 0,
+            date('l',strtotime('-5 days')) => 0,
+            date('l',strtotime('-4 days')) => 0,
+            date('l',strtotime('-3 days')) => 0,
+            date('l',strtotime('-2 days')) => 0,
+            date('l',strtotime('-1 days')) => 0,
+            date('l',time()) => 0,
+        ];
+
+
         // Count the total amount of scans for each day of the week
         $tmp = array_count_values(array_column(array_column($scanResults,'payload'),'day'));
 
@@ -198,12 +209,20 @@ class WddsDashboardController extends NonCustomerDashboardController
         }
 
         // Count the total amount of scans for each day of the week (only last week)
-        $tmp = array_count_values(array_column(array_column($lastWeekScanResults,'payload'),'day'));
+        $tmp_lwsr = array_count_values(array_column(array_column($lastWeekScanResults,'payload'),'day'));
+        
+        $tmp_ak = array_keys(array_unique(array_column(array_column($lastWeekScanResults,'payload'),'mac_addr')));
+        
+        $unique_payload = array_intersect_key(array_column($lastWeekScanResults,'payload'), array_flip($tmp_ak));
+        $tmp_ulwsr = array_count_values(array_column($unique_payload,'day'));
 
         // Populate structured array with scan counts by day
         foreach ($daysLastWeek as $day) {
-            if (array_key_exists($day, $tmp)) {
-                $totalScanCountByDayLastWeek[$day] = $tmp[$day];
+            if (array_key_exists($day, $tmp_lwsr)) {
+                $totalScanCountByDayLastWeek[$day] = $tmp_lwsr[$day];
+            }
+            if (array_key_exists($day, $tmp_ulwsr)) {
+                $totalUniqueDevicesCountByDayLastWeek[$day] = $tmp_ulwsr[$day];
             }
         }
 
@@ -218,7 +237,7 @@ class WddsDashboardController extends NonCustomerDashboardController
 
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDayLastWeek = array_values($totalScanCountByDayLastWeek);
-
+        $totalUniqueDevicesCountByDayLastWeek = array_values($totalUniqueDevicesCountByDayLastWeek);
         $totalScanCountLastWeek = count($lastWeekScanResults);
         $totalScanCountLastTwoWeeks = count($lastTwoWeekScanResults);
         
@@ -234,7 +253,7 @@ class WddsDashboardController extends NonCustomerDashboardController
 
         // Count the total unique device mac addresses
         // This assumes that mac addr is a column of the payload array and payload is a column of the scanResults array
-        $totalUniqueDevices = count(array_unique(array_column(array_column($scanResults,'payload'),'mac_addr')));
+        $totalUniqueDevicesCount = count(array_unique(array_column(array_column($scanResults,'payload'),'mac_addr')));
 
         // Get the Unique Vendors array --> Needed for plotting scans by Vendor
         $uniqueVendors = array_unique(array_column(array_column($scanResults,'payload'),'vendor'));
@@ -244,7 +263,7 @@ class WddsDashboardController extends NonCustomerDashboardController
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
 
-        $this->set(compact('totalUniqueVendors', 'totalUniqueDevices', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'tsc', 'd', 'dw'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'tsc', 'd', 'dw'));
     }
 
     public function deleteDashboard($user_id,$customer_id) {
