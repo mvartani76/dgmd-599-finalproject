@@ -179,6 +179,16 @@ class WddsDashboardController extends NonCustomerDashboardController
             'Sunday' => 0
         ];
 
+        $totalUniqueDevicesCountByDay = [
+            'Monday' => 0,
+            'Tuesday' => 0,
+            'Wednesday' => 0,
+            'Thursday' => 0,
+            'Friday' => 0,
+            'Saturday' => 0,
+            'Sunday' => 0
+        ];
+
         // Create a base array that has zero counts for each day
         // This one is for the last 7 days though
         $totalScanCountByDayLastWeek = [
@@ -204,10 +214,20 @@ class WddsDashboardController extends NonCustomerDashboardController
         // Count the total amount of scans for each day of the week
         $tmp = array_count_values(array_column(array_column($scanResults,'payload'),'day'));
 
+        // Count the total amount of unique devices for each day of the week
+        $uniqueDevices = array_unique(array_column(array_column($scanResults,'payload'),'mac_addr'));
+        $tmp_ak = array_keys($uniqueDevices);
+        
+        $unique_payload = array_intersect_key(array_column($scanResults,'payload'), array_flip($tmp_ak));
+        $tmp_ud = array_count_values(array_column($unique_payload,'day'));
+
         // Populate structured array with scan counts by day
         foreach ($days as $day) {
             if (array_key_exists($day, $tmp)) {
                 $totalScanCountByDay[$day] = $tmp[$day];
+            }
+            if (array_key_exists($day, $tmp_ud)) {
+                $totalUniqueDevicesCountByDay[$day] = $tmp_ud[$day];
             }
         }
 
@@ -245,6 +265,8 @@ class WddsDashboardController extends NonCustomerDashboardController
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDay = array_values($totalScanCountByDay);
 
+        $totalUniqueDevicesCountByDay = array_values($totalUniqueDevicesCountByDay);
+
         // Remove the key values from the array to be compatible with HighCharts
         $totalScanCountByDayLastWeek = array_values($totalScanCountByDayLastWeek);
         $totalUniqueDevicesCountByDayLastWeek = array_values($totalUniqueDevicesCountByDayLastWeek);
@@ -281,7 +303,8 @@ class WddsDashboardController extends NonCustomerDashboardController
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
 
-        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'tudc', 'd', 'dw','du','dwu'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalUniqueDevicesCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'tudc', 'd', 'dw','du','dwu'));
+
     }
 
     public function deleteDashboard($user_id,$customer_id) {
