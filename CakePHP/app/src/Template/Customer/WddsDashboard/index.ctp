@@ -32,7 +32,7 @@ $this->set('pageTitle', 'WddsDashboard');
     <div class="row tile_count">
 
         <div class="row x_title" style="border-bottom: 1px solid #D9DEE4;">
-            <div class="col-lg-7 col-lg-offset-5 col-md-7 col-md-offset-5 col-sm-7 col-sm-offset-5 col-xs-8 col-xs-offset-4">
+            <div class="col-lg-7 col-lg-offset-4 col-md-7 col-md-offset-5 col-sm-7 col-sm-offset-5 col-xs-8 col-xs-offset-4">
                 <h3>Wifi Device Detection System Dashboard</h3>
             </div>
         </div>
@@ -43,17 +43,10 @@ $this->set('pageTitle', 'WddsDashboard');
                 <span class="count_bottom"><i class="<?= $d['dir']; ?>"><i class="fa fa-sort-<?= $d['arr']; ?>"></i><?= round($d['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
             </div>
         </div>
-        <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
+        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
             <div class="right center" style="margin-left:calc(50% - 105px);">
-                <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
-                <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
-                <span class="count_bottom"></span>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
-            <div class="right center" style="margin-left:calc(50% - 105px);">
-                <span class="count_top"><i class="fa fa-calendar"></i> Weekly Impressions</span>
-                <div class="count"><?= $this->Number->format($dw['imp']); ?></div>
+                <span class="count_top"><i class="fa fa-calendar"></i> Weekly Scan Results</span>
+                <div class="count"><?= $this->Number->format($totalScanCountLastWeek); ?></div>
                 <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
             </div>
         </div>
@@ -62,6 +55,27 @@ $this->set('pageTitle', 'WddsDashboard');
                 <span class="count_top"><i class="fa fa-user"></i> Total Scan Results</span>
                 <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totalScanCount) ?></a></div>
                 <span class="count_bottom"></span>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
+            <div class="right center" style="margin-left:calc(50% - 105px);">
+                <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
+                <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
+                <span class="count_bottom"></span>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
+            <div class="right center">
+                <span class="count_top"><i class="fa fa-user"></i> Todays Unique Devices</span>
+                <div class="count"><?= $this->Number->format($tudc); ?></div>
+                <span class="count_bottom"><i class="<?= $du['dir']; ?>"><i class="fa fa-sort-<?= $du['arr']; ?>"></i><?= round($du['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
+            <div class="right center">
+                <span class="count_top"><i class="fa fa-calendar"></i> Weekly Unique Devices</span>
+                <div class="count"><?= $this->Number->format($totalUniqueDevicesCountLastWeek); ?></div>
+                <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
             </div>
         </div>
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
@@ -80,7 +94,7 @@ $this->set('pageTitle', 'WddsDashboard');
         </div>
 
         <!-- separator -->
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
                 <span class="count_top"><i class="fa fa-user"></i> Todays Scan Results</span>
@@ -88,23 +102,7 @@ $this->set('pageTitle', 'WddsDashboard');
                 <span class="count_bottom"><i class="<?= $d['dir']; ?>"><i class="fa fa-sort-<?= $d['arr']; ?>"></i><?= round($d['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
             </div>
         </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
-            <div class="left"></div>
-            <div class="right center">
-                <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
-                <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
-                <span class="count_bottom"></span>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
-            <div class="left"></div>
-            <div class="right center">
-                <span class="count_top"><i class="fa fa-user"></i> Total Scan Results</span>
-                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totalScanCount) ?></a></div>
-                <span class="count_bottom"></span>
-            </div>
-        </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
                 <span class="count_top"><i class="fa fa-calendar"></i> Weekly Scan Results</span>
@@ -112,15 +110,31 @@ $this->set('pageTitle', 'WddsDashboard');
                 <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
             </div>
         </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
-                <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Devices</span>
-                <div class="count"><a href="/admin/users/unverified"><?= $this->Number->format($totalUniqueDevicesCount) ?></a></div>
+                <span class="count_top"><i class="fa fa-user"></i> Total Scan Results</span>
+                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totalScanCount) ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+            <div class="left"></div>
+            <div class="right center">
+                <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
+                <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
+                <span class="count_bottom"></span>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+            <div class="left"></div>
+            <div class="right center">
+                <span class="count_top"><i class="fa fa-user"></i> Todays Unique Devices</span>
+                <div class="count"><?= $this->Number->format($tudc); ?></div>
+                <span class="count_bottom"><i class="<?= $du['dir']; ?>"><i class="fa fa-sort-<?= $du['arr']; ?>"></i><?= round($du['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
+            </div>
+        </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
                 <span class="count_top"><i class="fa fa-calendar"></i> Weekly Unique Devices</span>
@@ -128,15 +142,15 @@ $this->set('pageTitle', 'WddsDashboard');
                 <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
             </div>
         </div>
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count">
-            <div class="left hidden-sm hidden-xs"></div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+            <div class="left"></div>
             <div class="right center">
-                <span class="count_top"><i class="fa fa-user"></i> Todays Unique Devices</span>
-                <div class="count"><?= $this->Number->format($tudc); ?></div>
-                <span class="count_bottom"><i class="<?= $du['dir']; ?>"><i class="fa fa-sort-<?= $du['arr']; ?>"></i><?= round($du['chg'],1); ?>% </i> from <span style="border-bottom: dashed 1px #999;" title="Up to <?= date('m/d/Y g:ia', strtotime('-1 day')); ?>">yesterday</span></span>
+                <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Devices</span>
+                <div class="count"><a href="/admin/users/unverified"><?= $this->Number->format($totalUniqueDevicesCount) ?></a></div>
+                <span class="count_bottom"></span>
             </div>
         </div>        
-        <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">
             <div class="left"></div>
             <div class="right center">
                 <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Vendors</span>
@@ -145,33 +159,26 @@ $this->set('pageTitle', 'WddsDashboard');
             </div>
         </div>
     </div>
-
 </div>
-
-
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="dashboard_graph">
 
                 <div class="row x_title">
                     <div class="col-md-6">
-                        <h3>Network Activities <small>Graph title sub-title</small></h3>
+                        <h3>WDDS Activity <small>Further Visual Representation</small></h3>
                     </div>
-                    <?= $this->element('Header/daterangepicker',['disabled'=>'disabled']) ?>
                 </div>
                 <div class="row">
                     <div class="col-md-4 col-xs-12">
                         <div id="totalscanresultsbyvendor"></div>
                         <?= $this->element('Charts/total_scanresults_by_vendor'); ?>
                     </div>
-
                     <div class="col-md-8 col-xs-12">
                         <div id="hc-2"></div>
                         <?= $this->element('Charts/retailer_performance'); ?>
                     </div>
                 </div>
-
-
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <div id="totalscanresultsbydaylastweek"></div>
