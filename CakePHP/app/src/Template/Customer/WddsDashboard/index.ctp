@@ -75,7 +75,7 @@ $this->set('pageTitle', 'WddsDashboard');
             <div class="right center">
                 <span class="count_top"><i class="fa fa-calendar"></i> Weekly Unique Devices</span>
                 <div class="count"><?= $this->Number->format($totalUniqueDevicesCountLastWeek); ?></div>
-                <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
+                <span class="count_bottom"><i class="<?= $dwu['dir']; ?>"><i class="fa fa-sort-<?= $dwu['arr']; ?>"></i><?= round($dwu['chg'],1); ?>% </i> from last week</span>
             </div>
         </div>
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
@@ -139,7 +139,7 @@ $this->set('pageTitle', 'WddsDashboard');
             <div class="right center">
                 <span class="count_top"><i class="fa fa-calendar"></i> Weekly Unique Devices</span>
                 <div class="count"><?= $this->Number->format($totalUniqueDevicesCountLastWeek); ?></div>
-                <span class="count_bottom"><i class="<?= $dw['dir']; ?>"><i class="fa fa-sort-<?= $dw['arr']; ?>"></i><?= round($dw['chg'],1); ?>% </i> from last week</span>
+                <span class="count_bottom"><i class="<?= $dwu['dir']; ?>"><i class="fa fa-sort-<?= $dwu['arr']; ?>"></i><?= round($dwu['chg'],1); ?>% </i> from last week</span>
             </div>
         </div>
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-sm hidden-xs">

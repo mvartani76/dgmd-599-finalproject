@@ -133,6 +133,7 @@ class WddsDashboardController extends NonCustomerDashboardController
         $scanResults = [];
         $lastWeekScanResults = [];
         $lastTwoWeekScanResults = [];
+        $week2ScanResults = [];
 
         $lastWeekTime = strtotime('-6 days');
         $lastTwoWeeks = strtotime('-13 days');
@@ -153,6 +154,9 @@ class WddsDashboardController extends NonCustomerDashboardController
                     if ($scanResult['payload']['log_time'] > $lastWeekTime)
                     {                  
                         $lastWeekScanResults[] = $scanResult;
+                    }
+                    else {
+                        $week2ScanResults[] = $scanResult;
                     }
                 }
 
@@ -197,7 +201,6 @@ class WddsDashboardController extends NonCustomerDashboardController
             date('l',time()) => 0,
         ];
 
-
         // Count the total amount of scans for each day of the week
         $tmp = array_count_values(array_column(array_column($scanResults,'payload'),'day'));
 
@@ -233,10 +236,10 @@ class WddsDashboardController extends NonCustomerDashboardController
         $ytudc = $totalUniqueDevicesCountByDayLastWeek[date('l',strtotime('-1 days'))];
         $tudc = $totalUniqueDevicesCountByDayLastWeek[date('l',time())];
 
-        // Calculate daily change values
+        // Calculate daily change values scan results
         $this->calculate_change($d, $tsc, $ytsc);
 
-        // Calculate daily change values
+        // Calculate daily change values for unique devices
         $this->calculate_change($du, $tudc, $ytudc);
 
         // Remove the key values from the array to be compatible with HighCharts
@@ -249,14 +252,19 @@ class WddsDashboardController extends NonCustomerDashboardController
         $totalScanCountLastWeek = count($lastWeekScanResults);
         $totalScanCountLastTwoWeeks = count($lastTwoWeekScanResults);
         
-        $totalUniqueDevicesCountLastWeek = count($lastWeekUniqueDevices);
-        
         // The total count for the week after last is equal to the total
         // for two weeks minus the last week
         $totalScanCount2ndWeek = $totalScanCountLastTwoWeeks - $totalScanCountLastWeek;
 
-        // Calculate weekly change values
+        // Calculate weekly change values for scan results
         $this->calculate_change($dw, $totalScanCountLastWeek, $totalScanCount2ndWeek);
+
+        $totalUniqueDevicesCountLastWeek = count($lastWeekUniqueDevices);
+        
+        $totalUniqueDevicesCount2ndWeek = count(array_unique(array_column(array_column($week2ScanResults,'payload'),'mac_addr')));;
+
+        // Calculate weekly change values for unique devices
+        $this->calculate_change($dwu, $totalUniqueDevicesCountLastWeek, $totalUniqueDevicesCount2ndWeek);
 
         // Count the total amount of scans for each day of the week
         $totalScanCountByVendor = array_count_values(array_column(array_column($scanResults,'payload'),'vendor'));
@@ -273,7 +281,7 @@ class WddsDashboardController extends NonCustomerDashboardController
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
 
-        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'tudc', 'd', 'dw','du'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'tudc', 'd', 'dw','du','dwu'));
     }
 
     public function deleteDashboard($user_id,$customer_id) {
