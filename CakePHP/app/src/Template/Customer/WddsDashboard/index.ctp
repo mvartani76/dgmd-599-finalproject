@@ -170,13 +170,13 @@ $this->set('pageTitle', 'WddsDashboard');
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 col-xs-12">
+                    <div class="col-lg-6 col-md-6 col-xs-12">
                         <div id="totalscanresultsbyvendor"></div>
                         <?= $this->element('Charts/total_scanresults_by_vendor'); ?>
                     </div>
-                    <div class="col-md-8 col-xs-12">
-                        <div id="hc-2"></div>
-                        <?= $this->element('Charts/retailer_performance'); ?>
+                    <div class="col-lg-6 col-md-6 col-xs-12">
+                        <div id="aplocations"></div>
+                        <?= $this->element('Charts/total_aps_scanresults_by_location'); ?>
                     </div>
                 </div>
                 <div class="row">

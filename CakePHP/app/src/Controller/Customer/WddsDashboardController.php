@@ -69,7 +69,8 @@ class WddsDashboardController extends NonCustomerDashboardController
         $this->viewBuilder()->layout('default');
 
         $accessPoints = TableRegistry::get('AccessPoints');
-        
+        $locations = TableRegistry::get('Locations');
+
         $accessPointsCount = $accessPoints
             ->find('all', [
 
@@ -77,13 +78,13 @@ class WddsDashboardController extends NonCustomerDashboardController
             ->where([         ])
             ->count();
 
-        $timeNow     = date('H:i:s', strtotime('now'));
+        $locationsPerf = $locations->find()->distinct('Locations.id')->matching('Apzones')->all();
 
-        $todayStart  = date('Y-m-d 00:00:00', strtotime('today'));
-        $todayEnd    = date('Y-m-d 23:59:59', strtotime('today'));
-        $yesterdayStart  = date('Y-m-d 00:00:00', strtotime('-1 day'));
-        $yesterdayEnd    = date('Y-m-d ' . $timeNow, strtotime('-1 day'));
-
+        // Organize the access point and locations data for chart
+        foreach($locationsPerf as $location) {
+            $locationData['name'][] = [ 'id' => $location->id, 'name' => $location->location];
+            $locationData['access_points'][] = (int)$location->apzones_count;
+        }
 
         $days = [
             0 => 'Monday',
@@ -303,7 +304,7 @@ class WddsDashboardController extends NonCustomerDashboardController
         $totalUniqueVendors = count($uniqueVendors);
         $totalScanCount = count($scanResults);
 
-        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalUniqueDevicesCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'tudc', 'd', 'dw','du','dwu'));
+        $this->set(compact('totalUniqueVendors', 'totalUniqueDevicesCount', 'totalScanCount', 'totalScanCountLastWeek', 'accessPointsCount', 'totalScanCountByDay', 'totalUniqueDevicesCountByDay', 'totalScanCountByDayLastWeek', 'totalUniqueDevicesCountByDayLastWeek', 'days', 'daysLastWeek', 'totalScanCountByVendor', 'totalUniqueDevicesCountLastWeek', 'tsc', 'tudc', 'd', 'dw','du','dwu', 'locationData'));
 
     }
 
