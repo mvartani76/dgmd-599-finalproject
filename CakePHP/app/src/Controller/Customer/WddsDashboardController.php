@@ -64,27 +64,7 @@ class WddsDashboardController extends NonCustomerDashboardController
 
         $this->set('dashboardSettings', $dashboardSettings);
         $this->set('dashboard', $dashboard);
-
-
         $this->viewBuilder()->layout('default');
-
-        $accessPoints = TableRegistry::get('AccessPoints');
-        $locations = TableRegistry::get('Locations');
-
-        $accessPointsCount = $accessPoints
-            ->find('all', [
-
-            ])
-            ->where([         ])
-            ->count();
-
-        $locationsPerf = $locations->find()->distinct('Locations.id')->matching('Apzones')->all();
-
-        // Organize the access point and locations data for chart
-        foreach($locationsPerf as $location) {
-            $locationData['name'][] = [ 'id' => $location->id, 'name' => $location->location];
-            $locationData['access_points'][] = (int)$location->apzones_count;
-        }
 
         $days = [
             0 => 'Monday',
@@ -160,7 +140,6 @@ class WddsDashboardController extends NonCustomerDashboardController
                         $week2ScanResults[] = $scanResult;
                     }
                 }
-
             }
 
         } catch (DynamoDbException $e) {
@@ -169,6 +148,68 @@ class WddsDashboardController extends NonCustomerDashboardController
             die();
         }
         
+        $accessPoints = TableRegistry::get('access_points');
+        $locations = TableRegistry::get('Locations');
+
+        $accessPointsCount = $accessPoints
+            ->find('all', [])
+            ->where([])
+            ->count();
+
+        $locationsPerf = $locations->find()->distinct('Locations.id')->matching('Apzones')->all();
+
+        // Organize the access point and locations data for chart
+        foreach($locationsPerf as $location) {
+            
+            // Find all the access points associated with a location
+            $accessPoints = $accessPoints->find('all',[])
+                ->select(['id', 'mac_addr'])
+                ->where(['access_points.id = ' => $location->_matchingData['Apzones']->accesspoint_id]);
+            
+
+            // Zero out total scan results for each location
+            $loc_scanresult_count = 0;
+
+            foreach($accessPoints as $accessPoint) {
+
+
+                // Need to format the access point mac address with colons as this is
+                // how it is stored in dynamo dB
+                $apstr = join(':', str_split($accessPoint->mac_addr,2));
+
+                // Set the filter expression for mac address to be the selected access point mac address
+                // Creating the JSON string that marshjson would have done
+                $eav = array(":mmaacc"=>array("S"=>$apstr));
+
+                // Set the params for the dB query to count all scanresults
+                $count_params = [
+                    'TableName' => $tableName,
+                    'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+                    'ExpressionAttributeValues' => $eav,
+                    'Select' => "COUNT"
+                    ];
+
+                // Count the number items matching the filter conditions but not limiting to 15
+                // Not sure which is the more efficient method?
+                try {
+                    $countresult = $dynamodb->query($count_params);
+                } catch (DynamoDbException $e) {
+                    echo "Unable to query:\n";
+                    echo $e->getMessage() . "\n";
+                    die();
+                }
+
+                // Sum the total scan result count over all the access points for a given location
+                $loc_scanresult_count = $loc_scanresult_count + $countresult['Count'];
+            }
+            $locationData['name'][] = [ 'id' => $location->id, 'name' => $location->location];
+            $locationData['access_points'][] = (int)$location->apzones_count;
+            $locationData['scan_results'][] = $loc_scanresult_count;
+        }
+
+
+
+
         // Create a base array that has zero counts for each day
         $totalScanCountByDay = [
             'Monday' => 0,
