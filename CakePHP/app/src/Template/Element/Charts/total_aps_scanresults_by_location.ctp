@@ -65,13 +65,13 @@ $chart->yAxis = array(
 
 
 $chart->series[] = array('shadow' => 1, 'name' => 'Access Points', 'type' => 'column', 'data' => $locationData['access_points'] ?? 'N/A');
-//$chart->series[] = array('shadow' => 1, 'name' => 'Scan Results', 'yAxis' => 1, 'type' => 'column', 'data' => $retailerData['impressions'] ?? 'N/A');
+$chart->series[] = array('shadow' => 1, 'name' => 'Scan Results', 'yAxis' => 1, 'type' => 'column', 'data' => $locationData['scan_results'] ?? 'N/A');
 
 $chart->legend->layout = "vertical";
 $chart->legend->align = "left";
-$chart->legend->x = 120;
+$chart->legend->x = 50;
 $chart->legend->verticalAlign = "top";
-$chart->legend->y = 100;
+$chart->legend->y = 25;
 $chart->legend->floating = 1;
 $chart->legend->backgroundColor = "#FFFFFF";
 
