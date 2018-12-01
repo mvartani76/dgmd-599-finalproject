@@ -47,12 +47,12 @@
 
                     <!-- Do not display the Previous link if on the first page (page 0) -->
                     <?php if ($page > 0): ?>
-                        <?php echo $this->Html->link('Previous', ['controller' => 'ScanResults', 'action' => 'listuniquedevices', '?' => ['page' => ($page-1), 'key' => serialize($prevlastvalkey)]], ['class' => 'pull-left btn btn-primary']); ?>
+                        <?php echo $this->Html->link('Previous', ['controller' => 'ScanResults', 'action' => 'listuniquedevices', '?' => ['page' => ($page-1)]], ['class' => 'pull-left btn btn-primary']); ?>
                     <?php endif; ?>
 
                     <!-- Only display the Next link if there are more results. -->
-                    <?php if ($lastevalkey != null): ?>
-                        <?php echo $this->Html->link('Next', ['controller' => 'ScanResults', 'action' => 'listuniquedevices', '?' => ['page' => ($page+1), 'key' => serialize($lastevalkey)]], ['class' => 'pull-right btn btn-primary']); ?>
+                    <?php if ($moredevices > 0): ?>
+                        <?php echo $this->Html->link('Next', ['controller' => 'ScanResults', 'action' => 'listuniquedevices', '?' => ['page' => ($page+1)]], ['class' => 'pull-right btn btn-primary']); ?>
                     <?php endif; ?>
                 </div>
             </div>

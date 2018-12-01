@@ -7,6 +7,10 @@ use Aws\DynamoDb\Exception\DynamoDbException;
 use Aws\DynamoDb\Marshaler;
 use Cake\I18n\FrozenTime;
 
+
+// Constant for # of paginated results to return
+define("NUM_RESULTS_PER_PAGE", 15);
+
 /**
  * ScanResults Controller
  *
@@ -192,17 +196,17 @@ class ScanResultsController extends AppController
         $key = $this->request->getQuery('key');
         $key = $key ? unserialize($key) : $key;
 
-        if (isset($key)) {
+        // Not setting a limit explicitly because we want to find unique values over all devices
+        // There is an inherent problem with the return from dynamoDB limiting to 1MB of results
+        if (isset($key) && ($page > 0)) {
 
             $params = [
                 'TableName' => $tableName,
-                'Limit' => 15,
                 'ExclusiveStartKey' => $key
             ];
         } else {
             $params = [
-                'TableName' => $tableName,
-                'Limit' => 15
+                'TableName' => $tableName
             ];
         }
 
@@ -222,20 +226,24 @@ class ScanResultsController extends AppController
 
         // Count the total unique device mac addresses
         // This assumes that mac addr is a column of the payload array and payload is a column of the totalScanResults array
-        $totalUniqueDevices = array_unique(array_column(array_column($scanResults,'payload'),'mac_addr'));
-        $tmp_ak = array_keys($totalUniqueDevices);
+        $tmp_totalUniqueDevices = array_unique(array_column(array_column($scanResults,'payload'),'mac_addr'));
+        $tmp_ak = array_keys($tmp_totalUniqueDevices);
         
-        $totalUniqueDevices = array_intersect_key(array_column($scanResults,'payload'), array_flip($tmp_ak));
-
-        // Set the previous last evaluated key to be able to navigate back to the previous page
-        if (isset($lastevalkey)) {
-            $prevlastvalkey = $lastevalkey;
-        } else {
-            $prevlastvalkey = $result['LastEvaluatedKey'];
-        }
+        $tmp_totalUniqueDevices = array_intersect_key(array_column($scanResults,'payload'), array_flip($tmp_ak));
+        $totalUniqueDevicesCount = count($tmp_totalUniqueDevices);
+        
+        // Not setting a limit explicitly because we want to find unique values over all devices
+        // There is an inherent problem with the return from dynamoDB limiting to 1MB of results
+        // --> Maybe I can keep scanning until $result = null?
         $lastevalkey = $result['LastEvaluatedKey'];
 
-        $this->set(compact('totalUniqueDevices','lastevalkey', 'prevlastvalkey', 'page'));
+        if (!isset($result['LastEvaluatedKey'])) {
+            $doneScanning = true;
+        }
+        
+        $totalUniqueDevices = array_slice($tmp_totalUniqueDevices,$page*NUM_RESULTS_PER_PAGE,NUM_RESULTS_PER_PAGE);
+        $moredevices = $totalUniqueDevicesCount - (($page+1)*NUM_RESULTS_PER_PAGE);
+        $this->set(compact('totalUniqueDevices','moredevices', 'page'));
     }
 
 
