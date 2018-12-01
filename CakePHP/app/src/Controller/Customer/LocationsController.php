@@ -8,6 +8,9 @@ use Cake\Event\Event;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
 use Solarium\Client;
+use Aws\Sdk as AwsSdk;
+use Aws\DynamoDb\Exception\DynamoDbException;
+use Aws\DynamoDb\Marshaler;
 
 /**
  * Locations Controller
@@ -144,8 +147,72 @@ class LocationsController extends AppController
                 'Locations.flag_duplicate' => false,
             ],
         ];
+        $locations = $this->paginate($this->Locations);
 
-        $this->set('locations', $this->paginate($this->Locations));
+        $this->loadModel('AccessPoints');
+        $this->request->data['access_points']['customer_id'] = $this->AuthUser->user('customer_id');
+
+        // Pass in the AWS credentials from the .env file
+        $sdk = new AwsSdk([
+            'region'   => env('AWS_DYNAMODB_REGION', 'us-west-2'),
+            'version'  => env('AWS_DYNAMODB_VERSION', 'latest'),
+            'credentials' => [
+                'key' => env('AWS_DYNAMODB_CREDENTIALS_KEY', null),
+                'secret'  => env('AWS_DYNAMODB_CREDENTIALS_SECRET', null),
+            ],
+        ]);
+
+        // Create a DynamoDb instance
+        $dynamodb = $sdk->createDynamoDb();
+        $marshaler = new Marshaler();
+
+        $tableName = 'wdds_testdata';
+
+        $totalScanResultsArray = array();
+
+        foreach ($locations as $location):
+            if ($location->apzones_count>0): 
+                $totalScanResults = 0;
+                foreach ($location->apzones as $apzone):
+                    //pr($apzone->accesspoint_id);
+                    $accessPoint = $this->AccessPoints->find()
+                    ->where(['accesspoint_id' => $apzone->accesspoint_id])
+                    ->contain(['Apzones.Locations'])
+                    ->first();
+                    
+                    $apstr = join(':', str_split($accessPoint->mac_addr,2));
+
+                    // Set the filter expression for mac address to be the selected access point mac address
+                    // Creating the JSON string that marshjson would have done
+                    $eav = array(":mmaacc"=>array("S"=>$apstr));
+
+                    // Set the params for the dB query to count all scanresults
+                    $count_params = [
+                        'TableName' => $tableName,
+                        'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
+                        'ExpressionAttributeValues' => $eav,
+                        'Select' => "COUNT"
+                        ];
+
+                    // Count the number items matching the filter conditions but not limiting to 15
+                    // Not sure which is the more efficient method?
+                    try {
+                        $countresult = $dynamodb->query($count_params);
+                    } catch (DynamoDbException $e) {
+                        echo "Unable to query:\n";
+                        echo $e->getMessage() . "\n";
+                        die();
+                    }
+                    $totalScanResults = $totalScanResults + $countresult['Count'];
+                endforeach;
+                $location->totalscanresults_count = $totalScanResults;
+            endif;
+        endforeach;
+
+
+
+
+        $this->set('locations', $locations);
         $this->set('_serialize', ['locations']);
     }
 

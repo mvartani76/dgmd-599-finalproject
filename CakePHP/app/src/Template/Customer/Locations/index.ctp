@@ -62,7 +62,7 @@
                                 <td data-title="ScanResults"><a title="View this entry's scan results" href="/customer/scan_results/viewby/location/<?= $location->id ?>">
                                     <!-- Only display the scan results for the zpaones if apzones exist -->
                                     <?php if ($location->apzones_count>0): ?>
-                                        <?= $this->Number->format(array_sum(\Cake\Utility\Hash::extract($location->apzones, '{n}.total_devices_count'))) ?>
+                                        <?= $this->Number->format($location->totalscanresults_count) ?>
                                     </a>
                                     <a title="View this locations's AP zones" href="/customer/locations/view/<?= $location->id ?>#notes-tab4"> (<?= sngw('apzone', $location->apzones_count) ?>)</a><br/>
                                     <?php endif; ?>
