@@ -30,7 +30,7 @@ $chart->xAxis = [
         'labels' => [
             'rotation' => -45,
             'formatter' => new \Ghunti\HighchartsPHP\HighchartJsExpr("function() {
-                return '<a href=\"/" . $role . "/retailers/view/' + this.value.id + '\">' + this.value.name + '</a>';            
+                return '<a href=\"/" . $role . "/locations/view/' + this.value.id + '\">' + this.value.name + '</a>';            
             }"),
             'useHTML' => true,
             'align' => 'right',
