@@ -46,13 +46,13 @@ $chart->xAxis = [
 $leftYaxis = new \Ghunti\HighchartsPHP\HighchartOption();
 $leftYaxis->labels->style->color = "#89A54E";
 $leftYaxis->title->useHTML = true;
-$leftYaxis->title->text = "<a href=\"/admin/locations\">Access Points</a>";
+$leftYaxis->title->text = "<a href=\"/customer/access_points\">Access Points</a>";
 $leftYaxis->title->style->color = "#89A54E";
 
 
 $rightYaxis = new \Ghunti\HighchartsPHP\HighchartOption();
 $rightYaxis->title->useHTML = true;
-$rightYaxis->title->text = "<a href=\"/admin/impressions\">Scan Results</a>";
+$rightYaxis->title->text = "<a href=\"/customer/ScanResults\">Scan Results</a>";
 $rightYaxis->title->style->color = "#4572A7";
 $rightYaxis->labels->style->color = "#4572A7";
 $rightYaxis->opposite = 1;
