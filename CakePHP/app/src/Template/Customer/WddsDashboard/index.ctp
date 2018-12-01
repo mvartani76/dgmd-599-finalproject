@@ -53,14 +53,14 @@ $this->set('pageTitle', 'WddsDashboard');
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
             <div class="right center" style="margin-left:calc(50% - 105px);">
                 <span class="count_top"><i class="fa fa-user"></i> Total Scan Results</span>
-                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totalScanCount) ?></a></div>
+                <div class="count"><a href="/customer/ScanResults"><?= $this->Number->format($totalScanCount) ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
         <div class="animated flipInY col-lg-2 col-md-6 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
             <div class="right center" style="margin-left:calc(50% - 105px);">
                 <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
-                <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
+                <div class="count"><a href="/customer/access_points"><?= $this->Number->format($accessPointsCount); ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
@@ -114,7 +114,7 @@ $this->set('pageTitle', 'WddsDashboard');
             <div class="left"></div>
             <div class="right center">
                 <span class="count_top"><i class="fa fa-user"></i> Total Scan Results</span>
-                <div class="count"><a href="/admin/impressions"><?= $this->Number->format($totalScanCount) ?></a></div>
+                <div class="count"><a href="/customer/ScanResults"><?= $this->Number->format($totalScanCount) ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
@@ -122,7 +122,7 @@ $this->set('pageTitle', 'WddsDashboard');
             <div class="left"></div>
             <div class="right center">
                 <span class="count_top"><i class="fa fa-mobile-phone"></i> Total Access Points</span>
-                <div class="count"><a href="/admin/devices"><?= $this->Number->format($accessPointsCount); ?></a></div>
+                <div class="count"><a href="/customer/access_points"><?= $this->Number->format($accessPointsCount); ?></a></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
