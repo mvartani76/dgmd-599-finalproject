@@ -88,7 +88,7 @@ $this->set('pageTitle', 'WddsDashboard');
         <div class="animated flipInY col-lg-2 col-md-3 col-sm-6 col-xs-12 tile_stats_count hidden-lg hidden-md">
             <div class="right center" style="margin-left:calc(50% - 105px);">
                 <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Vendors</span>
-                <div class="count"><a href="/admin/users/unverified"><?= $this->Number->format($totalUniqueVendors) ?></a></div>
+                <div class="count"><?= $this->Number->format($totalUniqueVendors) ?></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
@@ -154,7 +154,7 @@ $this->set('pageTitle', 'WddsDashboard');
             <div class="left"></div>
             <div class="right center">
                 <span class="count_top"><i class="fa fa-location-arrow"></i> Total Unique Vendors</span>
-                <div class="count"><a href="/admin/users/unverified"><?= $this->Number->format($totalUniqueVendors) ?></a></div>
+                <div class="count"><?= $this->Number->format($totalUniqueVendors) ?></div>
                 <span class="count_bottom"></span>
             </div>
         </div>
