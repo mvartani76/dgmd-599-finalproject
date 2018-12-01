@@ -70,7 +70,8 @@
                 <a><i class="fa fa-wifi"></i> Device Detection <span class="fa fa-chevron-down"></span></a>
                 <ul class="nav child_menu" style="display: none">
                     <li><a href="/customer/wddsDashboard">WDDS Dashboard</a></li>
-                    <li><a href="/customer/ScanResults">List Scan Results</a></li>
+                    <li><a href="/customer/ScanResults">List Total Scan Results</a></li>
+                    <li><a href="/customer/ScanResults/listuniquedevices">List Unique Devices</a></li>
                 </ul>
             </li>
             <li><a><i class="fa fa-futbol-o"></i> Personas <span class="fa fa-chevron-down"></span></a>
