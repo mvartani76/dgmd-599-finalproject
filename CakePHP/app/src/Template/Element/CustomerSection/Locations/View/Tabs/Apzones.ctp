@@ -26,7 +26,7 @@
                         <th><?= $this->Paginator->sort('access_point.mac_addr', 'MAC Address', ['model' => 'Apzones']) ?></th>
                         <th><?= $this->Paginator->sort('placement', 'Placement', ['model' => 'Apzones']) ?></th>
                         <th><?= $this->Paginator->sort('floor', 'Floor', ['model' => 'Apzones']) ?></th>
-                        <th><?= $this->Paginator->sort('total_devices_count', 'Devices for this Apzone<br/>', ['model' => 'Apzones', 'escape' => false]) ?></th>
+                        <th><?= $this->Paginator->sort('total_devices_count', 'Scan Results for this Apzone<br/>', ['model' => 'Apzones', 'escape' => false]) ?></th>
                         <th class="actions" style="text-align: right; width: 233px;"><?= __('Actions') ?></th>
                     </tr>
                     </thead>
