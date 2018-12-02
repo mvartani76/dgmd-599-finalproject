@@ -14,7 +14,7 @@
 
             <div class="callout callout-info">
                 <?= $this->Paginator->counter([
-                    'format' => 'Page {{page}} of {{pages}} - {{count}} total records', 'model' => 'Zones'
+                    'format' => 'Page {{page}} of {{pages}} - {{count}} total records', 'model' => 'Apzones'
                 ]) ?>
             </div>
             <div  class="col-md-12 col-sm-12 col-xs-12 table-custom">
