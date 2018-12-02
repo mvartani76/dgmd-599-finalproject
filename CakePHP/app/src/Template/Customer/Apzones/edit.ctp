@@ -16,8 +16,8 @@
         <li><?= $this->Html->link(__('List Apzones'), ['action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('List Locations'), ['controller' => 'Locations', 'action' => 'index']) ?></li>
         <li><?= $this->Html->link(__('New Location'), ['controller' => 'Locations', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'AccessPoints', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'AccessPoints', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'access_points', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'access_points', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="apzones form large-9 medium-8 columns content">
@@ -26,7 +26,7 @@
         <legend><?= __('Edit Apzone') ?></legend>
         <?php
             echo $this->Form->control('location_id', ['options' => $locations]);
-            echo $this->Form->control('accesspoint_id', ['options' => $accessPoints]);
+            echo $this->Form->control('accesspoint_id', ['options' => $access_points]);
             echo $this->Form->control('fixture_no');
             echo $this->Form->control('placement');
             echo $this->Form->control('floor');

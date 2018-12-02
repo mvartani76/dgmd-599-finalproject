@@ -13,8 +13,8 @@
         <li><?= $this->Html->link(__('New Apzone'), ['action' => 'add']) ?> </li>
         <li><?= $this->Html->link(__('List Locations'), ['controller' => 'Locations', 'action' => 'index']) ?> </li>
         <li><?= $this->Html->link(__('New Location'), ['controller' => 'Locations', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'AccessPoints', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'AccessPoints', 'action' => 'add']) ?> </li>
+        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'access_points', 'action' => 'index']) ?> </li>
+        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'access_points', 'action' => 'add']) ?> </li>
     </ul>
 </nav>
 <div class="apzones view large-9 medium-8 columns content">
@@ -26,7 +26,7 @@
         </tr>
         <tr>
             <th scope="row"><?= __('Access Point') ?></th>
-            <td><?= $apzone->has('access_point') ? $this->Html->link($apzone->access_point->id, ['controller' => 'AccessPoints', 'action' => 'view', $apzone->access_point->id]) : '' ?></td>
+            <td><?= $apzone->has('access_point') ? $this->Html->link($apzone->access_point->id, ['controller' => 'access_points', 'action' => 'view', $apzone->access_point->id]) : '' ?></td>
         </tr>
         <tr>
             <th scope="row"><?= __('Fixture No') ?></th>
