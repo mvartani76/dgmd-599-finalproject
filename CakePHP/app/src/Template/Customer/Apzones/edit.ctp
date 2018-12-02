@@ -32,7 +32,7 @@
                         <div class="col-md-3 col-md-3 col-sm-3"></div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <?= $this->Form->button('', ['style' => 'display: none;', 'type' => 'submit']) ?>
-                            <?= $this->Form->button(__('<i class="fa fa-times-circle"></i> &nbsp; Cancel'), ['name' => '_CANCEL', 'class' => 'pull-right btn btn-default']) ?>
+                            <?= $this->Form->button(__('<i class="fa fa-times-circle"></i> &nbsp; Cancel'), ['name' => '_REDIRECT_ON_CANCEL', 'class' => 'pull-right btn btn-default']) ?>
                             <?= $this->Form->button(__('<i class="fa fa-plus-circle"></i> &nbsp;Submit'), ['class' => 'pull-right btn btn-primary']) ?>
                         </div>
                     </div>
