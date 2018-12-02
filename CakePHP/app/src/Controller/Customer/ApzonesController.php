@@ -83,7 +83,9 @@ class ApzonesController extends AppController
             if ($this->Apzones->save($apzone)) {
                 $this->Flash->success(__('The apzone has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                // This currently will take the user to the location view page but does not go back to the 
+                // correct tab yet
+                return $this->redirect(['controller' => 'locations', 'action' => 'view', $apzone->location_id]);
             }
             $this->Flash->error(__('The apzone could not be saved. Please, try again.'));
         }
