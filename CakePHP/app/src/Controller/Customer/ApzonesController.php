@@ -21,7 +21,7 @@ class ApzonesController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Locations', 'AccessPoints']
+            'contain' => ['Locations', 'access_points']
         ];
         $apzones = $this->paginate($this->Apzones);
 
@@ -38,7 +38,7 @@ class ApzonesController extends AppController
     public function view($id = null)
     {
         $apzone = $this->Apzones->get($id, [
-            'contain' => ['Locations', 'AccessPoints']
+            'contain' => ['Locations', 'access_points']
         ]);
 
         $this->set('apzone', $apzone);
@@ -62,8 +62,8 @@ class ApzonesController extends AppController
             $this->Flash->error(__('The apzone could not be saved. Please, try again.'));
         }
         $locations = $this->Apzones->Locations->find('list', ['limit' => 200]);
-        $accessPoints = $this->Apzones->AccessPoints->find('list', ['limit' => 200]);
-        $this->set(compact('apzone', 'locations', 'accessPoints'));
+        $access_points = $this->Apzones->AccessPoints->find('list', ['limit' => 200]);
+        $this->set(compact('apzone', 'locations', 'access_points'));
     }
 
     /**
@@ -87,9 +87,9 @@ class ApzonesController extends AppController
             }
             $this->Flash->error(__('The apzone could not be saved. Please, try again.'));
         }
-        $locations = $this->Apzones->Locations->find('list', ['limit' => 200]);
-        $accessPoints = $this->Apzones->AccessPoints->find('list', ['limit' => 200]);
-        $this->set(compact('apzone', 'locations', 'accessPoints'));
+        $locations = $this->Apzones->Locations->find('list');
+        $access_points = $this->Apzones->access_points->find('list');
+        $this->set(compact('apzone', 'locations', 'access_points'));
     }
 
     /**
