@@ -4,39 +4,41 @@
  * @var \App\Model\Entity\Apzone $apzone
  */
 ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Form->postLink(
-                __('Delete'),
-                ['action' => 'delete', $apzone->id],
-                ['confirm' => __('Are you sure you want to delete # {0}?', $apzone->id)]
-            )
-        ?></li>
-        <li><?= $this->Html->link(__('List Apzones'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Locations'), ['controller' => 'Locations', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Location'), ['controller' => 'Locations', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'access_points', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'access_points', 'action' => 'add']) ?></li>
-    </ul>
-</nav>
-<div class="apzones form large-9 medium-8 columns content">
-    <?= $this->Form->create($apzone) ?>
-    <fieldset>
-        <legend><?= __('Edit Apzone') ?></legend>
-        <?php
-            echo $this->Form->control('location_id', ['options' => $locations]);
-            echo $this->Form->control('accesspoint_id', ['options' => $access_points]);
-            echo $this->Form->control('fixture_no');
-            echo $this->Form->control('placement');
-            echo $this->Form->control('floor');
-            echo $this->Form->control('scanresults_count');
-            echo $this->Form->control('ignore_further_incidents');
-            echo $this->Form->control('is_reviewed');
-            echo $this->Form->control('review_date', ['empty' => true]);
-            echo $this->Form->control('last_scanresult', ['empty' => true]);
-        ?>
-    </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
-    <?= $this->Form->end() ?>
+<?php $this->set('pageTitle', 'Edit Apzone'); ?>
+<?= $this->Form->create($apzone) ?>
+<div class="x_panel">
+    <div class="x_title">
+        <h1><?= __('Edit Apzone #{0}', $apzone->id) ?></h1>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <section class="content">
+            <div class="users add-form col-md-12">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-md-3 col-sm-3"></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                            <?= $this->Form->input('location_id', ['label' => 'Location ID', 'options' => $locations, 'class' => 'form-control', 'default' => $apzone->location_id])?>
+                            <?= $this->Form->input('accesspoint_id', ['label' => 'Access Point ID', 'options' => $access_points, 'class' => 'form-control', 'default' => $apzone->accesspoint_id])?>
+                            <?= $this->Form->input('fixture_no', ['label' => 'Fixture #', 'class' => 'form-control'])?>
+                            <?= $this->Form->input('placement', ['label' => 'Placement', 'class' => 'form-control'])?>
+                            <?= $this->Form->input('floor', ['label' => 'Floor', 'class' => 'form-control'])?>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-md-3 col-md-3 col-sm-3"></div>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?= $this->Form->button('', ['style' => 'display: none;', 'type' => 'submit']) ?>
+                            <?= $this->Form->button(__('<i class="fa fa-times-circle"></i> &nbsp; Cancel'), ['name' => '_CANCEL', 'class' => 'pull-right btn btn-default']) ?>
+                            <?= $this->Form->button(__('<i class="fa fa-plus-circle"></i> &nbsp;Submit'), ['class' => 'pull-right btn btn-primary']) ?>
+                        </div>
+                    </div>
+                    <?= $this->Form->end() ?>
+                </div>
+            </div>
+        </section>
+    </div>
 </div>
