@@ -136,48 +136,150 @@
 <?php endif; ?>
 <?php if ($type == 'locations'): ?>
     <div class="top_tiles">
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-crosshairs"></i>
+        <!-- Only display zone related tiles if there are zones. -->
+        <?php if ($LocationZonesCount > 0): ?>
+            <!-- Update CSS if both APZones and Zones exist -->
+            <?php if ($LocationAPZonesCount > 0): ?>
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <?php else: ?>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <?php endif; ?>
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-crosshairs"></i>
+                    </div>
+                    <div class="count">
+                        <a href="#" id="ZonesCount">
+                            0
+                        </a>
+                    </div>
+                    <!-- Make Box Title Smaller if displaying both Zone/APZone Values -->
+                    <?php if ($LocationAPZonesCount > 0): ?>
+                        <h4>Defined Zones</h4>
+                    <?php else: ?>
+                        <h3>Defined Zones</h3>
+                    <?php endif; ?>
+                    <p>&nbsp;</p>
                 </div>
-                <div class="count">
-                    <a href="#" id="ZonesCount">
-                        0
-                    </a>
-                </div>
-
-                <h3>Defined Zones</h3>
-                <p>&nbsp;</p>
             </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-location-arrow"></i>
+            <!-- Update CSS if both APZones and Zones exist -->
+            <?php if ($LocationAPZonesCount > 0): ?>
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <?php else: ?>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <?php endif; ?>
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-location-arrow"></i>
+                    </div>
+                    <div class="count">
+                        <a href="#" id="ImpressionsCount">
+                            0
+                        </a>
+                    </div>
+                    <!-- Make Box Title Smaller if displaying both Zone/APZone Values -->
+                    <?php if ($LocationAPZonesCount > 0): ?>
+                        <h4>Impressions for time period</h4>
+                    <?php else: ?>
+                        <h3>Impressions for time period</h3>
+                    <?php endif; ?>
+                    <p class="time-filter-period">Last 7 days</p>
                 </div>
-                <div class="count">
-                    <a href="#" id="ImpressionsCount">
-                        0
-                    </a>
-                </div>
-
-                <h3>Impressions for time period</h3>
-                <p class="time-filter-period">Last 7 days</p>
             </div>
-        </div>
-        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
-            <div class="tile-stats">
-                <div class="icon"><i class="fa fa-mobile-phone"></i>
+            <!-- Update CSS if both APZones and Zones exist -->
+            <?php if ($LocationAPZonesCount > 0): ?>
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <?php else: ?>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <?php endif; ?>
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-mobile-phone"></i>
+                    </div>
+                    <div class="count">
+                        <a href="#" id="DevicesCount">
+                            0
+                        </a>
+                    </div>
+                    <!-- Make Box Title Smaller if displaying both Zone/APZone Values -->
+                    <?php if ($LocationAPZonesCount > 0): ?>
+                        <h4>Unique Devices</h4>
+                    <?php else: ?>
+                        <h3>Unique Devices</h3>
+                    <?php endif; ?>
+                    <p class="time-filter-period">Last 7 days</p>
                 </div>
-                <div class="count">
-                    <a href="#" id="DevicesCount">
-                        0
-                    </a>
-                </div>
-
-                <h3>Unique Devices</h3>
-                <p class="time-filter-period">Last 7 days</p>
             </div>
-        </div>
+        <?php endif; ?>
+        <!-- Only display apzone related tiles if there are apzones. -->
+        <?php if ($LocationAPZonesCount > 0): ?>
+            <!-- Update CSS if both APZones and Zones exist -->
+            <?php if ($LocationZonesCount > 0): ?>
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <?php else: ?>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <?php endif; ?>
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-crosshairs"></i>
+                    </div>
+                    <div class="count">
+                        <a href="#" id="APZonesCount">
+                            0
+                        </a>
+                    </div>
+                    <!-- Make Box Title Smaller if displaying both Zone/APZone Values -->
+                    <?php if ($LocationZonesCount > -1): ?>
+                        <h4>Defined APZones</h4>
+                    <?php else: ?>
+                        <h3>Defined APZones</h3>
+                    <?php endif; ?>
+                    <p>&nbsp;</p>
+                </div>
+            </div>
+            <!-- Update CSS if both APZones and Zones exist -->
+            <?php if ($LocationZonesCount > 0): ?>
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <?php else: ?>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <?php endif; ?>
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-location-arrow"></i>
+                    </div>
+                    <div class="count">
+                        <a href="#" id="ScanResultsCount">
+                            0
+                        </a>
+                    </div>
+                    <!-- Make Box Title Smaller if displaying both Zone/APZone Values -->
+                    <?php if ($LocationZonesCount > 0): ?>
+                        <h4>Scan Results for time period</h4>
+                    <?php else: ?>
+                        <h3>Scan Results for time period</h3>
+                    <?php endif; ?>
+                    <p class="time-filter-period">Last 7 days</p>
+                </div>
+            </div>
+            <!-- Update CSS if both APZones and Zones exist -->
+            <?php if ($LocationZonesCount > 0): ?>
+                <div class="animated flipInY col-lg-2 col-md-2 col-sm-6 col-xs-12">
+            <?php else: ?>
+                <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <?php endif; ?>
+                <div class="tile-stats">
+                    <div class="icon"><i class="fa fa-mobile-phone"></i>
+                    </div>
+                    <div class="count">
+                        <a href="#" id="UniqueDevicesCount">
+                            0
+                        </a>
+                    </div>
+                    <!-- Make Box Title Smaller if displaying both Zone/APZone Values -->
+                    <?php if ($LocationZonesCount > 0): ?>
+                        <h4>Unique Scan Results</h4>
+                    <?php else: ?>
+                        <h3>Unique Scan Results</h3>
+                    <?php endif; ?>
+                    <p class="time-filter-period">Last 7 days</p>
+                </div>
+            </div>
+    <?php endif; ?>
     </div>
 <?php endif; ?>
 <?php if ($type == 'retailers'): ?>

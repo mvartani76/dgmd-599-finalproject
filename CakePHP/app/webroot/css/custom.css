@@ -2509,6 +2509,7 @@ h4.graph_title {
 
 .tile-stats .count,
 .tile-stats h3,
+.tile-stats h4,
 .tile-stats p {
     position: relative;
     margin: 0;
@@ -2517,7 +2518,8 @@ h4.graph_title {
     padding: 0;
 }
 
-.tile-stats h3 {
+.tile-stats h3,
+.tile-stats h4 {
     color: #BAB8B8;
 }
 
