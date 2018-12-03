@@ -266,7 +266,7 @@
                     <div class="icon"><i class="fa fa-mobile-phone"></i>
                     </div>
                     <div class="count">
-                        <a href="#" id="UniqueDevicesCount">
+                        <a href="#" id="UniqueScanResultsCount">
                             0
                         </a>
                     </div>

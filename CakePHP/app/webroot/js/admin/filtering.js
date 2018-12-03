@@ -1,6 +1,5 @@
 $(function() {
     $( ".apply-dateRange" ).bind( "click", function() {
-        console.log("enter apply-dateRange");
         //Send to server converted to UTC.
         var start_date =  moment($('.start-range-date').data('DateTimePicker').date()).tz('UTC').format('MM/DD/YYYY');
         var end_date = moment($('.end-range-date').data('DateTimePicker').date()).tz('UTC').format('MM/DD/YYYY');
@@ -52,6 +51,9 @@ $(function() {
                     $('#ZonesCount').animateNumber({numberStep: commaStep,      number: data.LocationZonesCount   });
                     $('#ImpressionsCount').animateNumber({numberStep: commaStep,    number: data.WeeksImpressionCount   });
                     $('#DevicesCount').animateNumber({numberStep: commaStep,        number: data.LocationDevicesCount   });
+                    $('#APZonesCount').animateNumber({numberStep: commaStep, number: data.LocationAPZonesCount});
+                    $('#ScanResultsCount').animateNumber({numberStep: commaStep, number: data.totalScanResults});
+                    $('#UniqueScanResultsCount').animateNumber({numberStep: commaStep, number: data.totalUniqueScans});
                 }
                 if(typeof RETAILER_ID !== "undefined"){
                     $('#LocationsCount').animateNumber({numberStep: commaStep,      number: data.RetailerLocationsCount   });

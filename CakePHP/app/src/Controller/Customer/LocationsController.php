@@ -327,10 +327,18 @@ class LocationsController extends AppController
             $periodStart = date('Y-m-d 00:00:00', strtotime($startDate));
             $periodEnd   = date('Y-m-d 23:59:59', strtotime($endDate));
 
+            // Keeping in unix time (in msec) as that is what is stored in dynamoDB
+            $periodStart_awsUT = strtotime($startDate)*1000;
+            $periodEnd_awsUT   = strtotime($endDate)*1000;
+
         } else {
 
             $periodStart  = date('Y-m-d 00:00:00', strtotime('-7 days'));
             $periodEnd    = date('Y-m-d 23:59:59', time());
+
+            // Keeping in unix time (in msec) as that is what is stored in dynamoDB
+            $periodStart_awsUT  = strtotime('-7 days')*1000;
+            $periodEnd_awsUT    = time()*1000;
 
         }
 
@@ -512,6 +520,9 @@ class LocationsController extends AppController
 
         $tableName = 'wdds_testdata';
 
+        $totalScanResults = 0;
+        $scanResults = [];
+
         // Compute the total number of scanned devices for each accessPoint and store into
         // total_devices_count --> only using this for index display as the value could be stale
         foreach ($apzones as $apzone):
@@ -520,15 +531,15 @@ class LocationsController extends AppController
             // how it is stored in dynamo dB
             $apstr = join(':', str_split($apzone->access_point->mac_addr,2));
 
-            // Set the filter expression for mac address to be the selected access point mac address
-            // Creating the JSON string that marshjson would have done
-            $eav = array(":mmaacc"=>array("S"=>$apstr));
+            // Set the ExpressionAttributeValues for the time based query.
+            // Note that the numbers for starttime/endtime need to be surrounded by double quotation marks.
+            $eav_time = array(":mmaacc"=>array("S"=>$apstr),":starttime"=>array("N"=>"$periodStart_awsUT"),":endtime"=>array("N"=>"$periodEnd_awsUT"));
 
             // Set the params for the dB query to count all scanresults
             $count_params = [
                 'TableName' => $tableName,
-                'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
-                'ExpressionAttributeValues' => $eav,
+                'KeyConditionExpression' => 'ap_mac_addr = :mmaacc AND log_time BETWEEN :starttime AND :endtime',
+                'ExpressionAttributeValues' => $eav_time,
                 'Select' => "COUNT"
                 ];
 
@@ -536,8 +547,8 @@ class LocationsController extends AppController
             // Used for displaying unique devices over a given time
             $unique_params = [
                 'TableName' => $tableName,
-                'KeyConditionExpression' => 'ap_mac_addr = :mmaacc',
-                'ExpressionAttributeValues' => $eav,
+                'KeyConditionExpression' => 'ap_mac_addr = :mmaacc AND log_time BETWEEN :starttime AND :endtime',
+                'ExpressionAttributeValues' => $eav_time,
                 'Select' => "ALL_ATTRIBUTES"
                 ];
 
@@ -554,7 +565,26 @@ class LocationsController extends AppController
             // Set the values in the apzone object so to not have to update the apzones.ctp file
             $apzone->total_devices_count = $countresult['Count'];
 
+            $totalScanResults = $totalScanResults + $countresult['Count'];
+
+
+            // Query the total amount of scan results available for the given access point
+            try {
+                $result = $dynamodb->query($unique_params);
+                foreach ($result['Items'] as $mac_addr) {
+                    $scanResults[] = $marshaler->unmarshalItem($mac_addr);
+                }
+
+            } catch (DynamoDbException $e) {
+                echo "Unable to query:\n";
+                echo $e->getMessage() . "\n";
+                die();
+            }
+
         endforeach;                
+
+        // Count the total unique scans across all access point / apzones
+        $totalUniqueScans = count(array_unique(array_column(array_column($scanResults,'payload'),'mac_addr')));
 
         } else {
             $apzones = [];
@@ -666,9 +696,8 @@ class LocationsController extends AppController
         $beacon->major = $this->AuthUser->user('customer.beacon_major');
 
         $accessPoint = $this->Locations->Apzones->access_points->newEntity();
-        //$accessPoint->mac_addr = $this->AuthUser->user('customer.beacon_major');
 
-        $this->set(compact('beacon', 'accessPoint', 'notes', 'zones', 'apzones', 'LocationZonesCount', 'LocationAPZonesCount', 'periodStartRaw', 'periodEndRaw', 'LocationDevicesCount', 'WeeksImpressionCount'));
+        $this->set(compact('beacon', 'accessPoint', 'notes', 'zones', 'apzones', 'LocationZonesCount', 'LocationAPZonesCount', 'periodStartRaw', 'periodEndRaw', 'LocationDevicesCount', 'WeeksImpressionCount', 'totalScanResults', 'totalUniqueScans'));
 
         $this->set('location', $location);
         $this->set('_serialize', ['LocationZonesCount', 'LocationAPZonesCount', 'LocationDevicesCount', 'WeeksImpressionCount']);

@@ -48,6 +48,9 @@
         $('#ImpressionsCount').click(function() {
             $('#notes-tab3').tab('show');
         });
+        $('#ScanResultsCount').click(function() {
+            $('#scanresultscount-tab').tab('show');
+        });
 
         if(window.location.hash) {
             var hash = window.location.hash;
@@ -88,7 +91,10 @@
     $('#ZonesCount').animateNumber({numberStep: commaStep, number: <?= $location->zones_count ?>});
     $('#ImpressionsCount').animateNumber({numberStep: commaStep, number: <?= $WeeksImpressionCount ?>});
     $('#DevicesCount').animateNumber({numberStep: commaStep, number: <?= $LocationDevicesCount ?>});
-
+    $('#APZonesCount').animateNumber({numberStep: commaStep, number: <?= $location->apzones_count ?>});
+    $('#ScanResultsCount').animateNumber({numberStep: commaStep, number: <?= $totalScanResults ?>});
+    $('#UniqueScanResultsCount').animateNumber({numberStep: commaStep, number: <?= $totalUniqueScans ?>});
+    
     $(function() {
         $('#notes-tab5').click(function() {
             setTimeout(
@@ -128,7 +134,7 @@
                     <li role="presentation" class=""><a href="#tab_content3" role="tab" id="notes-tab3" data-toggle="tab" aria-expanded="false" data-url="/customer/locations/ajaxImpressions/<?= $location->id;?>">All Beacon Impressions</a></li>
                     <li role="presentation" class=""><a href="#tab_content6" role="tab" id="notes-tab6" data-toggle="tab" aria-expanded="false" data-url="/customer/locations/ajaxImpressions/<?= $location->id;?>/geofences">All Geofence Impressions</a></li>
                     <li role="presentation" class=""><a href="#tab_content4" role="tab" id="notes-tab4" data-toggle="tab" aria-expanded="false">Zones</a></li>
-                    <li role="presentation" class=""><a href="#tab_content9" role="tab" id="notes-tab4" data-toggle="tab" aria-expanded="false">Apzones</a></li>
+                    <li role="presentation" class=""><a href="#tab_content9" role="tab" id="notes-tab9" data-toggle="tab" aria-expanded="false">Apzones</a></li>
                     <li role="presentation" class=""><a href="#tab_content5" role="tab" id="notes-tab5" data-toggle="tab" aria-expanded="false">Location Information</a></li>
                     <li role="presentation" class=""><a href="#tab_content7" role="tab" id="notes-tab7" data-toggle="tab" aria-expanded="false">Add / Assign a beacon to this location</a></li>
                     <li role="presentation" class=""><a href="#tab_content8" role="tab" id="notes-tab8" data-toggle="tab" aria-expanded="false">Add / Assign an access point to this location</a></li>
