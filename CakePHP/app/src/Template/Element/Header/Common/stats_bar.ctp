@@ -225,7 +225,7 @@
                         </a>
                     </div>
                     <!-- Make Box Title Smaller if displaying both Zone/APZone Values -->
-                    <?php if ($LocationZonesCount > -1): ?>
+                    <?php if ($LocationZonesCount > 0): ?>
                         <h4>Defined APZones</h4>
                     <?php else: ?>
                         <h3>Defined APZones</h3>
