@@ -3,7 +3,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
+use App\ORM\D2goTable as Table;
 use Cake\Validation\Validator;
 
 /**
