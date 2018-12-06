@@ -41,7 +41,7 @@ class HeatmapsTable extends Table
 
         $this->addBehavior('Timestamp');
 
-        $this->belongsTo('AccessPoints', [
+        $this->belongsTo('access_points', [
             'foreignKey' => 'accesspoint_id',
             'joinType' => 'INNER'
         ]);
@@ -82,7 +82,7 @@ class HeatmapsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['accesspoint_id'], 'AccessPoints'));
+        $rules->add($rules->existsIn(['accesspoint_id'], 'access_points'));
         $rules->add($rules->existsIn(['floorplan_id'], 'FloorplansLibrary'));
 
         return $rules;
