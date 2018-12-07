@@ -21,7 +21,7 @@ class HeatmapsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['AccessPoints', 'FloorplansLibrary']
+            'contain' => ['access_points', 'FloorplansLibrary']
         ];
         $heatmaps = $this->paginate($this->Heatmaps);
 
@@ -38,7 +38,7 @@ class HeatmapsController extends AppController
     public function view($id = null)
     {
         $heatmap = $this->Heatmaps->get($id, [
-            'contain' => ['AccessPoints', 'FloorplansLibrary']
+            'contain' => ['access_points', 'FloorplansLibrary']
         ]);
 
         $this->set('heatmap', $heatmap);
