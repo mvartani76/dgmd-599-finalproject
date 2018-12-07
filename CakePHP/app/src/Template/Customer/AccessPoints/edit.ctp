@@ -5,6 +5,8 @@
  */
 ?>
 
+<?php $this->Html->script('/js/admin/filtering', ['block' => 'scriptBottom']); ?>
+
 <?php $this->set('pageTitle', 'Edit Access Point'); ?>
 <?= $this->Form->create($accessPoint) ?>
 <div class="x_panel">
@@ -30,6 +32,38 @@
                 <br />
                 <div class="row">
                     <div class="form-group">
+                        <?= $this->Form->label('attachFloorplan', 'Attach Floorplan?', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?= $this->Form->control('attachFloorplan', ['label' => false, 'options' => ['No' => 'No', 'Yes' => 'Yes'], 'class' => 'form-control']); ?>
+
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row" id="floorplan-group">
+                    <div class="form-group">
+                        <?= $this->Form->label('heatmap.floorplan_id', 'Floorplan', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?= $this->Form->control('heatmap.floorplan_id', ['label' => false, 'options' => $floorplans, 'class' => 'form-control']); ?>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row" id="xypos-group">
+                    <div class="form-group">
+                        <?= $this->Form->label('heatmap.x', 'x position', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?= $this->Form->input('heatmap.x', ['label' => false, 'error' => false, 'class' => 'form-control']);?>
+                        </div>
+                        <?= $this->Form->label('heatmap.y', 'y position', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <?= $this->Form->input('heatmap.y', ['label' => false, 'error' => false, 'class' => 'form-control']);?>
+                        </div>
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="form-group">
                         <div class="col-md-3 col-md-3 col-sm-3"></div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <?= $this->Form->button('', ['style' => 'display: none;', 'type' => 'submit']) ?>
@@ -43,3 +77,35 @@
         </section>
     </div>
 </div>
+<!-- Script to show/hide floorplan selection based on select status -->
+<script>
+$('#attachfloorplan').on('change',function(){
+    var selection = $(this).val();
+    console.log(selection);
+    switch(selection){
+    case "Yes":
+        $("#floorplan-group").show()
+        $("#xypos-group").show()
+        break;
+    default:
+        $("#floorplan-group").hide()
+        $("#xypos-group").hide()
+    }
+});
+</script>
+<!-- Script to show/hide floorplan selection based on select status -->
+<script>
+    $( document ).ready(function() {
+    var selection = document.getElementById('attachfloorplan').value;
+    console.log(selection)
+    switch(selection){
+    case "Yes":
+        $("#floorplan-group").show()
+        $("#xypos-group").show()
+        break;
+    default:
+        $("#floorplan-group").hide()
+        $("#xypos-group").hide()
+    }
+});
+</script>

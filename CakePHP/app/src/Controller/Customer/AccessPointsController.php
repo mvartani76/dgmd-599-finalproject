@@ -474,19 +474,25 @@ class AccessPointsController extends AppController
     public function edit($id = null)
     {
         $accessPoint = $this->AccessPoints->get($id, [
-            'contain' => []
+            'contain' => ['Heatmaps']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $accessPoint = $this->AccessPoints->patchEntity($accessPoint, $this->request->getData());
             if ($this->AccessPoints->save($accessPoint)) {
                 $this->Flash->success(__('The access point has been saved.'));
-
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The access point could not be saved. Please, try again.'));
         }
+
+        $heatmaps = $this->loadModel('Heatmaps')->find();
+        // Listing with key/value fields to be able to see the floorplan title as a text string
+        // but pass the id # to save
+        $floorplans = $this->loadModel('floorplans_library')->find('list', ['keyField' => 'id',
+        'valueField' => 'title']);
+
         $customers = $this->AccessPoints->Customers->find('list', ['limit' => 200]);
-        $this->set(compact('accessPoint', 'customers'));
+        $this->set(compact('accessPoint', 'customers', 'heatmaps', 'floorplans'));
     }
 
     /**
