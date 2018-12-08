@@ -48,6 +48,10 @@ class AccessPointsTable extends Table
             'foreignKey' => 'accesspoint_id'
         ]);
 
+        $this->hasOne('Heatmaps', [
+            'foreignKey' => 'accesspoint_id'
+        ]);
+
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id'
         ]);
