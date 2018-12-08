@@ -14,15 +14,12 @@
         </p>
         <p class="callout-text">Message goes here</p>
     </div>
-<?= $this->Form->create($accessPoint, ['id' => 'editAccessPointForm']) ?>
+<?= $this->Form->create($accessPoint) ?>
 <div class="x_panel">
     <div class="x_title">
         <h2>Access Points <small>edit access point</small></h2>
         <div class="clearfix"></div>
     </div>
-    
-    <div id="fpwidth" style="display: none"><?php echo $floorplans->width;?></div>
-    <div id="fpheight" style="display: none"><?php echo $floorplans->height;?></div>
     <div class="x_content">
         <section class="content">
             <div class="users add-form col-md-12">
@@ -62,14 +59,13 @@
                     <div class="form-group">
                         <?= $this->Form->label('heatmap.x', 'x position', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                            <?= $this->Form->input('heatmap.x', ['label' => false, 'error' => false, 'class' => 'form-control']);?>
+                            <?= $this->Form->input('heatmap.x', ['label' => false, 'class' => 'form-control']);?>
                         </div>
                         <?= $this->Form->label('heatmap.y', 'y position', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                            <?= $this->Form->input('heatmap.y', ['label' => false, 'error' => false, 'class' => 'form-control']);?>
+                            <?= $this->Form->input('heatmap.y', ['label' => false, 'class' => 'form-control']);?>
                         </div>
                     </div>
-                    <?= $this->Form->input('width', array( 'value' => $floorplans->width, 'hiddenField' => true)); ?>
                 </div>
                 <br />
                 <div class="row">
@@ -121,63 +117,3 @@ $('#attachfloorplan').on('change',function(){
     }
 });
 </script>
-
-    /*$('#editAccessPointForm').submit(function(e) {
-           e.preventDefault();
-        var width = parseInt(document.getElementById('fpwidth').innerHTML);
-        var height = parseInt(document.getElementById('fpheight').innerHTML); 
-
-        // Read in the mac_addr form value
-        //var x = document.getElementById('heatmap-x').value
-        var x = document.forms["editAccessPointForm"]["heatmap-x"];
-        var y = document.forms["editAccessPointForm"]["heatmap-y"];
-
-        //console.log(x.value)
-        //console.log(y.value)
-        var xval = x.value;
-        var yval = y.value;
-        console.log(xval)
-        console.log(width)
-        console.log(typeof xval)
-        console.log(typeof width)
-        // Then make sure the MAC Address is 12 characters. Form limits more than 12 so can check using less than.
-        if (parseInt(x.value) > width)
-        {
-            $('.message-callout').switchClass('callout-success', 'callout-error');
-            $('.callout-title').text('Enter X Position');
-            $('.callout-text').text('There was an error editing this Access Point. The X position must be less than the floorplan width.');
-            $('.message-callout').show();
-            x.focus();
-            return false;
-        }
-        // Then make sure the MAC Address is 12 characters. Form limits more than 12 so can check using less than.
-        if (parseInt(y.value) > height)
-        {
-            $('.message-callout').switchClass('callout-success', 'callout-error');
-            $('.callout-title').text('Enter Y Position');
-            $('.callout-text').text('There was an error editing this Access Point. The Y position must be less than the floorplan height.');
-            $('.message-callout').show();
-            y.focus();
-            return false;
-        }
-
-        // If it passes all form validation, then we can submit
-
-           var jqxhr = $.post('/customer/AccessPoints/edit/40', $('#editAccessPointForm').serialize(), function(data) {
-               console.log(data);
-               console.log("wtf")
-               var r = $.parseJSON(data);
-               if (r.success == 1) {
-                   $('.callout-title').text(r.message);
-                   $('.callout-text').text('The Access Point was created and added to the database and assigned to this Location with the AP Zone name you chose');
-                   $('.message-callout').show();
-                   $('#editAccessPointForm').trigger('submit');
-               } else {
-                   $('.message-callout').switchClass('callout-success', 'callout-error')
-                   $('.callout-title').text(r.message);
-                   $('.callout-text').text('There was an error inserting this Access Point, this could be for several reasons, please send a screenshot of this message to support');
-               }
-           });
-
-});*/
-
