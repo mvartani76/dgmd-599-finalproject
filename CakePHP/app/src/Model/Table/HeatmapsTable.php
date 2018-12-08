@@ -64,7 +64,7 @@ class HeatmapsTable extends Table
 
         $validator
             ->requirePresence('x', 'create')
-            ->notEmpty('x')
+            ->allowEmpty('x')
             ->add('x', 'x_max_size', [
                 'rule' => function ($value, $context) {
 
@@ -88,7 +88,7 @@ class HeatmapsTable extends Table
 
         $validator
             ->requirePresence('y', 'create')
-            ->notEmpty('y')
+            ->allowEmpty('y')
             ->add('y', 'y_max_size', [
                 'rule' => function ($value, $context) {
 
