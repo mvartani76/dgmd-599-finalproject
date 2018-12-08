@@ -80,7 +80,6 @@ class HeatmapsTable extends Table
                     }
                     // Validation fails if the x position is greater than the file width
                     else {
-                        
                         return false;
                     }
                 },
