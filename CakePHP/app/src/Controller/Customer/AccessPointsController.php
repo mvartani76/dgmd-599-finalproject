@@ -488,11 +488,16 @@ class AccessPointsController extends AppController
         $heatmaps = $this->loadModel('Heatmaps')->find();
         // Listing with key/value fields to be able to see the floorplan title as a text string
         // but pass the id # to save
-        $floorplans = $this->loadModel('floorplans_library')->find('list', ['keyField' => 'id',
+        $floorplans_select = $this->loadModel('floorplans_library')->find('list', ['keyField' => 'id',
         'valueField' => 'title']);
 
+        $floorplans = $this->loadModel('floorplans_library')->find()->where(
+                        [
+                            'floorplans_library.id' => $accessPoint->heatmap->floorplan_id
+                        ])->first();
+
         $customers = $this->AccessPoints->Customers->find('list', ['limit' => 200]);
-        $this->set(compact('accessPoint', 'customers', 'heatmaps', 'floorplans'));
+        $this->set(compact('accessPoint', 'customers', 'heatmaps', 'floorplans', 'floorplans_select'));
     }
 
     /**
