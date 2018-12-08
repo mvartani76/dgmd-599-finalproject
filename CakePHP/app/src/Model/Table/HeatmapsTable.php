@@ -45,7 +45,7 @@ class HeatmapsTable extends Table
             'foreignKey' => 'accesspoint_id',
             'joinType' => 'INNER'
         ]);
-        $this->belongsTo('FloorplansLibrary', [
+        $this->belongsTo('floorplans_library', [
             'foreignKey' => 'floorplan_id',
             'joinType' => 'INNER'
         ]);
@@ -64,11 +64,50 @@ class HeatmapsTable extends Table
 
         $validator
             ->requirePresence('x', 'create')
-            ->notEmpty('x');
+            ->notEmpty('x')
+            ->add('x', 'x_max_size', [
+                'rule' => function ($value, $context) {
+
+                    // Find the associated floorplan to get the width
+                    $floorplan = $context['providers']['table']->floorplans_library->find()
+                        ->where([
+                            'floorplans_library.id' => $context['data']['floorplan_id']
+                        ])->first();
+
+                    // Validation passes if the x position is less than the file width
+                    if ($value < $floorplan->width) {
+                        return true;
+                    }
+                    // Validation fails if the x position is greater than the file width
+                    else {
+                        
+                        return false;
+                    }
+                },
+                'message' => 'The chosen x position is larger than the file width.']);
 
         $validator
             ->requirePresence('y', 'create')
-            ->notEmpty('y');
+            ->notEmpty('y')
+            ->add('y', 'y_max_size', [
+                'rule' => function ($value, $context) {
+
+                    // Find the associated floorplan to get the height
+                    $floorplan = $context['providers']['table']->floorplans_library->find()
+                        ->where([
+                            'floorplans_library.id' => $context['data']['floorplan_id']
+                        ])->first();
+
+                    // Validation passes if the y position is less than the file width
+                    if ($value < $floorplan->height) {
+                        return true;
+                    }
+                    // Validation fails if the y position is greater than the file width
+                    else {
+                        return false;
+                    }
+                },
+                'message' => "The chosen y position is larger than the file height"]);
 
         return $validator;
     }
@@ -83,7 +122,7 @@ class HeatmapsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['accesspoint_id'], 'access_points'));
-        $rules->add($rules->existsIn(['floorplan_id'], 'FloorplansLibrary'));
+        $rules->add($rules->existsIn(['floorplan_id'], 'floorplans_library'));
 
         return $rules;
     }
