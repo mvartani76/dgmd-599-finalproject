@@ -57,7 +57,21 @@
                 </table>
                 <?php endif; ?>
                 <?= $this->element('paginator') ?>
+                <?= $this->element('Marketing/Floorplans/modal_preview') ?>
             </div>
         </section>
     </div>
 </div>
+
+<script>
+jQuery(function($) {
+    $('.loadPreview').click(function(e) {
+        var that = this;
+        e.preventDefault();
+        $('#modal-content-preview').modal('show');
+        id = $(that).data('preview');
+        console.log(that);
+        $('#modal-content-preview .modal-body').load('/marketing/heatmaps/preview/' + id);
+    });
+});
+</script>
