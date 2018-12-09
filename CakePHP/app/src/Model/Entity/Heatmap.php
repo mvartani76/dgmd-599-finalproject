@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Entity;
 
+use Cake\Core\Configure;
 use Cake\ORM\Entity;
 
 /**
@@ -39,4 +40,12 @@ class Heatmap extends Entity
         'access_point' => true,
         'floorplans_library' => true
     ];
+
+    public function getFullImageUrl()
+    {
+        if ($this->has('floorplans_library')) {
+            return 'https://' . Configure::read('Settings.floorplans_container') . '/' . $this->floorplans_library->path . $this->floorplans_library->filename;
+        }
+        return $this->source_image_url;
+    }
 }
