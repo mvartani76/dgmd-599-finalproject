@@ -18,19 +18,8 @@ class HeatmapPreviewHelper extends Helper
         
         $html = '<div>';
 
-        //if ($withRadio) {
-        //    $html .= '<label class="MediaSelectionWrapperLabel" for="campaign-content-id-' . $content->id . '">';
-       // }
-
         $html .= $this->_title($content);
         $html .= $this->_View->element($elementPath, compact('content'));
-
-        //if ($withRadio) {
-        //    $html .= $this->_View->element('Marketing/Content/templates/checkbox', compact('content'));
-        //    $html .= '</label>';
-        //}
-        
-        pr($html);
         
         return $html . '</div>';
     }
