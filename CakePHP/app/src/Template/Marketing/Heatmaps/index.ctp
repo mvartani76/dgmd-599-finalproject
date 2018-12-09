@@ -5,6 +5,7 @@
  */
 ?>
 <?php $this->set('pageTitle', 'Heatmaps'); ?>
+<?php $this->AssetCompress->css('campaign', ['block' => 'scriptTop']); ?>
 <div class="x_panel">
     <div class="x_title">
         <h2>
