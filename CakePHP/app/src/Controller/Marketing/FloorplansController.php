@@ -174,10 +174,8 @@ class FloorplansController extends AppController
             ->where($conditions)
             ->contain([
                 'MediaImages',
-                'MediaVideos',
                 'CampaignContentButtons.Videos',
                 'CampaignContentActions.Videos',
-                'Surveys.SurveyQuestions',
             ])
             ->first();
 
