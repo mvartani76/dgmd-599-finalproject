@@ -233,7 +233,7 @@ div[class*="fields-sub-layout"] {
 .cb-selected .layout-header .help-popup::after {
     color: #fff;
 }
-.preview-phone {
+.preview-heatmap {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -261,12 +261,6 @@ div[class*="fields-sub-layout"] {
 .preview-phone.ui-resizable {
     max-width: none;
 }
-.preview-phone-iphone-x {
-    background-image: url(/img/public/content/layouts/iphone-x.png);
-}
-.preview-phone-iphone-x-h {
-    background-image: url(/img/public/content/layouts/iphone-x-h.png);
-}
 .preview-phone-iphone-x .preview-phone-content {
     top: 3.3%;
     right: 6%;
@@ -293,35 +287,7 @@ div[class*="fields-sub-layout"] {
     border-bottom-left-radius: 11px;
     border-bottom-right-radius: 11px;
 }
-.preview-phone-samsung-s9 {
-    background-image: url(/img/public/content/layouts/samsung-s9.png);
-}
-.preview-phone-samsung-s9-h {
-    background-image: url(/img/public/content/layouts/samsung-s9-h.png);
-}
-.preview-phone-samsung-s9 .preview-phone-content {
-    top: 5%;
-    right: 3%;
-    bottom: 3.9%;
-    left: 3%;
-    border-radius: 6%;
-}
-.preview-phone-samsung-s9-h .preview-phone-content {
-    top: 3%;
-    right: 3.75%;
-    bottom: 8.93%;
-    left: 4.89%;
-    border-radius: 5px;
-}
-.preview-phone-samsung-s9::before{
-    padding-bottom: 210% !important;
-}
-.preview-phone-iphone-8s {
-    background-image: url(/img/public/content/layouts/iphone-8+.png);
-}
-.preview-phone-iphone-8s-h {
-    background-image: url(/img/public/content/layouts/iphone-8+-h.png);
-}
+
 .preview-phone-iphone-8s .preview-phone-content {
     top: 11.9%;
     right: 6.5%;
@@ -333,12 +299,6 @@ div[class*="fields-sub-layout"] {
     right: 11.75%;
     bottom: 6.93%;
     left: 11.89%;
-}
-.preview-phone-iphone-8 {
-    background-image: url(/img/public/content/layouts/iphone-8.png);
-}
-.preview-phone-iphone-8-h {
-    background-image: url(/img/public/content/layouts/iphone-8-h.png);
 }
 .preview-phone-iphone-8 .preview-phone-content {
     top: 12%;
