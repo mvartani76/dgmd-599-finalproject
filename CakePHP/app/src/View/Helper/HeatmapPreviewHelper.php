@@ -12,8 +12,6 @@ class HeatmapPreviewHelper extends Helper
      */
     public function preview(Heatmap $content, $withRadio = false)
     {
-        $layout = strtolower($content->layout);
-        $subLayout = strtolower($content->sub_layout);
         $elementPath = "Marketing/Heatmaps/previews/default";
         
         $html = '<div>';
