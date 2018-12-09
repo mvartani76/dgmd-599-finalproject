@@ -111,4 +111,13 @@ class HeatmapsController extends AppController
 
         return $this->redirect(['action' => 'index']);
     }
+
+    public function preview($id = null)
+    {
+        $heatmap = $this->Heatmaps->get($id, [
+            'contain' => ['access_points', 'floorplans_library']
+        ]);
+
+        $this->set('heatmap', $heatmap);
+    }
 }

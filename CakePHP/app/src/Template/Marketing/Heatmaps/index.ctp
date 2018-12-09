@@ -57,7 +57,7 @@
                 </table>
                 <?php endif; ?>
                 <?= $this->element('paginator') ?>
-                <?= $this->element('Marketing/Floorplans/modal_preview') ?>
+                <?= $this->element('Marketing/Heatmaps/modal_preview') ?>
             </div>
         </section>
     </div>
