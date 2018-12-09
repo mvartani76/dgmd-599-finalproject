@@ -1,4 +1,4 @@
-.preview-heatmap {
+.heatmap-container {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -11,7 +11,7 @@
     background-size: 100% auto; 
 }
 
-.preview-phone-content {
+.heatmap-content {
     line-height: 1.2;
     font-size: 14px;
     position: absolute;
