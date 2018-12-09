@@ -236,16 +236,9 @@ div[class*="fields-sub-layout"] {
     height: 800px;
     margin-bottom: 10px;
     max-width: 100%;
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    background-image: url(/img/public/content/layouts/White.png);
+    background-size: 100% auto; 
 }
-.preview-phone-horizontal {
-    background-repeat: no-repeat;
-    background-image: url(/img/public/content/layouts/White_Wide.png);
-    width: 400px;
-    max-width: 90%;
-}
+
 .preview-phone-horizontal .preview-phone-content {
     top: 9%;
     right: 12.75%;
@@ -289,7 +282,7 @@ div[class*="fields-sub-layout"] {
 }
 
 .preview-phone-img-full {
-    background: url('/img/public/content/layouts/placeholder.png');
+ 
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -457,75 +450,4 @@ div[class*="fields-sub-layout"] {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-}
-.preview-phone-content .top-survey-logo {
-    margin: 0 auto;
-    padding-bottom: 28%;
-    width: 52%;
-    
-    z-index: 2;
-}
-.preview-phone-content .header-questions {
-    text-align: center;
-    font-size: 1.05em;
-    line-height: 1.4;
-    margin-bottom: 4%;
-    padding-bottom: 2%;
-    border-bottom: 1px solid #ccc;
-    z-index: 2;
-}
-.preview-phone-content .satisfaction-questions {
-    text-align: left;
-}
-.preview-phone-content .satisfaction_questions{
-    padding: 4%;
-    text-align: center;
-    z-index: 2;
-}
-.preview-phone-content .satisfaction-question {
-    margin: 3% 0;
-}
-.preview-phone-content .satisfaction-send {
-    border-radius: 2px;
-    border-color: #245580;
-    background-color: #245580;
-    line-height: 1.1;
-    display: inline-block;
-    padding: 3% 4%;
-    text-align: center;
-    color: #fff;
-    font-size: 1em;
-    margin: 0 auto;
-}
-.preview-phone-content .satisfaction-question-rate {
-    border: 1px solid #000;
-    border-radius: 100%;
-    font-size: 0.7em;
-    display: inline-block;
-    padding: 1% 1.5%;
-    position: relative;
-    top: -1px;
-}
-.preview-phone-content .satisfaction-question-text {
-    margin-bottom: 3%;
-}
-.preview-phone-content .satisfaction-question-yes {
-    border: 1px solid #000;
-    padding: 1%;
-    border-radius: 2px;
-    font-size: 0.8em;
-    margin-right: 3px;
-    display: inline-block;
-    position: relative;
-    top: -1px;
-}
-.preview-phone-content .satisfaction-comments {
-    font-size: 9px;
-    padding: 2px;
-    text-align: left;
-}
-.preview-phone-content .comments-area {
-    width: 100%;
-    border: 1px solid #000;
-    height: 40px;
 }
