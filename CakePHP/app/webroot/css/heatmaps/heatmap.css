@@ -42,13 +42,6 @@ p.layout-header.badge{
     font-size: 9px;
 }
 
-.misc-part-video{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 35%;
-    width: 100%;
-}
 .top-img-vertical{
     position: absolute;
     top: 0;
@@ -240,6 +233,7 @@ div[class*="fields-sub-layout"] {
     position: relative;
     text-align: left;
     width: 800px;
+    height: 800px;
     margin-bottom: 10px;
     max-width: 100%;
     background-size: 100% auto;
@@ -261,79 +255,7 @@ div[class*="fields-sub-layout"] {
 .preview-phone.ui-resizable {
     max-width: none;
 }
-.preview-phone-iphone-x .preview-phone-content {
-    top: 3.3%;
-    right: 6%;
-    bottom: 2.1%;
-    left: 6%;
-    border-radius: 6%;
-}
-.preview-phone-iphone-x-h .preview-phone-content {
-    top: 6%;
-    right: 2.75%;
-    bottom: 7.93%;
-    left: 2.89%;
-    border-radius: 6%;
-}
-.preview-phone-iphone-x .preview-phone-content::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 57%;
-    background: #141414;
-    padding-bottom: 10%;
-    transform: translateX(-50%);
-    border-bottom-left-radius: 11px;
-    border-bottom-right-radius: 11px;
-}
 
-.preview-phone-iphone-8s .preview-phone-content {
-    top: 11.9%;
-    right: 6.5%;
-    bottom: 11.8%;
-    left: 6.1%;
-}
-.preview-phone-iphone-8s-h .preview-phone-content {
-    top: 6.8%;
-    right: 11.75%;
-    bottom: 6.93%;
-    left: 11.89%;
-}
-.preview-phone-iphone-8 .preview-phone-content {
-    top: 12%;
-    right: 8%;
-    bottom: 12.8%;
-    left: 7.3%;
-}
-.preview-phone-iphone-8::before{
-    padding-bottom: 197% !important;
-}
-
-.preview-phone-custom {
-    background-image: none;
-    padding: 0;
-    border: 4px solid gray;
-    resize: both;
-}
-.preview-phone-custom .preview-phone-content {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-.preview-phone-custom-h {
-    background-image: none;
-    padding: 0;
-    border: 4px solid gray;
-    resize: both;
-}
-.preview-phone-custom-h .preview-phone-content {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
 .preview-phone-content {
     line-height: 1.2;
     font-size: 14px;
@@ -410,40 +332,6 @@ div[class*="fields-sub-layout"] {
 .sublayout-buttons .badge:empty {
     display: none;
 }
-    .cont-qr-below,
-    .cont-qr-overlaid,
-    .cont-qr-next_right {
-        position: absolute;
-        background: white url('/img/public/content/layouts/QR.png') no-repeat center center;
-        background-size: contain;
-        z-index: 2;
-        height: auto;
-        transform: translate(-50%, -50%);
-    }
-    .cont-qr-below {
-        top: 64%;
-        left: calc(50%);
-        width: 58% !important;
-    }
-    div.cont-qr-below {
-        padding-bottom: 58%;
-    }
-    .cont-qr-next_right {
-        top: 50%;
-        left: 75%;
-        width: 25%;
-    }
-    div.cont-qr-next_right {
-        padding-bottom: 25%;
-    }
-    .cont-qr-overlaid {
-        top: 50%;
-        left: 50%;
-        width: 58% !important;
-    }
-    div.cont-qr-overlaid {
-        padding-bottom: 58%;
-    }
 
 .full-middle-header { /* not completey sure about this one */
     position: absolute;
@@ -533,19 +421,6 @@ div[class*="fields-sub-layout"] {
 }
 .push-message{
     font-size: .6em;
-}
-.sublayout-video-selected {
-    background: url(/img/public/content/layouts/placeholder.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-.content-full-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
 }
 .cont-white-push{
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .14),
