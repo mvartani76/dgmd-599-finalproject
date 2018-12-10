@@ -37,6 +37,7 @@
                 <ul class="nav child_menu" style="display: none">
                     <li><a href="/customer/access_points">List Access Points</a></li>
                     <li><a href="/customer/access_points/add">Add a new Access Point</a></li>
+                    <li><a href="/marketing/heatmaps">List Heatmaps</a></li>
                     <li><a href="/marketing/floorplans/floorplans_library">Floor Plan Library</a></li>
                 </ul>
             </li>
