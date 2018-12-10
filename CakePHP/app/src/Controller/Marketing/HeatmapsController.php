@@ -120,4 +120,19 @@ class HeatmapsController extends AppController
 
         $this->set('heatmap', $heatmap);
     }
+
+    /**
+     * Show Activity method
+     *
+     * @return \Cake\Http\Response|void
+     */
+    public function showactivity()
+    {
+        $this->paginate = [
+            'contain' => ['access_points', 'floorplans_library']
+        ];
+        $heatmaps = $this->paginate($this->Heatmaps);
+
+        $this->set(compact('heatmaps'));
+    }
 }
