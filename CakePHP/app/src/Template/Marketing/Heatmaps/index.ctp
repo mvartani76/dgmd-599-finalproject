@@ -49,8 +49,8 @@
                             <td data-title="Updated"><?= $this->Time->format($heatmap->modified) ?></td>
                             <td data-title="Actions" class="actions">
                                 <a href="#" class='btn btn-default btn-xs loadPreview' data-preview="<?=$heatmap->id;?>"><i class="fa fa-search"></i>&nbsp;Preview</a>
-                                <?= $this->Html->link('<i class="fa fa-edit"></i>&nbsp;Edit', ['action' => 'edit_content', $heatmap->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
-                                <?= $this->Html->link(__('<i class="fa fa-times-circle"></i> &nbsp;Delete'), ['action' => 'delete_heatmap', $heatmap->id], ['class' => 'btn btn-danger btn-xs', 'escape' => false]) ?>
+                                <?= $this->Html->link('<i class="fa fa-edit"></i>&nbsp;Edit', ['action' => 'edit', $heatmap->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
+                                <?= $this->Html->link(__('<i class="fa fa-times-circle"></i> &nbsp;Delete'), ['action' => 'delete', $heatmap->id], ['class' => 'btn btn-danger btn-xs', 'escape' => false]) ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>

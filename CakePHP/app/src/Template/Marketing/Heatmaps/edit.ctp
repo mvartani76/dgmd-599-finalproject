@@ -14,10 +14,10 @@
             )
         ?></li>
         <li><?= $this->Html->link(__('List Heatmaps'), ['action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'AccessPoints', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'AccessPoints', 'action' => 'add']) ?></li>
-        <li><?= $this->Html->link(__('List Floorplans Library'), ['controller' => 'FloorplansLibrary', 'action' => 'index']) ?></li>
-        <li><?= $this->Html->link(__('New Floorplans Library'), ['controller' => 'FloorplansLibrary', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'access_points', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'access_points', 'action' => 'add']) ?></li>
+        <li><?= $this->Html->link(__('List Floorplans Library'), ['controller' => 'floorplans_library', 'action' => 'index']) ?></li>
+        <li><?= $this->Html->link(__('New Floorplans Library'), ['controller' => 'floorplans_library', 'action' => 'add']) ?></li>
     </ul>
 </nav>
 <div class="heatmaps form large-9 medium-8 columns content">
@@ -26,7 +26,7 @@
         <legend><?= __('Edit Heatmap') ?></legend>
         <?php
             echo $this->Form->control('accesspoint_id', ['options' => $accessPoints]);
-            echo $this->Form->control('floorplan_id', ['options' => $floorplansLibrary]);
+            echo $this->Form->control('floorplan_id', ['options' => $floorplans]);
             echo $this->Form->control('x');
             echo $this->Form->control('y');
         ?>
