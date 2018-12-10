@@ -48,4 +48,17 @@ class Heatmap extends Entity
         }
         return $this->source_image_url;
     }
+
+    // Helper function that passes in appropriate style code to position wifi icon on top of the floorplan.
+    // Currenty user inputs pixels and we calculate a % based on floorplan height/width.
+    public function positionAccessPoint() {
+        $apstyle = '<style>
+        .ap-position {
+            position: absolute;
+            z-index:10;
+            left:' . $this->x/$this->floorplans_library->width*100 . '%;
+            top:' . $this->y/$this->floorplans_library->height*100 . '%;
+        </style>';
+        return $apstyle;
+    }
 }
