@@ -33,13 +33,14 @@
         // only container is required, the rest will be defaults
         container: document.querySelector('.heatmap-page-content')
         });
-        console.log(h337);
+        
         // now generate some random data
         var points = [];
         var max = 0;
         var width = 800;
         var height = 400;
         var len = 200;
+        var mypoints = <?= $mypoints ?>;
 
         while (len--) {
           var val = Math.floor(Math.random()*100);
@@ -58,6 +59,6 @@
         };
         // if you have a set of datapoints always use setData instead of addData
         // for data initialization
-        heatmapInstance.setData(data);
+        heatmapInstance.setData(mypoints);
     });
 </script>
