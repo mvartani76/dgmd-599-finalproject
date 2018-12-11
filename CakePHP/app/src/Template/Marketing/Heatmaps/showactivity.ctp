@@ -5,7 +5,6 @@
  */
 ?>
 <?php $this->set('pageTitle', 'Heatmaps'); ?>
-<?php $this->Html->script('/js/heatmap', ['block' => 'scriptBottom']); ?>
 <?php $this->AssetCompress->css('heatmaps', ['block' => 'scriptTop']); ?>
 <div class="x_panel">
     <div class="x_title">
@@ -49,9 +48,7 @@
                             <td data-title="Created"><?= $this->Time->format($heatmap->created) ?></td>
                             <td data-title="Updated"><?= $this->Time->format($heatmap->modified) ?></td>
                             <td data-title="Actions" class="actions">
-                                <a href="#" class='btn btn-default btn-xs loadPreview' data-preview="<?=$heatmap->id;?>"><i class="fa fa-search"></i>&nbsp;Preview</a>
-                                <?= $this->Html->link('<i class="fa fa-edit"></i>&nbsp;Edit', ['action' => 'edit', $heatmap->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
-                                <?= $this->Html->link(__('<i class="fa fa-times-circle"></i> &nbsp;Delete'), ['action' => 'delete', $heatmap->id], ['class' => 'btn btn-danger btn-xs', 'escape' => false]) ?>
+                                <?= $this->Html->link('<i class="fa fa-search"></i>&nbsp;View Heatmap', ['action' => 'show', $heatmap->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -75,43 +72,5 @@ jQuery(function($) {
         console.log(that);
         $('#modal-content-preview .modal-body').load('/marketing/heatmaps/preview/' + id);
     });
-});
-</script>
-
-<script>
-    $(document).ready(function() {
-  
-
-    // minimal heatmap instance configuration
-var heatmapInstance = h337.create({
-  // only container is required, the rest will be defaults
-  container: document.querySelector('.content')
-});
-console.log(h337);
-// now generate some random data
-var points = [];
-var max = 0;
-var width = 800;
-var height = 400;
-var len = 200;
-
-while (len--) {
-  var val = Math.floor(Math.random()*100);
-  max = Math.max(max, val);
-  var point = {
-    x: Math.floor(Math.random()*width),
-    y: Math.floor(Math.random()*height),
-    value: val
-  };
-  points.push(point);
-}
-// heatmap data format
-var data = { 
-  max: max, 
-  data: points 
-};
-// if you have a set of datapoints always use setData instead of addData
-// for data initialization
-heatmapInstance.setData(data);
 });
 </script>

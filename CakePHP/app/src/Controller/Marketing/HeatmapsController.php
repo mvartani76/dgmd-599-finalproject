@@ -135,4 +135,13 @@ class HeatmapsController extends AppController
 
         $this->set(compact('heatmaps'));
     }
+
+    public function show($id = null)
+    {
+        $heatmap = $this->Heatmaps->get($id, [
+            'contain' => ['access_points', 'floorplans_library']
+        ]);
+
+        $this->set('heatmap', $heatmap);
+    }
 }
