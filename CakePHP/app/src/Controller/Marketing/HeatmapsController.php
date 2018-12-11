@@ -273,27 +273,22 @@ class HeatmapsController extends AppController
         // Need to serialize the variables to have them visible for the JSON response
         $this->set('_serialize', ['totalScanCount', 'totalScanCount_time', 'totalUniqueDevices', 'totalUniqueDevices_time']);
 */
-        $points = [];
+        // Some test code to generate random data for heatmap
+        $heatmapdata = [];
         $maxval = 0;
         for ($i=0; $i<200; $i++){
             $val = floor(mt_rand(0,100));
             $maxval = max($maxval, $val);
-          //$point = {
-          //  x: Math.floor(Math.random()*width),
-          //  y: Math.floor(Math.random()*height),
-          //  value: val
-          //};
-            //pr($val);
+
             $point['x'] = floor(mt_rand(0,800));
             $point['y'] = floor(mt_rand(0,400));
             $point['value'] = $val;
-            $mypoints['data'][] = $point;
+            $heatmapdata['data'][] = $point;
         }
-        $mypoints['max'] = $maxval;
-//pr($points);
+        $heatmapdata['max'] = $maxval;
 
         $this->set('heatmap', $heatmap);
-        $this->set('mypoints', json_encode($mypoints));
+        $this->set('heatmapdata', json_encode($heatmapdata));
 
     }
 }
