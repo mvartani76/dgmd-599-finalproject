@@ -24,3 +24,19 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+
+.heatmap-page-content {
+    line-height: 1.2;
+    font-size: 14px;
+    position: absolute;
+    width: 800px;
+    height: 400px;
+    top: 10.1%;
+    right: 8.93%;
+    bottom: 12.1%;
+    overflow-y: auto;
+    left: 3.4%;
+    background-position: center center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
