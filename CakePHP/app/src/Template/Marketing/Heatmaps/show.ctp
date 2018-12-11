@@ -34,31 +34,10 @@
         container: document.querySelector('.heatmap-page-content')
         });
         
-        // now generate some random data
-        var points = [];
-        var max = 0;
-        var width = 800;
-        var height = 400;
-        var len = 200;
-        var mypoints = <?= $mypoints ?>;
+        var heatmapdata = <?= $heatmapdata ?>;
 
-        while (len--) {
-          var val = Math.floor(Math.random()*100);
-          max = Math.max(max, val);
-          var point = {
-            x: Math.floor(Math.random()*width),
-            y: Math.floor(Math.random()*height),
-            value: val
-          };
-          points.push(point);
-        }
-        // heatmap data format
-        var data = { 
-          max: max, 
-          data: points 
-        };
         // if you have a set of datapoints always use setData instead of addData
         // for data initialization
-        heatmapInstance.setData(mypoints);
+        heatmapInstance.setData(heatmapdata);
     });
 </script>
