@@ -251,11 +251,51 @@ class HeatmapsController extends AppController
             echo $e->getMessage() . "\n";
             die();
         }
+        
+        // convert (x,y) ap coordinates to divs
+        $pdivx = floor(($heatmap->x*$heatmap->floorplans_library->num_width_divs)/$heatmap->floorplans_library->width);
+        $pdivy = floor(($heatmap->y*$heatmap->floorplans_library->num_height_divs)/$heatmap->floorplans_library->height);
 
-        //$scanResults = (object) $scanResults;
+        $d = [];
+        $d_divx = [];
+        $d_divy = [];
+        $rssi_values = array_column(array_column($scanResults,'payload'),'rssi');
+        foreach ($rssi_values as $rssi):
+            $d[] = pow(10,(-25-$rssi)/30);
+            $d_divx[] = min(floor(pow(10,(-25-$rssi)/30)*($heatmap->floorplans_library->num_width_divs/$heatmap->floorplans_library->width_m)),$heatmap->floorplans_library->num_width_divs-1);
+            $d_divy[] = min(floor(pow(10,(-25-$rssi)/30)*($heatmap->floorplans_library->num_height_divs/$heatmap->floorplans_library->height_m)),$heatmap->floorplans_library->num_height_divs-1);
+        endforeach;
+        
 
-        //pr($scanResults);
+        // Initialize 2 dimensional grid to all zeros
+        $grid = [];
+        for ($i=0;$i<$heatmap->floorplans_library->num_width_divs;$i++){
+            for ($j=0;$j<$heatmap->floorplans_library->num_height_divs;$j++){
+                $grid[$i][$j] = 0;
+            }
+        }
 
+
+        // need to loop through every distance value
+        for ($k=0;$k<count($d_divx);$k++){
+            for ($i=0;$i<(2*$d_divx[$k]+1);$i++){
+                // bound grid offsets
+                $x_offset = max($i-$d_divx[$k]+$pdivx,0);
+                $y_offsetp = max($pdivy+$d_divy[$k],0);
+                $y_offsetm = max($pdivy-$d_divy[$k],0);
+                $grid[$x_offset][$y_offsetp] = $grid[$x_offset][$y_offsetp] + 1;
+                $grid[$x_offset][$y_offsetm] = $grid[$x_offset][$y_offsetm] + 1;
+            }
+            for ($i=0;$i<(2*$d_divx[$k]-1);$i++){
+                $x_offsetp = max($pdivx+$d_divx[$k],0);
+                $x_offsetm = max($pdivx-$d_divx[$k],0);
+                $y_offset = max($i-$d_divy[$k]+$pdivy,0);
+                $grid[$x_offsetm][$y_offset] = $grid[$x_offsetm][$y_offset] + 1;
+                $grid[$x_offsetp][$y_offset] = $grid[$x_offsetp][$y_offset] + 1;
+            }
+        }
+        
+/*
         // Set the previous last evaluated key to be able to navigate back to the previous page
         /*if (isset($lastevalkey)) {
             $prevlastvalkey = $lastevalkey;
