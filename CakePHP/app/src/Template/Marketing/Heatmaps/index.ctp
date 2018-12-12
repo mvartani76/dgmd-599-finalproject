@@ -32,6 +32,10 @@
                         <th><?= $this->Paginator->sort('floorplan_id') ?></th>
                         <th><?= $this->Paginator->sort('x') ?></th>
                         <th><?= $this->Paginator->sort('y') ?></th>
+                        <th><?= $this->Paginator->sort('width_m') ?></th>
+                        <th><?= $this->Paginator->sort('height_m') ?></th>
+                        <th><?= $this->Paginator->sort('num_width_divs') ?></th>
+                        <th><?= $this->Paginator->sort('num_height_divs') ?></th>
                         <th><?= $this->Paginator->sort('created') ?></th>
                         <th><?= $this->Paginator->sort('modified') ?></th>
                         <th class="actions"><?= __('Actions') ?></th>
@@ -45,6 +49,10 @@
                             <td><?= $heatmap->has('floorplans_library') ? $heatmap->floorplans_library->title : '' ?></td>
                             <td data-title="X"><?= $this->Number->format($heatmap->x) ?></td>
                             <td data-title="Y"><?= $this->Number->format($heatmap->y) ?></td>
+                            <td><?= $heatmap->has('floorplans_library') ? $heatmap->floorplans_library->width_m : '' ?></td>
+                            <td><?= $heatmap->has('floorplans_library') ? $heatmap->floorplans_library->height_m : '' ?></td>
+                            <td><?= $heatmap->has('floorplans_library') ? $heatmap->floorplans_library->num_width_divs : '' ?></td>
+                            <td><?= $heatmap->has('floorplans_library') ? $heatmap->floorplans_library->num_height_divs : '' ?></td>
                             <td data-title="Created"><?= $this->Time->format($heatmap->created) ?></td>
                             <td data-title="Updated"><?= $this->Time->format($heatmap->modified) ?></td>
                             <td data-title="Actions" class="actions">

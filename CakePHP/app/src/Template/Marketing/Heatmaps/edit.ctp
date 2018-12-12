@@ -29,6 +29,10 @@
             echo $this->Form->control('floorplan_id', ['options' => $floorplans]);
             echo $this->Form->control('x');
             echo $this->Form->control('y');
+            echo $this->Form->control('width_m');
+            echo $this->Form->control('height_m');
+            echo $this->Form->control('num_width_divs');
+            echo $this->Form->control('num_height_divs');
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>
