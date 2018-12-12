@@ -74,7 +74,7 @@
                                                 </div>
 
                                                 <div class="col-md-12" style="margin-bottom: 15px;">
-                                                    <button href="<?= 'https://' . \Cake\Core\Configure::read('Settings.cms_deliverables_container') . '/' . $image->path . $image->filename; ?>" type="button" data-media-id="<?= $image->id ?>" class="lightbox-image btn btn-block btn-default">
+                                                    <button href="<?= 'https://' . \Cake\Core\Configure::read('Settings.floorplans_container') . '/' . $image->path . $image->filename; ?>" type="button" data-media-id="<?= $image->id ?>" class="lightbox-image btn btn-block btn-default">
                                                         <i class="fa fa-image"></i>
                                                         &nbsp;
                                                         Preview
@@ -113,7 +113,6 @@
                                                 <div class="col-md-8">
                                                     <?= $this->Form->input("floorplans_library.{$c}.description", ['placeholder' => 'Image Description', 'type' => 'textarea', 'class' => 'resres form-control']); ?>
                                                 </div>
-
                                             </div>
                                             <br/>
                                             <div class="row">
@@ -121,6 +120,24 @@
                                                     <div class="form-control" style="vertical-align: middle; ">
                                                         <span style="display: inline-block; vertical-align: middle; line-height: 20px; float: left;"><strong>Filename: </strong><?= $image->filename; ?></span>
                                                     </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <?= $this->Form->input("floorplans_library.{$c}.width_m", ['placeholder' => 'Floorplan Width (meters)', 'type' => 'text', 'class' => 'resres form-control']); ?>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <?= $this->Form->input("floorplans_library.{$c}.height_m", ['placeholder' => 'Floorplan Height (meters)', 'type' => 'text', 'class' => 'resres form-control']); ?>
+                                                </div>
+                                            </div>
+                                            <br />
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <?= $this->Form->input("floorplans_library.{$c}.num_width_divs", ['placeholder' => 'Number of Divisions', 'type' => 'text', 'class' => 'resres form-control']); ?>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <?= $this->Form->input("floorplans_library.{$c}.num_height_divs", ['placeholder' => 'Number of Divisions', 'type' => 'text', 'class' => 'resres form-control']); ?>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -142,8 +159,8 @@
 
                                                                     $extra = '';
 
-                                                                    $url = 'https://' . \Cake\Core\Configure::read('Settings.cms_deliverables_container') . '/' . $libraryEdit->path . 'thumbnail-' . $libraryEdit->filename;
-                                                                    $furl = 'https://' . \Cake\Core\Configure::read('Settings.cms_deliverables_container') . '/' . $libraryEdit->path . $libraryEdit->filename;
+                                                                    $url = 'https://' . \Cake\Core\Configure::read('Settings.floorplans_container') . '/' . $libraryEdit->path . 'thumbnail-' . $libraryEdit->filename;
+                                                                    $furl = 'https://' . \Cake\Core\Configure::read('Settings.floorplans_container') . '/' . $libraryEdit->path . $libraryEdit->filename;
 
                                                                     ?>
 
