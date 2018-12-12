@@ -6,22 +6,21 @@
 ?>
 <?php $this->Html->script('/js/heatmap', ['block' => 'scriptBottom']); ?>
 <?php $this->AssetCompress->css('heatmaps', ['block' => 'scriptTop']); ?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Heatmap'), ['action' => 'edit', $heatmap->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Heatmap'), ['action' => 'delete', $heatmap->id], ['confirm' => __('Are you sure you want to delete # {0}?', $heatmap->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Heatmaps'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Heatmap'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Access Points'), ['controller' => 'AccessPoints', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Access Point'), ['controller' => 'AccessPoints', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Floorplans Library'), ['controller' => 'FloorplansLibrary', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Floorplans Library'), ['controller' => 'FloorplansLibrary', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
-<div class="heatmaps view large-9 medium-8 columns content">
-    <h3><?= h($heatmap->id) ?></h3>
-    <div class="heatmap-page-content" style="background-image: url('<?= $heatmap->getFullImageUrl() ?>')">
+
+<?php $this->set('pageTitle', 'Show All Heatmap Activity'); ?>
+
+<div class="x_panel">
+    <div class="x_title">
+        <h2>Show all heatmap activity for <?= h($heatmap->floorplans_library->title) ?></h2>
+        <div class="clearfix"></div>
+    </div>
+    <div class="x_content">
+        <section class="content">
+            <div class="heatmaps view large-9 medium-8 columns content">
+                <div class="heatmap-page-content" style="background-image: url('<?= $heatmap->getFullImageUrl() ?>')">
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 
