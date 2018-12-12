@@ -261,11 +261,16 @@ class HeatmapsController extends AppController
         $d_divy = [];
         $rssi_values = array_column(array_column($scanResults,'payload'),'rssi');
         foreach ($rssi_values as $rssi):
-            $d[] = pow(10,(-25-$rssi)/30);
-            $d_divx[] = min(floor(pow(10,(-25-$rssi)/30)*($heatmap->floorplans_library->num_width_divs/$heatmap->floorplans_library->width_m)),$heatmap->floorplans_library->num_width_divs-1);
-            $d_divy[] = min(floor(pow(10,(-25-$rssi)/30)*($heatmap->floorplans_library->num_height_divs/$heatmap->floorplans_library->height_m)),$heatmap->floorplans_library->num_height_divs-1);
+            //$d[] = pow(10,(-25-$rssi)/30);
+            //$d_divx[] = min(floor(pow(10,(-25-$rssi)/60)*($heatmap->floorplans_library->num_width_divs/$heatmap->floorplans_library->width_m)),$heatmap->floorplans_library->num_width_divs-1);
+            //$d_divy[] = min(floor(pow(10,(-25-$rssi)/60)*($heatmap->floorplans_library->num_height_divs/$heatmap->floorplans_library->height_m)),$heatmap->floorplans_library->num_height_divs-1);
+            $d_divx[] = 1;
+            $d_divy[] = 1;
         endforeach;
-        
+        //pr($pdivx);
+        //pr($pdivy);
+        //pr($d_divx);
+        //pr($d_divy);
 
         // Initialize 2 dimensional grid to all zeros
         $grid = [];
@@ -274,7 +279,6 @@ class HeatmapsController extends AppController
                 $grid[$i][$j] = 0;
             }
         }
-
 
         // need to loop through every distance value
         for ($k=0;$k<count($d_divx);$k++){
@@ -289,11 +293,13 @@ class HeatmapsController extends AppController
             for ($i=0;$i<(2*$d_divx[$k]-1);$i++){
                 $x_offsetp = max($pdivx+$d_divx[$k],0);
                 $x_offsetm = max($pdivx-$d_divx[$k],0);
-                $y_offset = max($i-$d_divy[$k]+$pdivy,0);
+                // need to offset the y value by to start at the row after the first (skip the first row)
+                $y_offset = max($i-$d_divy[$k]+$pdivy+1,0);
                 $grid[$x_offsetm][$y_offset] = $grid[$x_offsetm][$y_offset] + 1;
                 $grid[$x_offsetp][$y_offset] = $grid[$x_offsetp][$y_offset] + 1;
             }
         }
+        pr($grid);
         
 /*
         // Set the previous last evaluated key to be able to navigate back to the previous page
@@ -316,17 +322,19 @@ class HeatmapsController extends AppController
         // Some test code to generate random data for heatmap
         $heatmapdata = [];
         $maxval = 0;
-        for ($i=0; $i<200; $i++){
-            $val = floor(mt_rand(0,100));
-            $maxval = max($maxval, $val);
+        for ($i=0; $i<count($grid); $i++){
+            for ($j=0; $j<count($grid[0]); $j++){
+                $val = $grid[$i][$j];
+                $maxval = max($maxval, $val);
 
-            $point['x'] = floor(mt_rand(0,800));
-            $point['y'] = floor(mt_rand(0,400));
-            $point['value'] = $val;
-            $heatmapdata['data'][] = $point;
+                $point['x'] = $j*80;
+                $point['y'] = $i*40;
+                $point['value'] = $val;
+                $heatmapdata['data'][] = $point;
+            }
         }
         $heatmapdata['max'] = $maxval;
-
+//pr($heatmapdata);
         $this->set('heatmap', $heatmap);
         $this->set('heatmapdata', json_encode($heatmapdata));
 
