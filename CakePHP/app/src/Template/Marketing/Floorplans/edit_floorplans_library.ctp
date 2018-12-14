@@ -111,7 +111,7 @@
                                             <br/>
                                             <div class="row">
                                                 <div class="col-md-8">
-                                                    <?= $this->Form->input("floorplans_library.{$c}.description", ['placeholder' => 'Image Description', 'type' => 'textarea', 'class' => 'resres form-control']); ?>
+                                                    <?= $this->Form->input("floorplans_library.{$c}.description", ['placeholder' => 'Floorplan Description', 'type' => 'textarea', 'class' => 'resres form-control']); ?>
                                                 </div>
                                             </div>
                                             <br/>
@@ -176,10 +176,10 @@
 
 
                                                                                 <span class="pull-right" style="padding-right: 10px;">
-                                                                                    <a class="meta-links" title="Edit Image" href="/marketing/floorplans/editFloorplansLibrary?ids[0]=<?= $libraryEdit->id ?>">
+                                                                                    <a class="meta-links" title="Edit Floor Plan" href="/marketing/floorplans/editFloorplansLibrary?ids[0]=<?= $libraryEdit->id ?>">
                                                                                         <i class="fa fa-edit"></i>
                                                                                     </a>
-                                                                                    <a class="meta-links" title="Delete Image" href="/marketing/floorplans/deleteFloorplansLibrary?ids[0]=<?= $libraryEdit->id ?>">
+                                                                                    <a class="meta-links" title="Delete Floor Plan" href="/marketing/floorplans/deleteFloorplansLibrary?ids[0]=<?= $libraryEdit->id ?>">
                                                                                         <i class="fa fa-times-circle"></i>
                                                                                     </a>
                                                                                 </span>
