@@ -79,31 +79,20 @@ jQuery(function($) {
         e.preventDefault();
         $('#modal-content-preview').modal('show');
         id = $(that).data('preview');
-        console.log(that);
+        
         $('#modal-content-preview .modal-body').load('/marketing/heatmaps/preview/' + id);
     });
 });
 </script>
-<script>
-$(document).ready(function () {
-    $('modal-content-preview').on("click", function (event) {
 
-        var x = event.pageX - this.offsetLeft;
-        var y = event.pageY - this.offsetTop;
-        alert("X Coordinate: " + x + " Y Coordinate: " + y);
-    });
-});
-</script>
 <script>
 $(document).on("click", ".heatmap-content", function(event){
     var rect = event.target.getBoundingClientRect();
-    //var x = event.pageX - this.offsetLeft;
-    //var y = event.pageY - this.offsetTop;
-
+    
+    // Subtract off bounding box to get relative position of heatmap-content.
+    // The top left corner of heatmap-content will be 0,0
     var x = event.pageX - rect.left;
     var y = event.pageY - rect.top;
-
-    console.log("x: " + x + " y: " + y);
 
     // Calculate the new position to move the fa icon to as %
     // Limit to 95% to prevent overlap outside of image background
@@ -112,42 +101,12 @@ $(document).on("click", ".heatmap-content", function(event){
 
     var lpstr = leftpct.concat('%');
     var tpstr = toppct.concat('%');
-    console.log("x%: " + lpstr + " y%: " + tpstr);
+
+    // Update the left/top css properties of the ap-position div
     $('div.ap-position').css({'left': lpstr, 'top': tpstr});
-
-    //console.log($(this));
 });
-
-    //document.getElementById('modal-c.heatmap-container').addEventListener('click', printPosition)
-
-//document.getElementById('relative-rect').addEventListener('click', printPosition)
-
-function getPosition(e) {
-  var rect = e.target.getBoundingClientRect();
-  var x = e.clientX - rect.left;
-  var y = e.clientY - rect.top;
-  return {
-    x,
-    y
-  }
-}
-
-function printPosition(e) {
-  var position = getPosition(e);
-  //document.getElementById('area').value = 'X: ' + position.x + ' Y: ' + position.y;
-  console.log('X: ' + position.x + ' Y: ' + position.y);
-    //$(".ap-position").css({"left": "800","top": "900"});
-    console.log($(this));
-            
-}
 </script>
 
-<script>
-    $(document).getElementById("button#apbutton").onclick = function updateAP(){
-        console.log("clicked");
-    
-    };
-</script>
 <script>
 jQuery(function($) {
     $('.apbutton').click(function(e) {
