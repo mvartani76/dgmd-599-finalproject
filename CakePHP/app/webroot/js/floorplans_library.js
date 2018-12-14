@@ -62,7 +62,7 @@ $(function() {
                     nofade          : true,
                     styleCheckBoxes : false,
                     width           : '60%',
-                    btnText         : 'Saving Media Selection',
+                    btnText         : 'Saving Floorplan Selection',
                     frmTarget       : 'ContentSaveMediaSelection'
                 };
 
@@ -544,7 +544,7 @@ $(function() {
 
                     var $p       = $('<p></p>').text('There was an error while processing your file upload request:');
                     var $ul      = $('<ul></ul>');
-                    var $ftr     = $('<p></p>').text('Please try your file upload again. Remember, only video files and images are accepted.');
+                    var $ftr     = $('<p></p>').text('Please try your file upload again. Remember, only vector files and images are accepted.');
 
 
                     for (k in $errors.filename) {

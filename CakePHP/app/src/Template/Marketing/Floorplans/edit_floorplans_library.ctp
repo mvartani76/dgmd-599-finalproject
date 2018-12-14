@@ -35,7 +35,7 @@
                     <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
                         <ul id="myTabs" class="nav nav-tabs" role="tab-list">
                             <li role="presentation" class=""><a href="/marketing/floorplans/floorplans_library" id="library-tab" role="_tab" data-toggle="_tab" aria-controls="library" aria-expanded="false"><i class="fa fa-image"></i>&nbsp; Floorplans Library</a></li>
-                            <li role="presentation" class=""><a href="/marketing/floorplans/floorplans_library#uploadFloorplans" role="_tab" id="media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="false"><i class="fa fa-upload"></i>&nbsp; Upload Content</a></li>
+                            <li role="presentation" class=""><a href="/marketing/floorplans/floorplans_library#uploadFloorplans" role="_tab" id="media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="false"><i class="fa fa-upload"></i>&nbsp; Upload Floorplans</a></li>
                             <li role="presentation" class="active"><a href="#editFloorplans" role="_tab" id="edit-media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="true"><i class="fa fa-edit"></i>&nbsp; Editing <?= sngw('Media Item', count($customer->floorplans_library)); ?></a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">

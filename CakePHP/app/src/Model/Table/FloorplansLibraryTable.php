@@ -377,8 +377,8 @@ class FloorplansLibraryTable extends Table
         ]);
 
         $validator->add('filename', 'fileAboveMinWidth', [
-            'rule' => ['isAboveMinWidth', 600],
-            'message' => 'This image should at least be 600px wide',
+            'rule' => ['isAboveMinWidth', 200],
+            'message' => 'This floor plan should at least be 200px wide',
             'provider' => 'VideoImage'
         ]);
 
