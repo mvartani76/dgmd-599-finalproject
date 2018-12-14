@@ -77,7 +77,7 @@
 
 <div class="x_panel">
     <div class="x_title">
-        <h2>Your Media Library</h2>
+        <h2>Your Floor Plan Library</h2>
         <div class="clearfix"></div>
     </div>
     <div class="x_content">
@@ -92,16 +92,16 @@
 
                     <div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
                         <ul id="myTabs" class="nav nav-tabs" role="tab-list">
-                            <li role="presentation" class=""><a href="/marketing/content/media_library" id="library-tab" role="_tab" data-toggle="_tab" aria-controls="library" aria-expanded="false"><i class="fa fa-image"></i>&nbsp; Media Library</a></li>
-                            <li role="presentation" class=""><a href="/marketing/content/media_library#uploadMedia" role="_tab" id="media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="false"><i class="fa fa-upload"></i>&nbsp; Upload Content</a></li>
-                            <li role="presentation" class="active"><a href="#editMedia" role="_tab" id="delete-media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="true"><i class="fa fa-times-circle"></i>&nbsp; Deleting <?= count($customer->media_library) ?> Media Files</a></li>
+                            <li role="presentation" class=""><a href="/marketing/floorplans/floorplans_library" id="library-tab" role="_tab" data-toggle="_tab" aria-controls="library" aria-expanded="false"><i class="fa fa-image"></i>&nbsp; Floor Plans Library</a></li>
+                            <li role="presentation" class=""><a href="/marketing/floorplans/floorplans_library#uploadFloorplans" role="_tab" id="media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="false"><i class="fa fa-upload"></i>&nbsp; Upload Floor Plans</a></li>
+                            <li role="presentation" class="active"><a href="#editMedia" role="_tab" id="delete-media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="true"><i class="fa fa-times-circle"></i>&nbsp; Deleting <?= count($customer->floorplans_library) ?> Floorplans</a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="deleteMedia" aria-labelledby="delete-media-tab">
 
                                 <?php $c = 0; ?>
 
-                                <?php foreach($customer->media_library as $image): ?>
+                                <?php foreach($customer->floorplans_library as $image): ?>
 
                                     <div class="x_content">
                                         <ul class="list-unstyled msg_list">
@@ -109,7 +109,7 @@
                                                 <a style="text-decoration: none; width: 100%; display: block;">
                                                     <span class="image">
                                                         <?php if ($image->media_type === 'IMAGE'): ?>
-                                                            <img style="width: 200px;" alt="img" class="bb" src="<?= 'https://' . \Cake\Core\Configure::read('Settings.cms_deliverables_container') . '/' . $image->path . 'thumbnail-' . $image->filename; ?>" />
+                                                            <img style="width: 200px;" alt="img" class="bb" src="<?= 'https://' . \Cake\Core\Configure::read('Settings.floorplans_container') . '/' . $image->path . 'thumbnail-' . $image->filename; ?>" />
                                                         <?php else: ?>
                                                             <img style="width: 200px;" alt="img" class="bb" src="<?= $image->video_thumb; ?>" />
                                                         <?php endif; ?>
@@ -147,7 +147,7 @@
 
                                     <div class="callout callout-danger">
                                         <p><strong><i class="fa fa-exclamation-triangle"></i> &nbsp;Warning</strong><br/>
-                                            Once you delete these images, it is irreversible. You will be required to upload them again.
+                                            Once you delete these Floorplans, it is irreversible. You will be required to upload them again.
                                         </p>
                                     </div>
 
@@ -155,8 +155,11 @@
                                     <div class="col-md-3 col-md-3 col-sm-3"></div>
                                     <div class="col-md-9 col-sm-9 col-xs-12">
                                         <?= $this->Form->button('', ['style' => 'display: none;', 'type' => 'submit']) ?>
-                                        <?= $this->Form->button(__('<i class="fa fa-times-circle"></i> &nbsp; Cancel'), ['name' => '_CANCEL', 'class' => 'pull-right btn btn-default']) ?>
-                                        <?= $this->Form->button(__('<i class="fa fa-eraser"></i> &nbsp;Delete Media'), ['class' => 'pull-right btn btn-danger']) ?>
+                                        
+                                        <!-- Using a link instead of cancel button as cancel button was redirecting back to index -->
+                                        <a href="/marketing/floorplans/floorplans_library" class="pull-right btn btn-default"><i class="fa fa-times-circle"></i> &nbsp; Cancel</a> 
+
+                                        <?= $this->Form->button(__('<i class="fa fa-eraser"></i> &nbsp;Delete Floorplans'), ['class' => 'pull-right btn btn-danger']) ?>
                                     </div>
                                 </div>
                             </div>
@@ -173,9 +176,3 @@
         </section>
     </div>
 </div>
-
-
-
-
-
-
