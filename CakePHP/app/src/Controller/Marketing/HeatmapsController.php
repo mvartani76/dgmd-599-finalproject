@@ -209,9 +209,9 @@ class HeatmapsController extends AppController
         // Used for displaying unique devices over a given time
         $params_time = [
             'TableName' => $tableName,
+            'ProjectionExpression' => 'payload.rssi',
             'KeyConditionExpression' => 'ap_mac_addr = :mmaacc AND log_time BETWEEN :starttime AND :endtime',
-            'ExpressionAttributeValues' => $eav_time,
-            'Select' => "ALL_ATTRIBUTES"
+            'ExpressionAttributeValues' => $eav_time
             ];
 
         // Set the params for the dB scan to show results for access point
