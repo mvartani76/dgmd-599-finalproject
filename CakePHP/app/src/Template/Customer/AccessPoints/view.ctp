@@ -108,54 +108,6 @@
                     <div role="tabpanel" class="tab-pane fade" id="tab-dwell-times" aria-labelledby="profile-tab">
                         <div class="paginate-ajax" data-target=".table-custom" data-load="/DwellTimes?accessPoint_id=<?= $accessPoint->id ?>"></div>
                     </div>
-                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
-                        <div class="paginate-ajax-container">
-                            <?php $this->start('paginated_content.AccessPointsNotes'); ?>
-                            <?php if (is_object($notes) && !$notes->isEmpty()): ?>
-                                <?php
-
-                                $this->Paginator->setAjax();
-                                $this->Paginator->options(
-                                    [
-                                        'url' => array_merge($this->request->pass, ['ajax' => true, 'mdl' => 'AccessPointsNotes'], $this->request->query)
-                                    ]
-                                );
-                                ?>
-                                <?= $this->element('paginator', ['model' => 'AccessPointsNotes', 'isAjax' => true]) ?>
-                                <ul id="NotesResults" class="messages">
-                                    <?php foreach($notes as $k => $note): ?>
-                                        <?php $altc = ($k % 2 === 0) ? 'alt-bg':null; ?>
-                                        <li class="<?= $altc; ?>">
-                                            <div class="message_date">
-                                                <h3 class="date text-info"><?= date('j', strtotime($this->Time->format($note->created))); ?></h3>
-                                                <p class="month"><?= date('M', strtotime($this->Time->format($note->created))); ?></p>
-                                            </div>
-                                            <div class="message_wrapper">
-                                                <h4 style="margin-bottom: 20px;" class="heading"><?= $note->subject ?></h4>
-                                                <hr/>
-                                                <blockquote class="message"><?= $note->entry; ?></blockquote>
-                                                <hr/>
-                                                <h5><?= $note->author->profile->first_name ?> <?= $note->author->profile->last_name ?> <small style="color: #999; margin-left: 40px;">at <?= $this->Time->format($note->created,'MM/dd/yyyy hh:mm a')?></small></h5>
-                                            </div>
-                                        </li>
-                                    <?php endforeach; ?>
-                                </ul>
-                                <?= $this->element('paginator', ['model' => 'AccessPointsNotes', 'isAjax' => true]) ?>
-                            <?php else: ?>
-                                <ul id="NotesResults" class="messages">
-                                    <li class="no-data">
-                                        <p style="color: #aaa !important; text-align: center;">There are no notes to display for this particular Access Point.<br/><br/>
-                                            <a href="#" class="btn-sm btn btn-primary add-new-note" data-note-model="AccessPoints" data-model-id="<?= $accessPoint->id; ?>">
-                                                <i class="fa fa-plus-circle"></i> &nbsp;Add a Note
-                                            </a>
-                                        </p>
-                                    </li>
-                                </ul>
-                            <?php endif; ?>
-                            <?php $this->end(); ?>
-                            <?php echo $this->fetch('paginated_content.AccessPointsNotes'); ?>
-                        </div>
-                    </div>
                     <div role="tabpanel" class="tab-pane fade active in" id="tab_content4" aria-labelledby="profile-tab">
                         <div class="paginate-ajax-container">
                             <!-- ScanResults is an array and not an object partially because it is coming from DynamodB -->
