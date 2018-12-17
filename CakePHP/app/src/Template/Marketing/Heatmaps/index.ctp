@@ -62,7 +62,7 @@
                             <td data-title="Created"><?= $this->Time->format($heatmap->created) ?></td>
                             <td data-title="Updated"><?= $this->Time->format($heatmap->modified) ?></td>
                             <td data-title="Actions" class="actions">
-                                <a href="#" class='btn btn-default btn-xs loadPreview' data-preview="<?=$heatmap->id;?>" data-floorplan="<?=$heatmap->floorplans_library->id;?>"><i class="fa fa-search"></i>&nbsp;Preview</a>
+                                <a href="#" class='btn btn-default btn-xs loadPreview' data-preview="<?=$heatmap->id;?>" data-floorplan="<?=$heatmap->floorplans_library->id;?>" data-fpwidth="<?=$heatmap->floorplans_library->width ?>" data-fpheight="<?=$heatmap->floorplans_library->height ?>"><i class="fa fa-search"></i>&nbsp;Preview</a>
                                 <?= $this->Html->link('<i class="fa fa-edit"></i>&nbsp;Edit', ['action' => 'edit', $heatmap->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
                                 <?= $this->Html->link(__('<i class="fa fa-times-circle"></i> &nbsp;Delete'), ['action' => 'delete', $heatmap->id], ['class' => 'btn btn-danger btn-xs', 'escape' => false]) ?>
                             </td>
@@ -89,10 +89,12 @@
             e.preventDefault();
             $('#modal-content-preview').modal('show');
             id = $(that).data('preview');
-            fplan_id = $(that).data('floorplan')
+            fplan_id = $(that).data('floorplan');
+            fplan_width = $(that).data('fpwidth');
+            fplan_height = $(that).data('fpheight');
             gbl_heatmap_id = id;
             gbl_floorplan_id = fplan_id;
-            
+          
             $('#modal-content-preview .modal-body').load('/marketing/heatmaps/preview/' + id);
         });
     });
@@ -106,6 +108,7 @@
             // Subtract off bounding box to get relative position of heatmap-content.
             // The top left corner of heatmap-content will be 0,0
             // For some reason, clientY is more accurate than pageY so changing to clientY
+            // These x,y coordinates are relative to the viewport and not the actual floorplan image
             x = event.clientX - rect.left;
             y = event.clientY - rect.top;
 
@@ -113,6 +116,10 @@
             // Limit to 95% to prevent overlap outside of image background
             var leftpct = Math.min(((x/rect.width)*100),95).toString();
             var toppct = Math.min(((y/rect.height)*100),95).toString();
+
+            // Convert coordinates relative to floorplan
+            x = Math.min(((x/rect.width)),0.95)*fplan_width;
+            y = Math.min(((y/rect.height)),0.95)*fplan_height;
 
             var lpstr = leftpct.concat('%');
             var tpstr = toppct.concat('%');
