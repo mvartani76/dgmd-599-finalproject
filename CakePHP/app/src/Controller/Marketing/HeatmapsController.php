@@ -122,7 +122,32 @@ class HeatmapsController extends AppController
             'contain' => ['access_points', 'floorplans_library']
         ]);
 
+
+        if (isset($this->request->query['ajax']) && $this->request->query['ajax'] == true) {
+            if ($this->request->is('ajax')) {
+                $this->viewBuilder()->layout('ajax_paging');
+            }
+        }
+        if (isset($this->request->query['mdl'])) {
+            if ($this->request->is('ajax')) {
+                $this->viewBuilder()->layout('ajax_paging');
+                $this->set('contentKey', $this->request->query['mdl']);
+            }
+        }
+
+        if (!empty($this->request->data['action']) && $this->request->data['action'] == 'updateAPPosition') {
+            
+            $heatmap = $this->Heatmaps->patchEntity($heatmap, $this->request->getData());
+            
+            if ($this->Heatmaps->save($heatmap)) {
+                $this->Flash->success(__('The heatmap has been saved.'));
+                //return $this->redirect(['action' => 'index']);
+            }
+        }
+
+
         $this->set('heatmap', $heatmap);
+        $this->set('_serialize', 'heatmap');
     }
 
     /**
