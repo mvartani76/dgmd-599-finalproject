@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Aws\Sdk as AwsSdk;
 use Aws\DynamoDb\Exception\DynamoDbException;
 use Aws\DynamoDb\Marshaler;
+use Cake\Event\Event;
 
 /**
  * Heatmaps Controller
@@ -177,7 +178,6 @@ class HeatmapsController extends AppController
             $periodEnd   = strtotime($endDate)*1000;
 
         } else {
-
             $periodStart  = strtotime('-7 days')*1000;
             $periodEnd    = time()*1000;
         }
@@ -207,7 +207,7 @@ class HeatmapsController extends AppController
 
         // Set the params for the dB query to show scanresults over the selected time period
         // Used for displaying unique devices over a given time
-        $unique_params_time = [
+        $params_time = [
             'TableName' => $tableName,
             'KeyConditionExpression' => 'ap_mac_addr = :mmaacc AND log_time BETWEEN :starttime AND :endtime',
             'ExpressionAttributeValues' => $eav_time,
@@ -241,7 +241,7 @@ class HeatmapsController extends AppController
 
         // Query the scan results for the given access point but limit to 15 items
         try {
-            $result = $dynamodb->query($params);
+            $result = $dynamodb->query($params_time);
             foreach ($result['Items'] as $mac_addr) {
                 $scanResults[] = $marshaler->unmarshalItem($mac_addr);
             }
@@ -309,9 +309,21 @@ class HeatmapsController extends AppController
             }
         }
         $heatmapdata['max'] = $maxval;
+        
+        // Make a copy of the heatmapdata array so it can be sent separately without json_encode
+        $heatmapdata1 = $heatmapdata;
 
         $this->set('heatmap', $heatmap);
         $this->set('heatmapdata', json_encode($heatmapdata));
+        $this->set('heatmapdata1', $heatmapdata1);
+        $this->set(compact('periodStartRaw', 'periodEndRaw'));
+        $this->set('_serialize', 'heatmapdata1');
+    }
+    public function beforeFilter(Event $event)
+    {
+        $this->Security->config('validatePost',false);
+        $this->Security->config('csrfCheck',false);
 
+        parent::beforeFilter($event);
     }
 }
