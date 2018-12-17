@@ -66,9 +66,15 @@
         
         var heatmapdata = <?= $heatmapdata ?>;
 
-        // if you have a set of datapoints always use setData instead of addData
-        // for data initialization
-        heatmapInstance.setData(heatmapdata);
+        // Do not show data if all values are 0
+        if (heatmapdata.max != 0) {
+            // if you have a set of datapoints always use setData instead of addData
+            // for data initialization
+            heatmapInstance.setData(heatmapdata);
+        } else {
+            // Sending empty set appears to clear heatmap
+            heatmapInstance.setData({data:[]});
+        }
 
         $(function() {
         $( ".apply-dateRange" ).bind( "click", function() {
@@ -77,7 +83,7 @@
             var end_date = moment($('.end-range-date').data('DateTimePicker').date()).tz('UTC').format('MM/DD/YYYY');
             var ajaxData = {};
             
-            if(typeof HEATMAP_ID !== "undefined"){
+            if (typeof HEATMAP_ID !== "undefined"){
                 var ajaxData = {
                     starttime: start_date,
                     endtime:   end_date,
@@ -90,9 +96,16 @@
                 .done(function (r) {
                     var data = r;
                     
-                    if(typeof HEATMAP_ID !== "undefined") {
-                        // Update heatmap with data from new time query
-                        heatmapInstance.setData(data);
+                    if (typeof HEATMAP_ID !== "undefined") {
+                        
+                        // Do not show data if all values are 0
+                        if (data.max != 0) {
+                            // Update heatmap with data from new time query
+                            heatmapInstance.setData(data);
+                        } else {
+                            // Sending empty set appears to clear heatmap
+                            heatmapInstance.setData({data:[]});
+                        }
                     }       
                 });
             setValuesDateRange($('.dateRange.start-range-date').data('DateTimePicker').date(),
