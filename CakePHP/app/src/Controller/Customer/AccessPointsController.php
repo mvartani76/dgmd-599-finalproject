@@ -363,7 +363,6 @@ class AccessPointsController extends AppController
 
         $this->set(compact('scanResults','lastevalkey', 'prevlastvalkey', 'page'));
         $this->set(compact('totalScanCount', 'totalScanCount_time', 'totalUniqueDevices', 'totalUniqueDevices_time'));
-        $this->set(compact('notes', 'periodStartRaw', 'periodEndRaw'));
 
         // Need to serialize the variables to have them visible for the JSON response
         $this->set('_serialize', ['totalScanCount', 'totalScanCount_time', 'totalUniqueDevices', 'totalUniqueDevices_time']);
