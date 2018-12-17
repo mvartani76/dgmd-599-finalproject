@@ -303,17 +303,17 @@ class HeatmapsController extends AppController
         for ($k=0;$k<count($d_divx);$k++){
             for ($i=0;$i<(2*$d_divx[$k]+1);$i++){
                 // bound grid offsets
-                $x_offset = min(max($i-$d_divx[$k]+$pdivx,0),$heatmap->floorplans_library->num_width_divs);
-                $y_offsetp = min(max($pdivy+$d_divy[$k],0),$heatmap->floorplans_library->num_height_divs);
-                $y_offsetm = min(max($pdivy-$d_divy[$k],0),$heatmap->floorplans_library->num_height_divs);
+                $x_offset = min(max($i-$d_divx[$k]+$pdivx,0),$heatmap->floorplans_library->num_width_divs-1);
+                $y_offsetp = min(max($pdivy+$d_divy[$k],0),$heatmap->floorplans_library->num_height_divs-1);
+                $y_offsetm = min(max($pdivy-$d_divy[$k],0),$heatmap->floorplans_library->num_height_divs-1);
                 $grid[$x_offset][$y_offsetp] = $grid[$x_offset][$y_offsetp] + 1;
                 $grid[$x_offset][$y_offsetm] = $grid[$x_offset][$y_offsetm] + 1;
             }
             for ($i=0;$i<(2*$d_divy[$k]-1);$i++){
-                $x_offsetp = min(max($pdivx+$d_divx[$k],0),$heatmap->floorplans_library->num_width_divs);
-                $x_offsetm = min(max($pdivx-$d_divx[$k],0),$heatmap->floorplans_library->num_width_divs);
+                $x_offsetp = min(max($pdivx+$d_divx[$k],0),$heatmap->floorplans_library->num_width_divs-1);
+                $x_offsetm = min(max($pdivx-$d_divx[$k],0),$heatmap->floorplans_library->num_width_divs-1);
                 // need to offset the y value by 1 to start at the row after the first (skip the first row)
-                $y_offset = min(max($i-$d_divy[$k]+$pdivy+1,0),$heatmap->floorplans_library->num_height_divs);
+                $y_offset = min(max($i-$d_divy[$k]+$pdivy+1,0),$heatmap->floorplans_library->num_height_divs-1);
                 $grid[$x_offsetm][$y_offset] = $grid[$x_offsetm][$y_offset] + 1;
                 $grid[$x_offsetp][$y_offset] = $grid[$x_offsetp][$y_offset] + 1;
             }
