@@ -4,6 +4,12 @@
  * @var \App\Model\Entity\Heatmap[]|\Cake\Collection\CollectionInterface $heatmaps
  */
 ?>
+
+<script>
+    var STATS_URL = window.location.origin + window.location.pathname;
+</script>
+
+
 <?php $this->set('pageTitle', 'Heatmaps'); ?>
 <?php $this->AssetCompress->css('heatmaps', ['block' => 'scriptTop']); ?>
 <div class="x_panel">
@@ -56,7 +62,7 @@
                             <td data-title="Created"><?= $this->Time->format($heatmap->created) ?></td>
                             <td data-title="Updated"><?= $this->Time->format($heatmap->modified) ?></td>
                             <td data-title="Actions" class="actions">
-                                <a href="#" class='btn btn-default btn-xs loadPreview' data-preview="<?=$heatmap->id;?>"><i class="fa fa-search"></i>&nbsp;Preview</a>
+                                <a href="#" class='btn btn-default btn-xs loadPreview' data-preview="<?=$heatmap->id;?>" data-floorplan="<?=$heatmap->floorplans_library->id;?>"><i class="fa fa-search"></i>&nbsp;Preview</a>
                                 <?= $this->Html->link('<i class="fa fa-edit"></i>&nbsp;Edit', ['action' => 'edit', $heatmap->id], ['class' => 'btn btn-primary btn-xs', 'escape' => false]); ?>
                                 <?= $this->Html->link(__('<i class="fa fa-times-circle"></i> &nbsp;Delete'), ['action' => 'delete', $heatmap->id], ['class' => 'btn btn-danger btn-xs', 'escape' => false]) ?>
                             </td>
@@ -73,54 +79,80 @@
 </div>
 
 <script>
-jQuery(function($) {
-    $('.loadPreview').click(function(e) {
-        var that = this;
-        e.preventDefault();
-        $('#modal-content-preview').modal('show');
-        id = $(that).data('preview');
-        
-        $('#modal-content-preview .modal-body').load('/marketing/heatmaps/preview/' + id);
+    var x;
+    var y;
+    var gbl_heatmap_id;
+    var gbl_floorplan_id;
+    jQuery(function($) {
+        $('.loadPreview').click(function(e) {
+            var that = this;
+            e.preventDefault();
+            $('#modal-content-preview').modal('show');
+            id = $(that).data('preview');
+            fplan_id = $(that).data('floorplan')
+            gbl_heatmap_id = id;
+            gbl_floorplan_id = fplan_id;
+            
+            $('#modal-content-preview .modal-body').load('/marketing/heatmaps/preview/' + id);
+        });
     });
-});
+</script>
+<script>
+        $(document).on("click", ".heatmap-content", function(event){
+            //var rect = event.target.getBoundingClientRect();
+            var mydiv = document.getElementById("myheatmap-content");
+            var rect = mydiv.getBoundingClientRect();
+            
+            // Subtract off bounding box to get relative position of heatmap-content.
+            // The top left corner of heatmap-content will be 0,0
+            // For some reason, clientY is more accurate than pageY so changing to clientY
+            x = event.clientX - rect.left;
+            y = event.clientY - rect.top;
+
+            // Calculate the new position to move the fa icon to as %
+            // Limit to 95% to prevent overlap outside of image background
+            var leftpct = Math.min(((x/rect.width)*100),95).toString();
+            var toppct = Math.min(((y/rect.height)*100),95).toString();
+
+            var lpstr = leftpct.concat('%');
+            var tpstr = toppct.concat('%');
+            
+            // Update the left/top css properties of the ap-position div
+            $('div.ap-position').css({'left': lpstr, 'top': tpstr});
+        });
 </script>
 
 <script>
-$(document).on("click", ".heatmap-content", function(event){
-    var rect = event.target.getBoundingClientRect();
-    
-    // Subtract off bounding box to get relative position of heatmap-content.
-    // The top left corner of heatmap-content will be 0,0
-    var x = event.pageX - rect.left;
-    var y = event.pageY - rect.top;
+    jQuery(function($) {
+        $('.apbutton').click(function(e) {
+            var $this = $(this);
+            
+            $this.toggleClass('apbutton');
+            if($this.hasClass('apbutton')){
+                $this.text('Update Access Point Position');
+                $this.removeClass('btn-info');
+                $this.addClass('btn-primary');
 
-    // Calculate the new position to move the fa icon to as %
-    // Limit to 95% to prevent overlap outside of image background
-    var leftpct = Math.min(((x/rect.width)*100),95).toString();
-    var toppct = Math.min(((y/rect.height)*100),95).toString();
+                $('#modal-content-preview').modal('hide');
+                    var ajaxData = {
+                        action:    'updateAPPosition',
+                        heatmap_id: gbl_heatmap_id,
+                        floorplan_id: gbl_floorplan_id,
+                        x: x,
+                        y: y
+                    };
 
-    var lpstr = leftpct.concat('%');
-    var tpstr = toppct.concat('%');
+                    var jqxhr = $.post( '/marketing/heatmaps/preview/2.json',ajaxData)
+                      .done(function(r) {
+                        var data = r;
+                        console.log(data);
+                      });
 
-    // Update the left/top css properties of the ap-position div
-    $('div.ap-position').css({'left': lpstr, 'top': tpstr});
-});
-</script>
-
-<script>
-jQuery(function($) {
-    $('.apbutton').click(function(e) {
-        var $this = $(this);
-        $this.toggleClass('apbutton');
-        if($this.hasClass('apbutton')){
-            $this.text('Update Access Point Position');
-            $this.removeClass('btn-info');
-            $this.addClass('btn-primary');
-        } else {
-            $this.text('Save Updated AP Position');
-            $this.removeClass('btn-primary');
-            $this.addClass('btn-info');
-        }
+            } else {
+                $this.text('Save Updated AP Position');
+                $this.removeClass('btn-primary');
+                $this.addClass('btn-info');
+            }
+        });
     });
-});
 </script>
