@@ -93,8 +93,6 @@
             <div class="" role="tabpanel" data-example-id="togglable-tabs">
                 <ul id="myTab" class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#tab_content4" role="tab" id="profile-tab4" data-toggle="tab" aria-expanded="false">All Activity</a></li>
-                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Acess Point Notes&nbsp;&nbsp; <span title="Add Notes" class="add-new-note" data-note-model="Beacons" data-model-id="<?= $accessPoint->id ?>" style="cursor: pointer; float: right;"><i class="fa fa-plus-circle"></i></span></a></li>
-                    <li role="presentation"><a href="#tab-dwell-times" role="tab" data-toggle="tab" aria-expanded="false">Dwell Times</a></li>
                 </ul>
                 <div id="myTabContent" class="tab-content">
                     <div role="tabpanel" class="tab-pane fade" id="tab_content1" aria-labelledby="home-tab">
