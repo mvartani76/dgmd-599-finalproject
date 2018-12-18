@@ -1,4 +1,4 @@
-# "An Open Source Wi-Fi Device Detection System"
+# An Open Source Wi-Fi Device Detection System
 Repository for presentation, code, and documentation for my DGMD-599 Final Capstone Project, "An Open Source Wi-Fi Device Detection System"
 
 For the Fall 2018 semester, I created a system that utilizes Raspberry Pis to emulate Wi-Fi Access Points and stream the scanned data to a cloud platform using AWS IoT Core and AWS DynamoDB.
