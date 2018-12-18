@@ -28,7 +28,15 @@ After choosing how you will connect the device to the AWS IoT platform, name the
 
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-name-device-dec2018.png)
 
+# Download the Connection Kit
+Within the AWS IoT tool, they give you the option to download all the necessary files to run code that sends messages to/from the Python device. The following screenshot shows what selections need to be made to choose the Python SDK running on Linux.
+
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-download-device-dec2018.png)
+
+Now this is almost what we need for the WiFi Access Point Scanning Software. The provided python file aws_iot_pub
+
+# Confirm Success
+![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-connected-successfully.png)
 
 ## Installing Necessary Software
 Please run the provided startup script `start.sh` to make sure that you have all the necessary libraries to run the scanner code.
