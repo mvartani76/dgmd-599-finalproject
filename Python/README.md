@@ -33,6 +33,12 @@ Within the AWS IoT tool, they give you the option to download all the necessary 
 
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-download-device-dec2018.png)
 
+Downloading the kit will provide the following files:
+* start.sh
+* YourThingName.cert.pem
+* YourThingName.private.key
+* YourThingName.public.key
+
 Now this is almost what we need for the WiFi Access Point Scanning Software. The provided python file `aws_iot_pubsub.py` contains the generic code to access AWS IoT, sending/receiving MQTT messages. For the scanning software, we will need to utilize this shell but have the additional code that emulates an access point and scans for nearby WiFi devices.
 
 # Confirm Success
