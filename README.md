@@ -1,4 +1,4 @@
-# dgmd-599-finalproject "An Open Source Wi-Fi Device Detection System"
+# "An Open Source Wi-Fi Device Detection System"
 Repository for presentation, code, and documentation for my DGMD-599 Final Capstone Project, "An Open Source Wi-Fi Device Detection System"
 
 For the Fall 2018 semester, I created a system that utilizes Raspberry Pis to emulate Wi-Fi Access Points and stream the scanned data to a cloud platform using AWS IoT Core and AWS DynamoDB.
@@ -18,7 +18,3 @@ In order to stream device data to the system and visualize the results, you will
 * [Configure Wi-Fi Access Point](CakePHP/)
 * Start Wi-Fi Scanning
 * Configure Platform
-
-## Register IoT Device
-
-![Register Device](Documentation/Images/dgmd-599-aws-iot-register-device-dec2018.png)
