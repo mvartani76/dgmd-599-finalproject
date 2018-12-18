@@ -15,9 +15,9 @@ There are two primary components to the system:
 
 ## Getting Started
 In order to stream device data to the system and visualize the results, you will need to do the following:
-Configure Wi-Fi Access Point
-Start Wi-Fi Scanning
-Configure Platform
+* Configure Wi-Fi Access Point
+* Start Wi-Fi Scanning
+* Configure Platform
 
 ## Register IoT Device
 
