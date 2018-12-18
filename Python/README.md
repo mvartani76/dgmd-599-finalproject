@@ -23,6 +23,12 @@ As mentioned previously, the WiFi Access Point Scanner Code is written in Python
 
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-chooseconnect-device-dec2018.png)
 
+## Name the Device
+After choosing how you will connect the device to the AWS IoT platform, name the device. This will associate the Raspberry Pi with a human readable name within the platform.
+
+![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-name-device-dec2018.png)
+
+![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-download-device-dec2018.png)
 
 ## Installing Necessary Software
 Please run the provided startup script `start.sh` to make sure that you have all the necessary libraries to run the scanner code.
