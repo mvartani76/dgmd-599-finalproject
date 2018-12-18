@@ -4,6 +4,12 @@ In order to successfully run the WiFi Access Point Scanning Software, you will n
 - AWS Account (to use AWS IoT and DynamoDB)
 - IoT Device Security Credentials (public/private keys/certificates). Can create from https://us-west-2.console.aws.amazon.com/iot/home?region=us-west-2#/connectdevice/ 
 
+## Configure AWS IoT Setup
+The WiFi Access Point Scanner Code communicates to the cloud using AWS IoT. For the Raspberry Pi to communicate with AWS IoT, we will need to include the AWS IoT Python SDK on the device. This will be taken care of using the included script file (start.sh). This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured.
+## Configure a Device
+Within the AWS IoT Platform, navigate to the Onboard section and select "Configuring a device"
+![Register Device](../Documentation/Images/dgmd-599-aws-iot-config-device-dec2018.png)
+
 ## Register IoT Device
 
 ![Register Device](../Documentation/Images/dgmd-599-aws-iot-register-device-dec2018.png)
