@@ -6,13 +6,22 @@ In order to successfully run the WiFi Access Point Scanning Software, you will n
 
 ## Configure AWS IoT Setup
 The WiFi Access Point Scanner Code communicates to the cloud using AWS IoT. For the Raspberry Pi to communicate with AWS IoT, we will need to include the AWS IoT Python SDK on the device. This will be taken care of using the included script file (start.sh). This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured.
-## Configure a Device
+
+## Configure IoT Device
+
 Within the AWS IoT Platform, navigate to the Onboard section and select "Configuring a device"
 ![Register Device](../Documentation/Images/dgmd-599-aws-iot-config-device-dec2018.png)
 
 ## Register IoT Device
 
 ![Register Device](../Documentation/Images/dgmd-599-aws-iot-register-device-dec2018.png)
+
+
+## Choose Connection to IoT Device
+
+As mentioned previously, the WiFi Access Point Scanner Code is written in Python on a linux based Raspberry Pi. Therefore you will need to choose the following platform and SDK as shown below.
+
+![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-chooseconnect-device-dec2018.png)
 
 
 ## Installing Necessary Software
