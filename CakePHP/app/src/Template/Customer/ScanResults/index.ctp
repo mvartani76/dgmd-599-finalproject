@@ -51,7 +51,12 @@
 
                     <!-- Do not display the Previous link if on the first page (page 0) -->
                     <?php if ($page > 0): ?>
-                        <?php echo $this->Html->link('Previous', ['controller' => 'ScanResults', 'action' => 'index', '?' => ['page' => ($page-1), 'key' => serialize($prevlastvalkey)]], ['class' => 'pull-left btn btn-primary']); ?>
+                        <!-- Reset back to standard route with no key if previous would send to page 0 -->
+                        <?php if ($page > 1): ?>
+                            <?php echo $this->Html->link('Previous', ['controller' => 'ScanResults', 'action' => 'index', '?' => ['page' => ($page-1), 'key' => serialize($prevlastvalkey)]], ['class' => 'pull-left btn btn-primary']); ?>
+                        <?php else: ?>
+                            <?php echo $this->Html->link('Previous', ['controller' => 'ScanResults', 'action' => 'index'], ['class' => 'pull-left btn btn-primary']); ?>
+                        <?php endif; ?>
                     <?php endif; ?>
 
                     <!-- Only display the Next link if there are more results. -->
