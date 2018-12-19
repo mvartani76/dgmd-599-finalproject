@@ -12,6 +12,7 @@ set -e
 if [ ! -f ./start.sh ]; then
 	printf "\nstart.sh not found. Please download from AWS....\n"
 else
+	printf "\nExtracting Credentials from AWS start.sh file...\n"
 	AWSINFO="$(while read x; do [[ $x =~ '.py -e'.* ]] && echo ${BASH_REMATCH[0]}; done <start.sh)"
 fi
 # Check to see if root CA file exists, download if not
