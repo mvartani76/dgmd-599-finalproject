@@ -28,6 +28,25 @@ sudo pip install netaddr
 # install Scapy code for inspecting wifi packets
 sudo pip install scapy --upgrade
 
+# Check to see if monitor mode is enabled
+printf "\nChecking to see if monitor mode is enabled...\n"
+iwconfig > iwoutput.txt
+MONMODE="$(grep -n 'Monitor' iwoutput.txt | cut -d: -f 1)"
+
+# MONMODE will equal a line number if monitoring mode is enabled
+# the following checks to see if a line number exists -- if yes, monitoring mode is enabled
+if [ -n "${MONMODE}" ]; then
+	printf "Monitoring Mode Enabled...\n"
+else
+	printf "Monitoring Mode Disabled...Enabling...\n"
+	# Assuming wlan0 for now
+	sudo ifconfig wlan0 down
+	sudo iwconfig wlan0 mode monitor
+	sudo ifconfig wlan0 up
+fi
+# Delete the temporary fil
+rm iwoutput.txt
+
 # run WiFi ScannerAapp using provided certificates
 # will populate the python command from downloaded AWS connection package start.sh
 printf "\nRuning WiFi Scanner Application...\n"
