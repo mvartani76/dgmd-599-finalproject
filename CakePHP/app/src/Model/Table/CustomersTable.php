@@ -3,7 +3,7 @@ namespace App\Model\Table;
 
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
-use Cake\ORM\Table;
+use App\ORM\D2goTable as Table;
 use Cake\Validation\Validator;
 
 /**
@@ -67,7 +67,7 @@ class CustomersTable extends Table
             'CustomerTypes' => ['customer_count']
         ]);
 
-        $this->belongsTo('ParentCustomers', [
+        $this->belongsTo('ParentCompany', [
             'className' => 'Customers',
             'foreignKey' => 'parent_id'
         ]);
@@ -78,14 +78,14 @@ class CustomersTable extends Table
             'foreignKey' => 'customer_types_id',
             'joinType' => 'INNER'
         ]);
-//        $this->belongsTo('BillingRegions', [
-//            'foreignKey' => 'billing_region_id',
-//            'joinType' => 'INNER'
-//        ]);
-//        $this->belongsTo('BillingCountries', [
-//            'foreignKey' => 'billing_country_id',
-//            'joinType' => 'INNER'
-//        ]);
+        $this->belongsTo('Regions', [
+            'foreignKey' => 'billing_region_id',
+            'joinType' => 'INNER'
+        ]);
+        $this->belongsTo('Countries', [
+            'foreignKey' => 'billing_country_id',
+            'joinType' => 'INNER'
+        ]);
         $this->hasMany('AccessPoints', [
             'foreignKey' => 'customer_id'
         ]);
@@ -221,11 +221,11 @@ class CustomersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['parent_id'], 'ParentCustomers'));
+        $rules->add($rules->existsIn(['parent_id'], 'ParentCompany'));
         $rules->add($rules->existsIn(['retailer_id'], 'Retailers'));
         $rules->add($rules->existsIn(['customer_types_id'], 'CustomerTypes'));
-        //$rules->add($rules->existsIn(['billing_region_id'], 'BillingRegions'));
-        //$rules->add($rules->existsIn(['billing_country_id'], 'BillingCountries'));
+        $rules->add($rules->existsIn(['billing_region_id'], 'BillingRegions'));
+        $rules->add($rules->existsIn(['billing_country_id'], 'BillingCountries'));
 
         return $rules;
     }
