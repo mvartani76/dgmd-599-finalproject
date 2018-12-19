@@ -1,4 +1,4 @@
-# Embedded Wifi Access Point Scanner Code
+# Embedded WiFi Access Point Scanner Code
 ## Pre Install Requirements
 In order to successfully run the WiFi Access Point Scanning Software, you will need the following:
 - AWS Account (to use AWS IoT and DynamoDB)
@@ -64,3 +64,7 @@ The script will do the following:
 * Install scapy
 * Ensure that Wi-Fi is in Monitor Mode
 * Run the actual scanning code
+
+### Code Terminal Output
+You should see something similar to the following if the WiFi Access Point Code is running.
+![Terminal Window Output](../Documentation/Images/wifi-scanner-terminal-output-dec2018.png)
