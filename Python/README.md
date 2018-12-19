@@ -50,5 +50,17 @@ Please run the provided startup script `start.sh` to make sure that you have all
 2. Make sure that `start.sh` is executable
 ```sudo chmod +x start.sh```
 
-# Run Scanner Code
+## Run Scanner Code
+The included startup script `wifi_start.sh` will make sure that you have all the necessary libraries and credentials to run the scanner code.
+The script will do the following:
+* Check to see if you downloaded the package manager contents
+* Ensure there is no newline found at the end of the AWS start.sh file
+* Extract the credentials from the AWS start.sh file
+* Download the AWS root certificate
+* Install the AWS IoT Python SDK
+* Install netaddr
+* Install scapy
+* Ensure that Wi-Fi is in Monitor Mode
+* Run the actual scanning code
+
 
