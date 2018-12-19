@@ -6,6 +6,7 @@ For the Fall 2018 semester, I created a system that utilizes Raspberry Pis to em
 ## Requirements
 To be able to fully test the system, you will need the following:
 * Raspberry Pi 3
+* Wi-Fi Device that can accept Monitoring Mode
 * AWS Account with Credentials
 * Platform Account (will be provided)
 ## System Components
