@@ -125,15 +125,14 @@ while True:
 	if args.mode == 'both' or args.mode == 'publish':
 		message = {}
 		output = sniff(iface = "wlan0", count = 1, prn = built_packetHandler)
-		#message['message'] = args.message
-		#message['sequence'] = loopCount
+		
 		message['unique_count'] = wifiScan.unique_count
 		message['log_time'] = wifiScan.log_time
 		message['ap_mac_addr'] = wifiScan.ap_mac_addr
 		message['mac_addr'] = wifiScan.mac_addr
 		message['rssi'] = wifiScan.rssi
 		message['vendor'] = wifiScan.vendor
-		#message['output'] = output
+
 		messageJson = json.dumps(message)
 		if oldlogtime != wifiScan.log_time:
 			myAWSIoTMQTTClient.publish(topic, messageJson, 1)
