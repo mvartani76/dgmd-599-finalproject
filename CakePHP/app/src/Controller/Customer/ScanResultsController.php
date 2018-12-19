@@ -53,11 +53,13 @@ class ScanResultsController extends AppController
             $params = [
                 'TableName' => $tableName,
                 'Limit' => 15,
+                'ScanIndexForward' => 'false',
                 'ExclusiveStartKey' => $key
             ];
         } else {
             $params = [
                 'TableName' => $tableName,
+                'ScanIndexForward' => 'false',
                 'Limit' => 15
             ];
         }
