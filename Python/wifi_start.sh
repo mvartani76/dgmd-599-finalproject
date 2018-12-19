@@ -1,6 +1,17 @@
 # stop script on error
 set -e
 
+# Grab the credentials from the downloaded AWS SDK Package start.sh file
+#grep "python aws-iot" start.sh >> wifi_start.sh
+#sed -i 's/aws-iot-device-sdk-python
+
+#LINENUMBER="$(grep -n 'python test' wifi_start.sh | cut -d: -f 1)"
+#echo "${LINENUMBER}"
+AWSINFO="$(while read x; do [[ $x =~ '.py -e'.* ]] && echo ${BASH_REMATCH[0]}; done <start.sh)"
+#echo "${AWSINFO}"
+
+#echo "combine"."${AWSINFO}"
+
 # Check to see if root CA file exists, download if not
 if [ ! -f ./root-CA.crt ]; then
   printf "\nDownloading AWS IoT Root CA certificate from Symantec...\n"
@@ -26,4 +37,6 @@ sudo pip install scapy
 # run WiFi ScannerAapp using provided certificates
 # will populate the python command from downloaded AWS connection package start.sh
 printf "\nRuning WiFi Scanner Application...\n"
-
+PYTHONFILE="aws_iot_pubsub${AWSINFO}"
+# Initiate the python comman with the desired file and arguments
+python ${PYTHONFILE}
