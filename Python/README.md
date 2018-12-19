@@ -9,28 +9,28 @@ The WiFi Access Point Scanner Code communicates to the cloud using AWS IoT. For 
 
 This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured.
 
-## Configure IoT Device
+### Configure IoT Device
 
 Within the AWS IoT Platform, navigate to the Onboard section and select "Configuring a device"
 ![Register Device](../Documentation/Images/dgmd-599-aws-iot-config-device-dec2018.png)
 
-## Register IoT Device
+### Register IoT Device
 
 ![Register Device](../Documentation/Images/dgmd-599-aws-iot-register-device-dec2018.png)
 
 
-## Choose Connection to IoT Device
+### Choose Connection to IoT Device
 
 As mentioned previously, the WiFi Access Point Scanner Code is written in Python on a linux based Raspberry Pi. Therefore you will need to choose the following platform and SDK as shown below.
 
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-chooseconnect-device-dec2018.png)
 
-## Name the Device
+### Name the Device
 After choosing how you will connect the device to the AWS IoT platform, name the device. This will associate the Raspberry Pi with a human readable name within the platform.
 
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-name-device-dec2018.png)
 
-## Download the Connection Kit
+### Download the Connection Kit
 Within the AWS IoT tool, they give you the option to download all the necessary files to run code that sends messages to/from the Python device. The following screenshot shows what selections need to be made to choose the Python SDK running on Linux.
 
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-download-device-dec2018.png)
@@ -43,7 +43,7 @@ Downloading the kit will provide the following files:
 
 Now this is almost what we need for the WiFi Access Point Scanning Software. The provided python file `aws_iot_pubsub.py` contains the generic code to access AWS IoT, sending/receiving MQTT messages. For the scanning software, we will need to utilize this shell but have the additional code that emulates an access point and scans for nearby WiFi devices.
 
-## Confirm Success
+### Confirm Success
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-connected-successfully.png)
 
 ## Installing Necessary Software
