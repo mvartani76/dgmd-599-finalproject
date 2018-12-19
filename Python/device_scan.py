@@ -27,7 +27,7 @@ class wifiScan:
 def display_ap_mac_addr():
 	return ':'.join(re.findall('..', '%012x' % uuid.getnode()))
 
-def build_packetHandler(time_format, blacklist):
+def build_packetHandler(time_format, rssi_source, blacklist):
 	def packetHandler(pkt):
         	if pkt.haslayer(Dot11):
                 	dot11_layer = pkt.getlayer(Dot11)
@@ -40,8 +40,14 @@ def build_packetHandler(time_format, blacklist):
 			# the rssi value is contained in the dBm_AntSignal field
 			# previously tried to get it from the notdecoded field but nothing was there using
 			# the panda wireless USB dongle with the ralink chip
-			rssi_val = pkt.dBm_AntSignal
+			# tried on another device and do not receive dBm_AntSignal so using notdecoded fields
+			# will have to pass this in via args
 
+			if rssi_source == 'pkt_antsignal':
+				rssi_val = pkt.dBm_AntSignal
+			else:
+				rssi_val = -(256-ord(pkt.notdecoded[-4:-3]))
+			
 			# find the vendor info from the mac address by parsing database
 			try:
 				parsed_mac = netaddr.EUI(pkt.addr2)
