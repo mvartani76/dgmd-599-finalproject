@@ -65,8 +65,8 @@ class HeatmapsController extends AppController
             }
             $this->Flash->error(__('The heatmap could not be saved. Please, try again.'));
         }
-        $accessPoints = $this->Heatmaps->AccessPoints->find('list', ['limit' => 200]);
-        $floorplansLibrary = $this->Heatmaps->FloorplansLibrary->find('list', ['limit' => 200]);
+        $accessPoints = $this->Heatmaps->access_points->find('list', ['limit' => 200]);
+        $floorplansLibrary = $this->Heatmaps->floorplans_library->find('list', ['limit' => 200]);
         $this->set(compact('heatmap', 'accessPoints', 'floorplansLibrary'));
     }
 
