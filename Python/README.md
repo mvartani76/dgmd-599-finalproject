@@ -72,13 +72,14 @@ You should see something similar to the following if the WiFi Access Point Code 
 
 ## Known Issues
 Some strange behavior observed every now and then so below is a list of questions and potential answers.
-*Q:* My script does not finish. The last line is "Extracting Credentials from AWS start.sh file..."
-*A:* Try opening the `start.sh` and delete any extra lines at the bottom of the file.
 
-*Q:* I received the following error message.
+**Q:** My script does not finish. The last line is "Extracting Credentials from AWS start.sh file..."
+**A:** Try opening the `start.sh` and delete any extra lines at the bottom of the file.
+
+**Q:** I received the following error message.
 
 ```
 Error for wireless request "Set Mode" (8B06) :
     SET failed on device wlan0 ; Operation not supported.
 ```
-*A:* Make sure you are using a wifi device that supports monitoring mode.
+**A:** Make sure you are using a wifi device that supports monitoring mode.
