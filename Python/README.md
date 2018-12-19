@@ -1,8 +1,7 @@
 # Embedded Wifi Access Point Scanner Code
 <details>
   <summary>
-    
-    ## Pre Install Requirements
+    <h2>Pre Install Requirements</h2>
   </summary>
 In order to successfully run the WiFi Access Point Scanning Software, you will need the following:
 - AWS Account (to use AWS IoT and DynamoDB)
