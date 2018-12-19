@@ -1,8 +1,8 @@
 # Embedded Wifi Access Point Scanner Code
-<details><summary>Pre Install Requirements</summary>
+## Pre Install Requirements
 In order to successfully run the WiFi Access Point Scanning Software, you will need the following:
 - AWS Account (to use AWS IoT and DynamoDB)
-- IoT Device Security Credentials (public/private keys/certificates). Can create from https://us-west-2.console.aws.amazon.com/iot/home?region=us-west-2#/connectdevice/ </details>
+- IoT Device Security Credentials (public/private keys/certificates). Can create from https://us-west-2.console.aws.amazon.com/iot/home?region=us-west-2#/connectdevice/
 
 ## Configure AWS IoT Setup
 The WiFi Access Point Scanner Code communicates to the cloud using AWS IoT. For the Raspberry Pi to communicate with AWS IoT, we will need to include the AWS IoT Python SDK on the device. This will be taken care of using the included script file (start.sh). This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured.
@@ -28,7 +28,7 @@ After choosing how you will connect the device to the AWS IoT platform, name the
 
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-name-device-dec2018.png)
 
-# Download the Connection Kit
+## Download the Connection Kit
 Within the AWS IoT tool, they give you the option to download all the necessary files to run code that sends messages to/from the Python device. The following screenshot shows what selections need to be made to choose the Python SDK running on Linux.
 
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-download-device-dec2018.png)
@@ -41,7 +41,7 @@ Downloading the kit will provide the following files:
 
 Now this is almost what we need for the WiFi Access Point Scanning Software. The provided python file `aws_iot_pubsub.py` contains the generic code to access AWS IoT, sending/receiving MQTT messages. For the scanning software, we will need to utilize this shell but have the additional code that emulates an access point and scans for nearby WiFi devices.
 
-# Confirm Success
+## Confirm Success
 ![Choose Device Connection](../Documentation/Images/dgmd-599-aws-iot-connected-successfully.png)
 
 ## Installing Necessary Software
@@ -49,4 +49,6 @@ Please run the provided startup script `start.sh` to make sure that you have all
 1. Add your AWS IoT custom endpoint, Certificate, and private key in the designated spots in `start.sh`
 2. Make sure that `start.sh` is executable
 ```sudo chmod +x start.sh```
+
+# Run Scanner Code
 
