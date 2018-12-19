@@ -2,13 +2,6 @@ printf "Starting Script...\n"
 # stop script on error
 set -e
 
-# Grab the credentials from the downloaded AWS SDK Package start.sh file
-#grep "python aws-iot" start.sh >> wifi_start.sh
-#sed -i 's/aws-iot-device-sdk-python
-
-#LINENUMBER="$(grep -n 'python test' wifi_start.sh | cut -d: -f 1)"
-#echo "${LINENUMBER}"
-
 if [ ! -f ./start.sh ]; then
 	printf "\nstart.sh not found. Please download from AWS....\n"
 else
