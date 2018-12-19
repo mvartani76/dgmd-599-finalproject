@@ -1,5 +1,9 @@
 # Embedded Wifi Access Point Scanner Code
-<details><summary>## Pre Install Requirements</summary>
+<details>
+  <summary>
+    
+    ## Pre Install Requirements
+  </summary>
 In order to successfully run the WiFi Access Point Scanning Software, you will need the following:
 - AWS Account (to use AWS IoT and DynamoDB)
 - IoT Device Security Credentials (public/private keys/certificates). Can create from https://us-west-2.console.aws.amazon.com/iot/home?region=us-west-2#/connectdevice/ 
