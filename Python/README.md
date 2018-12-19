@@ -1,8 +1,9 @@
 # Embedded Wifi Access Point Scanner Code
-## Pre Install Requirements
+<details><summary>## Pre Install Requirements</summary>
 In order to successfully run the WiFi Access Point Scanning Software, you will need the following:
 - AWS Account (to use AWS IoT and DynamoDB)
 - IoT Device Security Credentials (public/private keys/certificates). Can create from https://us-west-2.console.aws.amazon.com/iot/home?region=us-west-2#/connectdevice/ 
+</details>
 
 ## Configure AWS IoT Setup
 The WiFi Access Point Scanner Code communicates to the cloud using AWS IoT. For the Raspberry Pi to communicate with AWS IoT, we will need to include the AWS IoT Python SDK on the device. This will be taken care of using the included script file (start.sh). This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured.
