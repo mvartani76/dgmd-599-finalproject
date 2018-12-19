@@ -7,12 +7,14 @@ set -e
 
 if [ ! -f ./start.sh ]; then
 	printf "\nstart.sh not found. Please download from AWS....\n"
+	exit 0
 else
 	printf "\nNeed to remove newlines at EOF if they exist...\n"
-	if [ -z "$(tail -n 1 start.sh)" ]
+	echo "" >> start.sh
+	if [ -z "$(tail -n 2 start.sh)" ]
 	then
 		printf "Newline found at end of file...\n"
-		head -c -1 start.sh > start.tmp
+		head -c -2 start.sh > start.tmp
 		mv start.tmp start.sh
 	fi
 	printf "\nExtracting Credentials from AWS start.sh file...\n"
