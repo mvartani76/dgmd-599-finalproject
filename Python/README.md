@@ -67,4 +67,5 @@ The script will do the following:
 
 ### Code Terminal Output
 You should see something similar to the following if the WiFi Access Point Code is running.
+
 ![Terminal Window Output](../Documentation/Images/wifi-scanner-terminal-output-dec2018.png)
