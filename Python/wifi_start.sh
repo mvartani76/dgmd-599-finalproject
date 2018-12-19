@@ -7,10 +7,12 @@ set -e
 
 #LINENUMBER="$(grep -n 'python test' wifi_start.sh | cut -d: -f 1)"
 #echo "${LINENUMBER}"
-AWSINFO="$(while read x; do [[ $x =~ '.py -e'.* ]] && echo ${BASH_REMATCH[0]}; done <start.sh)"
-#echo "${AWSINFO}"
 
-#echo "combine"."${AWSINFO}"
+if [ ! -f ./start.sh ]; then
+	printf "\nstart.sh not found. Please download from AWS."
+else
+	AWSINFO="$(while read x; do [[ $x =~ '.py -e'.* ]] && echo ${BASH_REMATCH[0]}; done <start.sh)"
+fi
 
 # Check to see if root CA file exists, download if not
 if [ ! -f ./root-CA.crt ]; then
