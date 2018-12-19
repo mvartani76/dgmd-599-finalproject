@@ -1,12 +1,22 @@
+#!/bin/bash
+
 printf "Starting Script...\n"
+
 # stop script on error
 set -e
 
 if [ ! -f ./start.sh ]; then
 	printf "\nstart.sh not found. Please download from AWS....\n"
 else
+	printf "\nNeed to remove newlines at EOF if they exist...\n"
+	if [ -z "$(tail -n 1 start.sh)" ]
+	then
+		printf "Newline found at end of file...\n"
+		head -c -1 start.sh > start.tmp
+		mv start.tmp start.sh
+	fi
 	printf "\nExtracting Credentials from AWS start.sh file...\n"
-	AWSINFO="$(while read x; do [[ $x =~ '.py -e'.* ]] && echo ${BASH_REMATCH[0]}; done <start.sh)"
+	AWSINFO="$(while read x; do [[ $x =~ '.py -e'.* ]] && echo ${BASH_REMATCH[0]}; done < start.sh)"
 fi
 # Check to see if root CA file exists, download if not
 if [ ! -f ./root-CA.crt ]; then
@@ -49,7 +59,7 @@ rm iwoutput.txt
 
 # run WiFi ScannerAapp using provided certificates
 # will populate the python command from downloaded AWS connection package start.sh
-printf "\nRuning WiFi Scanner Application...\n"
+printf "\nRunning WiFi Scanner Application...\n"
 PYTHONFILE="aws_iot_pubsub${AWSINFO}"
 # Initiate the python comman with the desired file and arguments
 sudo python ${PYTHONFILE} -rssi "notedecodedpackets"
