@@ -30,7 +30,6 @@ fi
 if [ ! -d ./aws-iot-device-sdk-python ]; then
   printf "\nInstalling AWS SDK...\n"
   sudo pip install AWSIoTPythonSDK --upgrade
-#  popd
 fi
 
 # install netaddr code for Python if not already installed
