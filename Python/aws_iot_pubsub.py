@@ -14,7 +14,8 @@
  * permissions and limitations under the License.
  */
  '''
-
+#mport AWSIoTPythonSDK
+#sys.path.insert(0, os.path.dirname(AWSIoTPythonSDK._file_))
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import logging
 import time
@@ -50,6 +51,8 @@ parser.add_argument("-m", "--mode", action="store", dest="mode", default="publis
                     help="Operation modes: %s"%str(AllowedActions))
 parser.add_argument("-M", "--message", action="store", dest="message", default="Hello World!",
                     help="Message to publish")
+parser.add_argument("-rssi", "--rssiSource", action="store", dest="rssiSource", default="pkt_antsignal",
+		    help="Configure source of RSSI as there are differences between devices.")
 
 args = parser.parse_args()
 host = args.host
@@ -60,6 +63,7 @@ port = args.port
 useWebsocket = args.useWebsocket
 clientId = args.clientId
 topic = args.topic
+rssi_source = args.rssiSource
 
 if args.mode not in AllowedActions:
     parser.error("Unknown --mode option %s. Must be one of %s" % (args.mode, str(AllowedActions)))
@@ -114,12 +118,13 @@ time.sleep(2)
 # Publish to the same topic in a loop forever
 loopCount = 0
 oldlogtime = 0
-blacklist = load_blacklist("mikev_house.txt")
-built_packetHandler = build_packetHandler("unix", blacklist)
+#blacklist = load_blacklist("mikev_house.txt")
+blacklist = ""
+built_packetHandler = build_packetHandler("unix", rssi_source, blacklist)
 while True:
 	if args.mode == 'both' or args.mode == 'publish':
 		message = {}
-		output = sniff(iface = "wlan0mon", count = 1, prn = built_packetHandler)
+		output = sniff(iface = "wlan0", count = 1, prn = built_packetHandler)
 		#message['message'] = args.message
 		#message['sequence'] = loopCount
 		message['unique_count'] = wifiScan.unique_count
