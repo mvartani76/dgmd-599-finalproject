@@ -5,7 +5,9 @@ In order to successfully run the WiFi Access Point Scanning Software, you will n
 - IoT Device Security Credentials (public/private keys/certificates). Can create from https://us-west-2.console.aws.amazon.com/iot/home?region=us-west-2#/connectdevice/
 
 ## Configure AWS IoT Setup
-The WiFi Access Point Scanner Code communicates to the cloud using AWS IoT. For the Raspberry Pi to communicate with AWS IoT, we will need to include the AWS IoT Python SDK on the device. This will be taken care of using the included script file (start.sh). This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured.
+The WiFi Access Point Scanner Code communicates to the cloud using AWS IoT. For the Raspberry Pi to communicate with AWS IoT, we will need to include the AWS IoT Python SDK on the device. This will be taken care of using the included script file `start.sh`.
+
+This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured.
 
 ## Configure IoT Device
 
@@ -54,13 +56,11 @@ Please run the provided startup script `start.sh` to make sure that you have all
 The included startup script `wifi_start.sh` will make sure that you have all the necessary libraries and credentials to run the scanner code.
 The script will do the following:
 * Check to see if you downloaded the package manager contents
-* Ensure there is no newline found at the end of the AWS start.sh file
-* Extract the credentials from the AWS start.sh file
+* Ensure there is no newline found at the end of the AWS `start.sh` file
+* Extract the credentials from the AWS `start.sh` file
 * Download the AWS root certificate
 * Install the AWS IoT Python SDK
 * Install netaddr
 * Install scapy
 * Ensure that Wi-Fi is in Monitor Mode
 * Run the actual scanning code
-
-
