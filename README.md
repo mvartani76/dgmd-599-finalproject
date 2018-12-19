@@ -17,5 +17,5 @@ There are two primary components to the system:
 ## Getting Started
 In order to stream device data to the system and visualize the results, you will need to do the following:
 * [Configure Wi-Fi Access Point](Python/)
-* Start Wi-Fi Scanning
+* [Start Wi-Fi Scanning](Python/#Run-Scanner-Code)
 * [Configure Platform](CakePHP/)
