@@ -25,10 +25,6 @@ fi
 # install AWS Device SDK for Python if not already installed
 if [ ! -d ./aws-iot-device-sdk-python ]; then
   printf "\nInstalling AWS SDK...\n"
-#  git clone https://github.com/aws/aws-iot-device-sdk-python.git
-#  pushd aws-iot-device-sdk-python
-#  python setup.py install --user
-#  pushd
   sudo pip install AWSIoTPythonSDK --upgrade
 #  popd
 fi
@@ -43,5 +39,4 @@ sudo pip install scapy --upgrade
 printf "\nRuning WiFi Scanner Application...\n"
 PYTHONFILE="aws_iot_pubsub${AWSINFO}"
 # Initiate the python comman with the desired file and arguments
-echo ${PYTHONFILE}
 sudo python ${PYTHONFILE} -rssi "notedecodedpackets"
