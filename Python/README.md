@@ -73,7 +73,7 @@ You should see something similar to the following if the WiFi Access Point Code 
 ## Known Issues
 Some strange behavior observed every now and then so below is a list of questions and potential answers.
 
-**Q:** My script does not finish. The last line is "Extracting Credentials from AWS start.sh file...\n"
+**Q:** My script does not finish. The last line is "Extracting Credentials from AWS start.sh file..."<br>
 **A:** Try opening the `start.sh` and delete any extra lines at the bottom of the file.
 
 **Q:** I received the following error message.
