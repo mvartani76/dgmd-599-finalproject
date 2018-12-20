@@ -50,7 +50,7 @@
                                             <?php if ($image->isVideo()): ?>
                                                 <img class="bb img-responsive" src="<?= $image->video_sthumb; ?>" />
                                             <?php elseif ($image->isImage()): ?>
-                                                <img class="bb img-responsive" src="<?= 'https://' . \Cake\Core\Configure::read('Settings.cms_deliverables_container') . '/' . $image->path . 'thumbnail-' . $image->filename; ?>" />
+                                                <img class="bb img-responsive" src="<?= 'https://' . \Cake\Core\Configure::read('Settings.floorplans_container') . '/' . $image->path . 'thumbnail-' . $image->filename; ?>" />
                                             <?php endif; ?>
                                             <div class="row" style="padding: 10px; font-size: .90em;">
                                                 <div class="col-md-12" style="margin-bottom: 15px;">
