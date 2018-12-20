@@ -8,13 +8,20 @@ The platform provides the following capabilities specific to WDDS:
 
 * Login
 * Add Access Points
-* Edit Access Point Details such
+* Edit Access Point Details
   * MAC Address
+  * Associated Floor plan
 * Associate Access Points with Location
-* Add Floorplans
-* Associate Access Points with Location
+* Associate Floor plans with Access Points
+* Upload Floor plans
+* View Floor plans
+* Edit Floor plans
+ * Image Dimensions
+ * Real World Dimensions
+ * Number of Divisions (used for Trilateration approximation)
 * View Total Scan Results
 * View Total Unique Devices
 * View Total Scan Results specific to an Access Point
 * View Unique Devices specific to an Access Point
 * Visualize summary data in a dashboard
+* Visualize heatmap data over floor plan
