@@ -5,6 +5,7 @@ printf "Starting Script...\n"
 # stop script on error
 set -e
 
+# Check to see if user downloaded the AWS start.sh file to the python directory
 if [ ! -f ./start.sh ]; then
 	printf "\nstart.sh not found. Please download from AWS....\n"
 	exit 0
@@ -52,10 +53,28 @@ if [ -n "${MONMODE}" ]; then
 	printf "Monitoring Mode Enabled...\n"
 else
 	printf "Monitoring Mode Disabled...Enabling...\n"
-	# Assuming wlan0 for now
-	sudo ifconfig wlan0 down
-	sudo iwconfig wlan0 mode monitor
-	sudo ifconfig wlan0 up
+
+	# Find the WLAN interfaces available on this device
+	WNAMES="$(iw dev | awk '$1=="Interface"{print $2}')"
+
+	# Split the multi-line variable into an array for easier access
+	IFS=$'\n' lines=($WNAMES)
+
+	# Find the length of the array
+	len=${#lines[@]}
+
+	# loop through the array
+	# Enable monitoring mode on the first interface that supports it
+	# was noticing that some devices work on wlan0 and others on wlan1
+	for (( i=0; i<$len; i++));
+        do
+                sudo ifconfig ${lines[$i]} down
+	        if [ -z "$(sudo iwconfig ${lines[$i]} mode monitor 2>&1)" ]; then
+        		WORKWLAN=${lines[$i]}
+                fi
+	        sudo ifconfig ${lines[$i]} up;
+        done
+	printf "Enabled for %s \n" $WORKWLAN
 fi
 # Delete the temporary fil
 rm iwoutput.txt
@@ -64,6 +83,6 @@ rm iwoutput.txt
 # will populate the python command from downloaded AWS connection package start.sh
 printf "\nRunning WiFi Scanner Application...\n"
 PYTHONFILE="aws_iot_pubsub${AWSINFO}"
-
-# Initiate the python comman with the desired file and arguments
+echo ${PYTHONFILE}
+# Initiate the python command with the desired file and arguments
 sudo python ${PYTHONFILE} -rssi "notedecodedpackets"
