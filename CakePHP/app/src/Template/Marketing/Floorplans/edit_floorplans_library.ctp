@@ -2,7 +2,7 @@
 <?php $this->Html->script('/js/dropzone', ['block' => 'scriptBottom']); ?>
 <?php $this->Html->script('/js/jquery.blockui', ['block' => 'scriptBottom']); ?>
 <?php $this->Html->script('/js/ajax_paging', ['block' => 'scriptBottom']); ?>
-<?php $this->Html->script('/js/media_library', ['block' => 'scriptBottom']); ?>
+<?php $this->Html->script('/js/floorplans_library', ['block' => 'scriptBottom']); ?>
 <?php $this->Html->script('/js/Spin', ['block' => 'scriptBottom']); ?>
 <?php $this->Html->script('/js/crop/cropper', ['block' => 'scriptBottom']); ?>
 <?php $this->Html->css('/css/crop/cropper', ['block' => true]); ?>
@@ -36,7 +36,7 @@
                         <ul id="myTabs" class="nav nav-tabs" role="tab-list">
                             <li role="presentation" class=""><a href="/marketing/floorplans/floorplans_library" id="library-tab" role="_tab" data-toggle="_tab" aria-controls="library" aria-expanded="false"><i class="fa fa-image"></i>&nbsp; Floorplans Library</a></li>
                             <li role="presentation" class=""><a href="/marketing/floorplans/floorplans_library#uploadFloorplans" role="_tab" id="media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="false"><i class="fa fa-upload"></i>&nbsp; Upload Floorplans</a></li>
-                            <li role="presentation" class="active"><a href="#editFloorplans" role="_tab" id="edit-media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="true"><i class="fa fa-edit"></i>&nbsp; Editing <?= sngw('Media Item', count($customer->floorplans_library)); ?></a></li>
+                            <li role="presentation" class="active"><a href="#editFloorplans" role="_tab" id="edit-media-tab" data-toggle="_tab" aria-controls="media" aria-expanded="true"><i class="fa fa-edit"></i>&nbsp; Editing <?= sngw('Floor plan', count($customer->floorplans_library)); ?></a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content">
                             <div role="tabpanel" class="tab-pane fade active in" id="editFloorplans" aria-labelledby="edit-media-tab">
@@ -66,10 +66,10 @@
 
 
                                                     ?>
-                                                    <button <?= $d ?> title="<?= $t ?>" type="button"  data-media-id="<?= $image->id ?>" class="CreateCroppedImage <?= $d ?> btn btn-block btn-primary">
+                                                    <button <?= $d ?> title="<?= $t ?>" type="button"  data-media-id="<?= $image->id ?>" class="CreateCroppedFloorplan <?= $d ?> btn btn-block btn-primary">
                                                         <i class="fa fa-crop"></i>
                                                         &nbsp;
-                                                        Crop Image
+                                                        Crop Floor Plan
                                                     </button>
                                                 </div>
 
@@ -172,7 +172,7 @@
                                                                                 <i class="fa fa-camera"></i>
                                                                             </span>
                                                                             <div class="sub-meta-data">
-                                                                                <a class="lightbox-image" data-restrict-edit="<?= (!empty($libraryEdit->parent_id) === true) ? 'true' : 'false' ?>" data-media-id="<?= $libraryEdit->id ?>" data-title="<?= $libraryEdit->title ?>" data-description="<?= $libraryEdit->description ?>" href="<?= 'https://' . \Cake\Core\Configure::read('Settings.cms_deliverables_container') . '/' . $libraryEdit->path . $libraryEdit->filename; ?>">View Image</a>
+                                                                                <a class="lightbox-image" data-restrict-edit="<?= (!empty($libraryEdit->parent_id) === true) ? 'true' : 'false' ?>" data-media-id="<?= $libraryEdit->id ?>" data-title="<?= $libraryEdit->title ?>" data-description="<?= $libraryEdit->description ?>" href="<?= 'https://' . \Cake\Core\Configure::read('Settings.floorplans_container') . '/' . $libraryEdit->path . $libraryEdit->filename; ?>">View Image</a>
 
 
                                                                                 <span class="pull-right" style="padding-right: 10px;">

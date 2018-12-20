@@ -23,7 +23,7 @@ $(function() {
             url: '/marketing/content/load_video_preview',
             type: 'POST',
             data: {
-                floorplans_id: $(this).data('media-id')
+                floorplan_id: $(this).data('media-id')
             },
             success: function(response) {
 
@@ -46,11 +46,6 @@ $(function() {
                         key: '',
                         logo: '/img/logo.png'
                     });
-
-
-
-
-
                 }
 
                 var puOpts = {
@@ -76,14 +71,14 @@ $(function() {
     });
 
 
-    $(document.body).on('submit', '#CropImageForm', function(e) {
+    $(document.body).on('submit', '#CropFloorplanForm', function(e) {
         var data = $(this).serialize();
         
         $.ajax(
             {
                 data: data,
                 type: 'POST',
-                url:  '/marketing/content/create_cropped_image',
+                url:  '/marketing/floorplans/create_cropped_floorplan',
                 success: function(response) {
                     var data = JSON.parse(response);
 
@@ -141,10 +136,10 @@ $(function() {
         return false;
     });
 
-    $('.CreateCroppedImage').click(function(event) {
+    $('.CreateCroppedFloorplan').click(function(event) {
 
         var floorplansId = $(this).data('media-id');
-
+        console.log("wtf man");
         var puOpts = {
             title           : 'Loading Cropping Tool',
             message         : 'Please wait...',
@@ -158,8 +153,8 @@ $(function() {
         popupMessage(puOpts);
 
         $.ajax({
-            url: '/marketing/content/cropping_tool',
-            data: 'floorplans_id=' + floorplansId + '&action=request',
+            url: '/marketing/floorplans/cropping_tool',
+            data: 'floorplan_id=' + floorplansId + '&action=request',
             type: 'POST',
             success: function(response) {
 
@@ -178,20 +173,20 @@ $(function() {
                 }
 
                 var puOpts = {
-                    title           : 'Image Cropping Utility',
+                    title           : 'Floorplan Cropping Utility',
                     message         : html,
                     confirm_label   : '<i class="fa fa-crop" style="margin-right: 10px;"></i>Crop Image',
                     view            : 'content',
                     nofade          : true,
                     width           : '75%',
-                    btnText         : 'Cropping Image',
-                    frmTarget       : 'CropImageForm'
+                    btnText         : 'Cropping Floorplan',
+                    frmTarget       : 'CropFloorplanForm'
                 };
 
                 popupMessage(
                     puOpts,
                     function() {
-                        $('#TargetCropImage').cropper({
+                        $('#TargetCropFloorplan').cropper({
                             //  aspectRatio: 16 / 9,
                             preview: '.img-preview',
                             viewMode: 2,
@@ -199,9 +194,9 @@ $(function() {
                             responsive: false,
                             crop: function(e) {
 
-                                var c = $('#TargetCropImage').cropper('getCropBoxData');
-                                var d = $('#TargetCropImage').cropper('getData');
-                                var i = $('#TargetCropImage').cropper('getImageData');
+                                var c = $('#TargetCropFloorplan').cropper('getCropBoxData');
+                                var d = $('#TargetCropFloorplan').cropper('getData');
+                                var i = $('#TargetCropFloorplan').cropper('getImageData');
 
                                 var nh = i.naturalHeight;
                                 var nw = i.naturalWidth;
@@ -227,7 +222,7 @@ $(function() {
                         });
 
 
-                        var $image = $('#TargetCropImage');
+                        var $image = $('#TargetCropFloorplan');
 
                         $('.docs-buttons').off('click', '[data-method]').on('click', '[data-method]', function () {
                             var $this = $(this);
