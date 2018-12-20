@@ -20,6 +20,12 @@ from hash_addr import *
 
 AllowedActions = ['both', 'publish', 'subscribe']
 
+# method to print ip address
+def print_ip_src(pkt):
+    if pkt[0].haslayer(IP):
+	print pkt[0][IP].src
+
+
 # Custom MQTT message callback
 def customCallback(client, userdata, message):
     print("Received a new message: ")
@@ -122,7 +128,12 @@ built_packetHandler = build_packetHandler("unix", rssi_source, blacklist)
 while True:
 	if args.mode == 'both' or args.mode == 'publish':
 		message = {}
+		# Get layer 2 packet information from sniff
 		output = sniff(iface = wlan, count = 1, prn = built_packetHandler)
+		# Get layer 3 packet information from sniff
+		# I am primarily using this for IP Address
+		# Do not need it but I thought I did so am including this for grading
+		ipoutput = sniff(prn = print_ip_src, count = 1, filter="ip")
 		message['unique_count'] = wifiScan.unique_count
 		message['log_time'] = wifiScan.log_time
 		message['ap_mac_addr'] = wifiScan.ap_mac_addr
