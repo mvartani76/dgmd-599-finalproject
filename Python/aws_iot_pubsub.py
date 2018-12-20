@@ -23,6 +23,7 @@ import argparse
 import json
 
 from device_scan import *
+from hash_addr import *
 
 AllowedActions = ['both', 'publish', 'subscribe']
 
@@ -53,6 +54,8 @@ parser.add_argument("-M", "--message", action="store", dest="message", default="
                     help="Message to publish")
 parser.add_argument("-rssi", "--rssiSource", action="store", dest="rssiSource", default="pkt_antsignal",
 		    help="Configure source of RSSI as there are differences between devices.")
+parser.add_argument("-wi", "--wifi", action="store", dest="wlan", default="wlan0", help="Choose WLAN interface")
+parser.add_argument("-ha", "--hash", action="store", dest="useHash", default=False, help="Enable/Disable Hash of MAC ADDR")
 
 args = parser.parse_args()
 host = args.host
@@ -64,6 +67,8 @@ useWebsocket = args.useWebsocket
 clientId = args.clientId
 topic = args.topic
 rssi_source = args.rssiSource
+wlan = args.wlan
+hash = args.useHash
 
 if args.mode not in AllowedActions:
     parser.error("Unknown --mode option %s. Must be one of %s" % (args.mode, str(AllowedActions)))
@@ -124,15 +129,18 @@ built_packetHandler = build_packetHandler("unix", rssi_source, blacklist)
 while True:
 	if args.mode == 'both' or args.mode == 'publish':
 		message = {}
-		output = sniff(iface = "wlan0", count = 1, prn = built_packetHandler)
+		output = sniff(iface = wlan, count = 1, prn = built_packetHandler)
 		
 		message['unique_count'] = wifiScan.unique_count
 		message['log_time'] = wifiScan.log_time
 		message['ap_mac_addr'] = wifiScan.ap_mac_addr
-		message['mac_addr'] = wifiScan.mac_addr
+		if hash:
+			message['mac_addr'] = trunc_hash(wifiScan.mac_addr,12)
+		else:
+			message['mac_addr'] = wifiScan.mac_addr
 		message['rssi'] = wifiScan.rssi
 		message['vendor'] = wifiScan.vendor
-
+		print('Macaddr = %s \n' % trunc_hash(wifiScan.mac_addr,12))
 		messageJson = json.dumps(message)
 		if oldlogtime != wifiScan.log_time:
 			myAWSIoTMQTTClient.publish(topic, messageJson, 1)
