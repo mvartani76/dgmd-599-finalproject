@@ -476,25 +476,64 @@ class AccessPointsController extends AppController
         $accessPoint = $this->AccessPoints->get($id, [
             'contain' => ['Heatmaps']
         ]);
+
+        // Handle incoming submit message from form
         if ($this->request->is(['patch', 'post', 'put'])) {
+            $this->request->data['customer_id'] = $this->AuthUser->user('customer_id');
+            $this->request->data['access_points']['customer_id'] = $this->AuthUser->user('customer_id');
+
+
             $accessPoint = $this->AccessPoints->patchEntity($accessPoint, $this->request->getData());
             if ($this->AccessPoints->save($accessPoint)) {
+                
+                // If heatamp already exists for this access point, we can patch, otherwise
+                // we will need to create a new entity --> if the user says to attach floorplan
+                if (isset($accessPoint->heatmap)) {
+                    debug($this->request['data']);
+                }
+                else {
+                    // Only save the updated data if the user wants to attach floorplan
+                    if ($this->request['data']['attachFloorplan'] == 'Yes') {
+                        
+                        $heatmap = $this->AccessPoints->Heatmaps->newEntity([
+                            'accesspoint_id' => $accessPoint->id,
+                            'floorplan_id' => $this->request->data['heatmap']['floorplan_id'],
+                            'x' => $this->request->data['heatmap']['x'],
+                            'y' => $this->request->data['heatmap']['y']
+                        ]);
+                        // Try to save the heatmap associated with the access point
+                        if ($this->AccessPoints->Heatmaps->save($heatmap)) {
+                            $this->Flash->success(__('The access point has been saved.'));
+                        } else {
+                            $this->Flash->error(__('The heatmap could not be saved. Please, try again.'));
+                        }
+                    }
+                }
+
                 $this->Flash->success(__('The access point has been saved.'));
+
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('The access point could not be saved. Please, try again.'));
         }
 
         $heatmaps = $this->loadModel('Heatmaps')->find();
+
         // Listing with key/value fields to be able to see the floorplan title as a text string
         // but pass the id # to save
         $floorplans_select = $this->loadModel('floorplans_library')->find('list', ['keyField' => 'id',
         'valueField' => 'title']);
 
-        $floorplans = $this->loadModel('floorplans_library')->find()->where(
-                        [
-                            'floorplans_library.id' => $accessPoint->heatmap->floorplan_id
-                        ])->first();
+        // Only search for a specific floorplan id if the heatmap exists linking the two
+        if (isset($accessPoint->heatmap)) {
+            $floorplans = $this->loadModel('floorplans_library')->find()->where(
+                            [
+                                'floorplans_library.id' => $accessPoint->heatmap->floorplan_id
+                            ])->first();
+        }
+        else {
+            $floorplans = $this->loadModel('floorplans_library')->find('all');
+        }
 
         $customers = $this->AccessPoints->Customers->find('list', ['limit' => 200]);
         $this->set(compact('accessPoint', 'customers', 'heatmaps', 'floorplans', 'floorplans_select'));
