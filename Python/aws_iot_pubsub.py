@@ -1,21 +1,14 @@
 '''
 /*
- * Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * WiFi Scanner Code
  *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ * This code scans for nearby wifi packets and streams found results to AWS IoT.
  *
- *  http://aws.amazon.com/apache2.0
+ * The code utilizes the Python AWSIOT SDK as well as scapy and netaddr for wifi packet sniffing
  *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
  */
  '''
-#mport AWSIoTPythonSDK
-#sys.path.insert(0, os.path.dirname(AWSIoTPythonSDK._file_))
+
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import logging
 import time
@@ -130,17 +123,17 @@ while True:
 	if args.mode == 'both' or args.mode == 'publish':
 		message = {}
 		output = sniff(iface = wlan, count = 1, prn = built_packetHandler)
-		
 		message['unique_count'] = wifiScan.unique_count
 		message['log_time'] = wifiScan.log_time
 		message['ap_mac_addr'] = wifiScan.ap_mac_addr
+		# Send hashed mac address if user chooses to hash them
 		if hash:
-			message['mac_addr'] = trunc_hash(wifiScan.mac_addr,12)
+			message['mac_addr'] = conv_mac(trunc_hash(wifiScan.mac_addr,12))
 		else:
 			message['mac_addr'] = wifiScan.mac_addr
 		message['rssi'] = wifiScan.rssi
 		message['vendor'] = wifiScan.vendor
-		print('Macaddr = %s \n' % trunc_hash(wifiScan.mac_addr,12))
+		# Convert message array to JSON object
 		messageJson = json.dumps(message)
 		if oldlogtime != wifiScan.log_time:
 			myAWSIoTMQTTClient.publish(topic, messageJson, 1)
