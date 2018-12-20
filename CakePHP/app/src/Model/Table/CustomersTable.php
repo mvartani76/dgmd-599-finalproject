@@ -224,8 +224,8 @@ class CustomersTable extends Table
         $rules->add($rules->existsIn(['parent_id'], 'ParentCompany'));
         $rules->add($rules->existsIn(['retailer_id'], 'Retailers'));
         $rules->add($rules->existsIn(['customer_types_id'], 'CustomerTypes'));
-        $rules->add($rules->existsIn(['billing_region_id'], 'BillingRegions'));
-        $rules->add($rules->existsIn(['billing_country_id'], 'BillingCountries'));
+        $rules->add($rules->existsIn(['billing_region_id'], 'Regions'));
+        $rules->add($rules->existsIn(['billing_country_id'], 'Countries'));
 
         return $rules;
     }
