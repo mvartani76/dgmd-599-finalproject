@@ -47,10 +47,14 @@ printf "\nChecking to see if monitor mode is enabled...\n"
 iwconfig > iwoutput.txt
 MONMODE="$(grep -n 'Monitor' iwoutput.txt | cut -d: -f 1)"
 
+
 # MONMODE will equal a line number if monitoring mode is enabled
 # the following checks to see if a line number exists -- if yes, monitoring mode is enabled
 if [ -n "${MONMODE}" ]; then
 	printf "Monitoring Mode Enabled...\n"
+	# find the wlan interface that monitoring mode is enabled for
+	iwconfig > iwoutput.txt
+	WORKWLAN="$(grep "Monitor" < iwoutput.txt | awk '{print $1;}')"
 else
 	printf "Monitoring Mode Disabled...Enabling...\n"
 
@@ -76,7 +80,7 @@ else
         done
 	printf "Enabled for %s \n" $WORKWLAN
 fi
-# Delete the temporary fil
+# Delete the temporary file
 rm iwoutput.txt
 
 # run WiFi ScannerAapp using provided certificates
@@ -84,5 +88,6 @@ rm iwoutput.txt
 printf "\nRunning WiFi Scanner Application...\n"
 PYTHONFILE="aws_iot_pubsub${AWSINFO}"
 echo ${PYTHONFILE}
+echo ${WORKWLAN}
 # Initiate the python command with the desired file and arguments
-sudo python ${PYTHONFILE} -rssi "notedecodedpackets"
+sudo python ${PYTHONFILE} -rssi "notedecodedpackets" -wi "${WORKWLAN}"
