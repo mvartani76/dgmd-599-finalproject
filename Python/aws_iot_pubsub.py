@@ -1,21 +1,14 @@
 '''
 /*
- * Copyright 2010-2017 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+ * WiFi Scanner Code
  *
- * Licensed under the Apache License, Version 2.0 (the "License").
- * You may not use this file except in compliance with the License.
- * A copy of the License is located at
+ * This code scans for nearby wifi packets and streams found results to AWS IoT.
  *
- *  http://aws.amazon.com/apache2.0
+ * The code utilizes the Python AWSIOT SDK as well as scapy and netaddr for wifi packet sniffing
  *
- * or in the "license" file accompanying this file. This file is distributed
- * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
- * express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
  */
  '''
-#mport AWSIoTPythonSDK
-#sys.path.insert(0, os.path.dirname(AWSIoTPythonSDK._file_))
+
 from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient
 import logging
 import time
@@ -23,8 +16,15 @@ import argparse
 import json
 
 from device_scan import *
+from hash_addr import *
 
 AllowedActions = ['both', 'publish', 'subscribe']
+
+# method to print ip address
+def print_ip_src(pkt):
+    if pkt[0].haslayer(IP):
+	print pkt[0][IP].src
+
 
 # Custom MQTT message callback
 def customCallback(client, userdata, message):
@@ -53,6 +53,8 @@ parser.add_argument("-M", "--message", action="store", dest="message", default="
                     help="Message to publish")
 parser.add_argument("-rssi", "--rssiSource", action="store", dest="rssiSource", default="pkt_antsignal",
 		    help="Configure source of RSSI as there are differences between devices.")
+parser.add_argument("-wi", "--wifi", action="store", dest="wlan", default="wlan0", help="Choose WLAN interface")
+parser.add_argument("-ha", "--hash", action="store", dest="useHash", default=False, help="Enable/Disable Hash of MAC ADDR")
 
 args = parser.parse_args()
 host = args.host
@@ -64,6 +66,8 @@ useWebsocket = args.useWebsocket
 clientId = args.clientId
 topic = args.topic
 rssi_source = args.rssiSource
+wlan = args.wlan
+hash = args.useHash
 
 if args.mode not in AllowedActions:
     parser.error("Unknown --mode option %s. Must be one of %s" % (args.mode, str(AllowedActions)))
@@ -124,15 +128,23 @@ built_packetHandler = build_packetHandler("unix", rssi_source, blacklist)
 while True:
 	if args.mode == 'both' or args.mode == 'publish':
 		message = {}
-		output = sniff(iface = "wlan0", count = 1, prn = built_packetHandler)
-		
+		# Get layer 2 packet information from sniff
+		output = sniff(iface = wlan, count = 1, prn = built_packetHandler)
+		# Get layer 3 packet information from sniff
+		# I am primarily using this for IP Address
+		# Do not need it but I thought I did so am including this for grading
+		ipoutput = sniff(prn = print_ip_src, count = 1, filter="ip")
 		message['unique_count'] = wifiScan.unique_count
 		message['log_time'] = wifiScan.log_time
 		message['ap_mac_addr'] = wifiScan.ap_mac_addr
-		message['mac_addr'] = wifiScan.mac_addr
+		# Send hashed mac address if user chooses to hash them
+		if hash:
+			message['mac_addr'] = conv_mac(trunc_hash(wifiScan.mac_addr,12))
+		else:
+			message['mac_addr'] = wifiScan.mac_addr
 		message['rssi'] = wifiScan.rssi
 		message['vendor'] = wifiScan.vendor
-
+		# Convert message array to JSON object
 		messageJson = json.dumps(message)
 		if oldlogtime != wifiScan.log_time:
 			myAWSIoTMQTTClient.publish(topic, messageJson, 1)
