@@ -9,17 +9,19 @@ if [ ! -f ./start.sh ]; then
 	printf "\nstart.sh not found. Please download from AWS....\n"
 	exit 0
 else
-	printf "\nNeed to remove newlines at EOF if they exist...\n"
-	echo "" >> start.sh
-	if [ -z "$(tail -n 2 start.sh)" ]
-	then
+	printf "\nNeed to remove any extra newlines at EOF if they exist...\n"
+	while [ -z "$(tail -c 1 start.sh)" ]
+	do
 		printf "Newline found at end of file...\n"
-		head -c -2 start.sh > start.tmp
+		head -c -1 start.sh > start.tmp
 		mv start.tmp start.sh
-	fi
+	done
 	printf "\nExtracting Credentials from AWS start.sh file...\n"
-	AWSINFO="$(while read x; do [[ $x =~ '.py -e'.* ]] && echo ${BASH_REMATCH[0]}; done < start.sh)"
+	# The credentials that we are looking for are located after the call to the python function in the AWS start.sh file
+	# grep appears to be more stable than the previous while loop
+	AWSINFO="$(grep -o ".py -e.*" start.sh)"
 fi
+
 # Check to see if root CA file exists, download if not
 if [ ! -f ./root-CA.crt ]; then
   printf "\nDownloading AWS IoT Root CA certificate from AWS...\n"
@@ -62,5 +64,6 @@ rm iwoutput.txt
 # will populate the python command from downloaded AWS connection package start.sh
 printf "\nRunning WiFi Scanner Application...\n"
 PYTHONFILE="aws_iot_pubsub${AWSINFO}"
+
 # Initiate the python comman with the desired file and arguments
 sudo python ${PYTHONFILE} -rssi "notedecodedpackets"
