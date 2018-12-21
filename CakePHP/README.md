@@ -54,11 +54,14 @@ The system allows the user to list all the access points created in the user's c
 
 ## Floor Plans
 Floor plans are graphical representations of the physical space. The floor plans give the system something to display the scan results data over to get better insight into device activity. The system provides the ability for the user to upload, view, and edit floor plans. The system currently accepts image based file formats (.jpg, .png, .gif, etc.) but eventually will include vector based file formats.
+
+![Login](../Documentation/Images/dgmd-599-platform-floorplanlibrary-dec2018.png)
+
 ## Associate Floor plans with Access Points
 ### Upload Floor plans
 The user can drag and drop files or select them through a browser window to get the floor plans into the system. 
 
-![Login](../Documentation/Images/dgmd-599-platform-uploadfloorplan-dec2018.png)
+
 
 There is a programmable minimum width requirement for files.
 
@@ -69,16 +72,20 @@ The system allows the user to enter additional information about the floor plan 
 
 ![Login](../Documentation/Images/dgmd-599-platform-editfloorplan-dec2018.png)
 
-The file sizes are measured in pixels but the RSSI measurements from the access points are based on real distance so the user will need to enter the physical dimensions as well as the number of divisions (used for trilateration approximation).
-
-### Image Dimensions
 ### Real World Dimensions
+The file sizes are measured in pixels but the RSSI measurements from the access points are based on real distance so the user will need to enter the physical dimensions.
+
 ### Number of Divisions (used for Trilateration approximation)
+
+For the trilateration approximation, the user needs to enter the number of divisions. This divides the floor plan into a grid where we count the amount of energy observed in each coordinate.
+
 ## View Total Scan Results
 
-![Login](../Documentation/Images/dgmd-599-platform-editfloorplan-dec2018.png)
+![Login](../Documentation/Images/dgmd-599-platform-listtotalscanresults-dec2018.png)
 
 ## View Total Unique Devices
+
+![Login](../Documentation/Images/dgmd-599-platform-listtotaluniquedevices-dec2018.png)
 ## View Total Scan Results specific to an Access Point
 ## View Unique Devices specific to an Access Point
 ## Visualize summary data in a dashboard
