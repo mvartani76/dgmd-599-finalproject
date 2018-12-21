@@ -7,7 +7,7 @@ In order to successfully run the WiFi Access Point Scanning Software, you will n
 ## Configure AWS IoT Setup
 The WiFi Access Point Scanner Code communicates to the cloud using AWS IoT. For the Raspberry Pi to communicate with AWS IoT, we will need to include the AWS IoT Python SDK on the device. This will be taken care of using the included script file `start.sh`.
 
-This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured.
+This section talks about what needs to happen within the AWS IoT Console to get the necessary credentials/keys configured for your own account. Please contact me if you would like to use the scanning software with the provided cloud platform.
 
 ### Configure IoT Device
 
@@ -70,13 +70,16 @@ You should see something similar to the following if the WiFi Access Point Code 
 
 ![Terminal Window Output](../Documentation/Images/wifi-scanner-terminal-output-dec2018.png)
 
+### Blacklist Devices
+As many physical locations have several WiFi enabled devices such as printers, TVs, etc., `load_blacklist.py` provides the ability to remove these device mac addresses from the returned results. Place the list of mac addresses for the blacklist into a text file and reference the file name when calling the load_blacklist() function.
+
 ## Known Issues
 Some strange behavior observed every now and then so below is a list of questions and potential answers.
 
 **Q:** My script does not finish. The last line is "Extracting Credentials from AWS start.sh file..."<br>
 **A:** Try opening the `start.sh` and delete any extra lines at the bottom of the file.
 
-**Q:** I received the following error message.
+**Q:** I received the following error message in the startup script.
 
 ```
 Error for wireless request "Set Mode" (8B06) :
