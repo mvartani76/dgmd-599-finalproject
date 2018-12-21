@@ -23,7 +23,6 @@ The platform provides the following capabilities specific to WDDS:
 * View Total Scan Results
 * View Total Unique Devices
 * View Total Scan Results specific to an Access Point
-* View Unique Devices specific to an Access Point
 * Visualize summary data in a dashboard
 * Visualize heatmap data over floor plan
 
