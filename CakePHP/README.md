@@ -55,11 +55,11 @@ The system allows the user to edit the parameters of the access point after it h
 3. X,Y coordinates if Floor Plan Attached
 If there is no floor plan attached, the system hides the floor plan specific parameters as shown below.
 
-![EditAccessPoint](../Documentation/Images/dgmd-599-platform-editaccesspoint1-dec2018.png)
+![EditAccessPoin1t](../Documentation/Images/dgmd-599-platform-editaccesspoint1-dec2018.png)
 
 If there ia a floor plan attached, the system will display the floor plan specific parameters as shown below.
 
-![EditAccessPoint](../Documentation/Images/dgmd-599-platform-editaccesspoint2-dec2018.png)
+![EditAccessPoint2](../Documentation/Images/dgmd-599-platform-editaccesspoint2-dec2018.png)
 
 ###Associate Access Points with Location
 
