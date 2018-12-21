@@ -6,7 +6,7 @@ For the Fall 2018 semester, I created a system that utilizes Raspberry Pis to em
 ## Requirements
 To be able to fully test the system, you will need the following:
 * Raspberry Pi 3
-* Wi-Fi Device that can accept Monitoring Mode
+* Wi-Fi Device/Adapter that can accept Monitoring Mode - Please see this [link](https://null-byte.wonderhowto.com/how-to/buy-best-wireless-network-adapter-for-wi-fi-hacking-2018-0178550/) for a list of adapters.
 * AWS Account with Credentials
 * Platform Account (will be provided)
 ## System Components
