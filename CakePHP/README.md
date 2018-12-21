@@ -41,16 +41,27 @@ The system allows the user to list all the access points created in the user's c
 ![Login](../Documentation/Images/dgmd-599-platform-listaccesspoints-dec2018.png)
 
 ### Add Access Points
+As this system needs to associate an access point with a location, the system allows the user to add access points to a new location or an existing location.
+
 #### With New Location
-![Login](../Documentation/Images/dgmd-599-platform-add-accesspoint-newlocation-dec2018.png)
+![AddAPWithNewLocation](../Documentation/Images/dgmd-599-platform-add-accesspoint-newlocation-dec2018.png)
 #### To an Existing Location
-![Login](../Documentation/Images/dgmd-599-platform-add-accesspoint-existinglocation-dec2018.png)
+![AddAPWithExistingLocation](../Documentation/Images/dgmd-599-platform-add-accesspoint-existinglocation-dec2018.png)
 
 ### Edit Access Point Details
-#### MAC Address
-#### Associated Floor plan
+The system allows the user to edit the parameters of the access point after it has been created. The parameters that can be edited are:
+1. MAC Address
+2. Floor Plan Attached?
+3. X,Y coordinates if Floor Plan Attached
+If there is no floor plan attached, the system hides the floor plan specific parameters as shown below.
 
-## #Associate Access Points with Location
+![EditAccessPoint](../Documentation/Images/dgmd-599-platform-editaccesspoint1-dec2018.png)
+
+If there ia a floor plan attached, the system will display the floor plan specific parameters as shown below.
+
+![EditAccessPoint](../Documentation/Images/dgmd-599-platform-editaccesspoint2-dec2018.png)
+
+###Associate Access Points with Location
 
 ## Floor Plans
 Floor plans are graphical representations of the physical space. The floor plans give the system something to display the scan results data over to get better insight into device activity. The system provides the ability for the user to upload, view, and edit floor plans. The system currently accepts image based file formats (.jpg, .png, .gif, etc.) but eventually will include vector based file formats.
