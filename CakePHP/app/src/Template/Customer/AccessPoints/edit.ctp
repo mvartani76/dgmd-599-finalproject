@@ -25,8 +25,8 @@
             <div class="users add-form col-md-12">
                 <div class="row">
                     <div class="form-group">
-                        <?= $this->Form->label('mac_addr', 'MAC Address', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
-                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?= $this->Form->label('mac_addr', 'MAC Address', ['class' => 'control-label col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-sm-3 col-offset-sm-1 col-xs-12'] ); ?>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <?= $this->Form->input('mac_addr', ['label' => false, 'error' => false, 'class' => 'form-control']);?>
                             <!-- Insert Error Message below input form field -->
                             <?php if ($this->Form->isFieldError('mac_addr')): ?>
@@ -38,8 +38,8 @@
                 <br />
                 <div class="row">
                     <div class="form-group">
-                        <?= $this->Form->label('attachFloorplan', 'Attach Floorplan?', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
-                        <div class="col-md-3 col-sm-3 col-xs-12">
+                        <?= $this->Form->label('attachFloorplan', 'Attach Floorplan?', ['class' => 'control-label col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-offset-sm-1 col-sm-3 col-xs-12'] ); ?>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                             <?= $this->Form->control('attachFloorplan', ['label' => false, 'options' => ['No' => 'No', 'Yes' => 'Yes'], 'class' => 'form-control']); ?>
 
                         </div>
@@ -48,20 +48,25 @@
                 <br />
                 <div class="row" id="floorplan-group">
                     <div class="form-group">
-                        <?= $this->Form->label('heatmap.floorplan_id', 'Floorplan', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
+                        <?= $this->Form->label('heatmap.floorplan_id', 'Floorplan', ['class' => 'control-label col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-offset-sm-1 col-sm-3 col-xs-12'] ); ?>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <?= $this->Form->control('heatmap.floorplan_id', ['label' => false, 'options' => $floorplans_select, 'class' => 'form-control']); ?>
                         </div>
                     </div>
                 </div>
                 <br />
-                <div class="row" id="xypos-group">
+                <div class="row" id="xpos-group">
                     <div class="form-group">
-                        <?= $this->Form->label('heatmap.x', 'x position', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
+                        <?= $this->Form->label('heatmap.x', 'x position', ['class' => 'control-label col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-offset-sm-1 col-sm-3 col-xs-12'] ); ?>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <?= $this->Form->input('heatmap.x', ['label' => false, 'class' => 'form-control']);?>
                         </div>
-                        <?= $this->Form->label('heatmap.y', 'y position', ['class' => 'control-label col-md-3 col-sm-3 col-xs-12'] ); ?>
+                    </div>
+                </div>
+                <br />
+                <div class="row" id="ypos-group">
+                    <div class="form-group">
+                        <?= $this->Form->label('heatmap.y', 'y position', ['class' => 'control-label col-lg-3 col-lg-offset-2 col-md-3 col-md-offset-2 col-offset-sm-1 col-sm-3 col-xs-12'] ); ?>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <?= $this->Form->input('heatmap.y', ['label' => false, 'class' => 'form-control']);?>
                         </div>
@@ -84,6 +89,7 @@
     </div>
 </div>
 <!-- Script to show/hide floorplan selection based on select status -->
+<!-- This handles changes to the select status -->
 <script>
 $('#attachfloorplan').on('change',function(){
     var selection = $(this).val();
@@ -91,29 +97,32 @@ $('#attachfloorplan').on('change',function(){
     switch(selection){
     case "Yes":
         $("#floorplan-group").show()
-        $("#xypos-group").show()
+        $("#xpos-group").show()
+        $("#ypos-group").show()
         break;
     default:
         $("#floorplan-group").hide()
-        $("#xypos-group").hide()
+        $("#xpos-group").hide()
+        $("#ypos-group").hide()
     }
 });
 </script>
 <!-- Script to show/hide floorplan selection based on select status -->
+<!-- This handles initial page startup -->
 <script>
     $( document ).ready(function() {
     var selection = document.getElementById('attachfloorplan').value;
     
-    console.log(selection)
-
     switch(selection){
     case "Yes":
         $("#floorplan-group").show()
-        $("#xypos-group").show()
+        $("#xpos-group").show()
+        $("#ypos-group").show()
         break;
     default:
         $("#floorplan-group").hide()
-        $("#xypos-group").hide()
+        $("#xpos-group").hide()
+        $("#ypos-group").hide()
     }
 });
 </script>
