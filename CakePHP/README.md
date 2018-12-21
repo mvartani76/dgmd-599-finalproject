@@ -76,7 +76,6 @@ The user can drag and drop files or select them through a browser window to get 
 
 There is a programmable minimum width requirement for files.
 
-## View Floor plans
 ## Edit Floor plans
 
 The system allows the user to enter additional information about the floor plan as well as do some simple image manipulation.
@@ -91,14 +90,14 @@ The file sizes are measured in pixels but the RSSI measurements from the access 
 For the trilateration approximation, the user needs to enter the number of divisions. This divides the floor plan into a grid where we count the amount of energy observed in each coordinate.
 
 ## View Total Scan Results
+The system provides the user the ability to view all the scan results across all access points.
 
 ![ViewTotalScanResults](../Documentation/Images/dgmd-599-platform-listtotalscanresults-dec2018.png)
 
 ## View Total Unique Devices
+The system provides the user the ability to view all the unique devices across all access points.
 
 ![ViewTotalUniqueDevices](../Documentation/Images/dgmd-599-platform-listtotaluniquedevices-dec2018.png)
-
-## View Total Scan Results specific to an Access Point
 
 ## Visualize summary data in a dashboard
 The system provides a dashboard where the relevant data can be viewed.
